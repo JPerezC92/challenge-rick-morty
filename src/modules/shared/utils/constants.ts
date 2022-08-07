@@ -1,0 +1,1 @@
+export const RICK_MORTY_BASE_URL = process.env.NEXT_PUBLIC_RICK_MORTY_BASE_URL;
