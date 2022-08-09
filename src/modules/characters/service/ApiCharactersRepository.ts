@@ -7,13 +7,13 @@ import { CharacterListGetEndpointSchema } from 'src/modules/characters/dto/Chara
 import { Character } from 'src/modules/characters/models/Character';
 import { CharactersRepository } from 'src/modules/characters/service/CharactersRepository';
 import { Repository } from 'src/modules/shared/service/Repository';
-import { RICK_MORTY_BASE_URL } from 'src/modules/shared/utils/constants';
+import { EnvironmentVariable } from 'src/modules/shared/utils/envVariables';
 import { randomUniqueIntArray } from 'src/modules/shared/utils/randomUniqueIntArray';
 
 export const ApiCharactersRepository: Repository<CharactersRepository> = (
   signal
 ) => {
-  const baseUrl = RICK_MORTY_BASE_URL + '/character';
+  const baseUrl = EnvironmentVariable.RICK_MORTY_BASE_URL + '/character';
 
   return {
     getCount: async () => {
@@ -29,10 +29,13 @@ export const ApiCharactersRepository: Repository<CharactersRepository> = (
     getRamdomCharacterList: async ({
       count,
       limit = 2,
-    }): Promise<Character[] | void> => {
-      const numberArray = randomUniqueIntArray({ length: limit, max: count });
+    }): Promise<Character[]> => {
+      const characterIdList = randomUniqueIntArray({
+        length: limit,
+        max: count,
+      });
 
-      const response = await fetch(baseUrl + `/${numberArray}`, { signal });
+      const response = await fetch(baseUrl + `/${characterIdList}`, { signal });
 
       const result = await response.json();
 

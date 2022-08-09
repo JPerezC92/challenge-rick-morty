@@ -1,9 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
-
-import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
-import { ApiCharactersRepository } from 'src/modules/characters/service/useCharactersRepository';
-import { shuffleArray } from 'src/modules/shared/utils/shuffleArray';
 
 const Home: NextPage = () => {
   return (

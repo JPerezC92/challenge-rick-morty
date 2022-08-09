@@ -1,30 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
-import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
-import { ApiCharactersRepository } from 'src/modules/characters/service/useCharactersRepository';
-import { shuffleArray } from 'src/modules/shared/utils/shuffleArray';
+import { useRouter } from 'next/router';
+import { MemoryGameRoutes } from 'src/modules/memory-game/routes';
+import { Button } from 'src/modules/shared/components/Button';
 
 const MemoryGamePage: NextPage = () => {
-  const { data: characterList } = useQuery(
-    ['characterList'],
-    async ({ signal }) => {
-      const _characterRepository = ApiCharactersRepository(signal);
-
-      const charactersCount = await _characterRepository.getCount();
-
-      if (!charactersCount) return;
-
-      const characterList = await _characterRepository.getRamdomCharacterList({
-        count: charactersCount,
-        limit: 6,
-      });
-
-      if (!characterList) return;
-
-      return shuffleArray([...characterList, ...characterList]);
-    },
-    { refetchOnWindowFocus: false, refetchInterval: false }
-  );
+  const router = useRouter();
   return (
     <div>
       <h1>MemoryGamePage</h1>
@@ -34,16 +14,13 @@ const MemoryGamePage: NextPage = () => {
       </div>
 
       <div>
-        <button>new Game</button>
+        <Button
+          className="block"
+          onClick={() => router.push(MemoryGameRoutes.newGamePath)}
+        >
+          new Game
+        </Button>
       </div>
-
-      <ul className="grid grid-cols-3 gap-4 sm:grid-cols-4">
-        {characterList?.map((character, i) => (
-          <li key={character.id + i}>
-            <CharacterCard {...character} />
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

@@ -7,5 +7,13 @@
       "extends": ["plugin:jest/recommended"],
       "rules": { "jest/prefer-expect-assertions": "off" }
     }
-  ]
+  ],
+  "rules": {
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRequest|useCallableRequest)"
+      }
+    ]
+  }
 }

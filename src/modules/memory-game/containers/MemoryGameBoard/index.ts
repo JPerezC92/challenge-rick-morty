@@ -1,0 +1,1 @@
+export {MemoryGameBoard} from './MemoryGameBoard'
