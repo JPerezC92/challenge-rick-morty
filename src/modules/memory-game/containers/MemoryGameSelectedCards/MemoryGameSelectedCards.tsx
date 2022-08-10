@@ -13,7 +13,7 @@ export const MemoryGameSelectedCards: React.FC<
 > = ({ className, selectedCards }) => {
   return (
     <header
-      className={`ct-neutral-medium-600 z-10 grid min-h-fit grid-cols-[1fr_auto_1fr] rounded-b bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800 p-2 backdrop-blur-sm ${className}`}
+      className={`ct-neutral-medium-600 z-10 grid grid-cols-[1fr_auto_1fr] rounded-b bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800 p-2 backdrop-blur-sm ${className}`}
     >
       <Text
         as="span"
