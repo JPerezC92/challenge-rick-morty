@@ -1,6 +1,7 @@
 import React from 'react';
 import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
 import { Character } from 'src/modules/characters/models/Character';
+import { Scores$Actions } from 'src/modules/memory-game/components/Scores$Actions';
 import { useMemoryGame } from 'src/modules/memory-game/containers/MemoryGameBoard/useMemoryGame';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
 import { Board } from 'src/modules/memory-game/models/Board';
@@ -28,7 +29,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
         className="sticky top-0"
       />
 
-      <div className="relative">
+      <div className="relative bg-ct-warning-400 px-2 py-3">
         {isGameOver && (
           <div className="absolute top-0 left-0 z-10 flex h-full w-full bg-slate-400/80">
             <p className="m-auto">You Won</p>
@@ -56,7 +57,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
         </ul>
       </div>
 
-      <footer className="sticky bottom-0">footer</footer>
+      <Scores$Actions className="sticky bottom-0" />
     </div>
   );
 };
