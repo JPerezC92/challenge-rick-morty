@@ -19,6 +19,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   const {
     handleClicPlayingCard,
     isGameOver,
+    movesCount,
     playingCardList,
     selectedCardList,
     clearedCardIdList,
@@ -26,43 +27,51 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
 
   return (
     <div
-      className={`grid max-h-[inherit] min-h-[inherit] grid-rows-[auto_1fr_auto] ${className}`}
+      className={`grid max-h-[inherit] min-h-[inherit] grid-rows-[auto_1fr_auto] bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800 ${className}`}
     >
-      <MemoryGameSelectedCards selectedCards={selectedCardList} />
-
       <ScrollArea className="relative">
-        <div className="bg-ct-warning-400 px-2 py-3">
-          <div
-            className={`absolute top-0 left-0 z-10 flex h-full w-full bg-slate-400/80 ${
-              isGameOver ? 'visible' : 'invisible'
-            }`}
-          >
-            <p className="m-auto">You Won</p>
+        <main>
+          <MemoryGameSelectedCards
+            selectedCards={selectedCardList}
+            className="sticky top-0 backdrop-blur-sm"
+          />
+
+          <div className="px-2 py-3">
+            <div
+              className={`absolute top-0 left-0 z-10 flex h-full w-full bg-slate-400/80 ${
+                isGameOver ? 'visible' : 'invisible'
+              }`}
+            >
+              <p className="m-auto">You Won</p>
+            </div>
+
+            <ul className="grid max-h-full grid-cols-3 gap-4 sm:grid-cols-4">
+              {playingCardList?.map((playingCard) => (
+                <li key={playingCard.boardId}>
+                  <CharacterCard
+                    playingCard={playingCard}
+                    onClick={handleClicPlayingCard}
+                    disabled={
+                      Board.canValidateMatch(selectedCardList) ||
+                      selectedCardList.includes(playingCard) ||
+                      clearedCardIdList.includes(playingCard.id)
+                    }
+                    flip={
+                      clearedCardIdList.includes(playingCard.id) ||
+                      selectedCardList.includes(playingCard)
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <ul className="grid max-h-full grid-cols-3 gap-4 sm:grid-cols-4">
-            {playingCardList?.map((playingCard) => (
-              <li key={playingCard.boardId}>
-                <CharacterCard
-                  playingCard={playingCard}
-                  onClick={handleClicPlayingCard}
-                  disabled={
-                    Board.canValidateMatch(selectedCardList) ||
-                    selectedCardList.includes(playingCard) ||
-                    clearedCardIdList.includes(playingCard.id)
-                  }
-                  flip={
-                    clearedCardIdList.includes(playingCard.id) ||
-                    selectedCardList.includes(playingCard)
-                  }
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+          <Scores$Actions
+            moves={movesCount}
+            className="sticky bottom-0 backdrop-blur-sm"
+          />
+        </main>
       </ScrollArea>
-
-      <Scores$Actions />
     </div>
   );
 };

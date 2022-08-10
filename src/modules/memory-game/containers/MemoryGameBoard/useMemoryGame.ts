@@ -2,6 +2,7 @@ import React from 'react';
 import { Character } from 'src/modules/characters/models/Character';
 import * as MemoryGameGameOverEvent from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { Board } from 'src/modules/memory-game/models/Board';
+import { Moves } from 'src/modules/memory-game/models/Moves';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 
 interface GameState {
@@ -9,6 +10,7 @@ interface GameState {
   selectedCardList: PlayingCard[];
   clearedCardIdList: PlayingCard['id'][];
   isGameOver: boolean;
+  movesCount: Moves;
 }
 
 const gameInitialState: GameState = {
@@ -16,6 +18,7 @@ const gameInitialState: GameState = {
   selectedCardList: [],
   clearedCardIdList: [],
   isGameOver: false,
+  movesCount: Moves.init(),
 };
 
 const enum GameActionType {
@@ -65,6 +68,7 @@ export function useMemoryGame(characterList: Character[]) {
           ];
           return {
             ...state,
+            movesCount: state.movesCount.increment(),
             selectedCardList: [],
             clearedCardIdList: clearedCardIdList,
             isGameOver: state.gameBoard.isGameOver(clearedCardIdList),
@@ -72,7 +76,11 @@ export function useMemoryGame(characterList: Character[]) {
         }
 
         case GameActionType.IS_MISSMATCH:
-          return { ...state, selectedCardList: [] };
+          return {
+            ...state,
+            movesCount: state.movesCount.increment(),
+            selectedCardList: [],
+          };
 
         default:
           return { ...state };
@@ -118,6 +126,7 @@ export function useMemoryGame(characterList: Character[]) {
     clearedCardIdList: gameState.clearedCardIdList,
     handleClicPlayingCard,
     isGameOver: gameState.isGameOver,
+    movesCount: gameState.movesCount.value,
     playingCardList: gameState.gameBoard.playingCardList,
     selectedCardList: gameState.selectedCardList,
   };

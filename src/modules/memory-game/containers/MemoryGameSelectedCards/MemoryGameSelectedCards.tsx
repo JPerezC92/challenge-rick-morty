@@ -3,6 +3,27 @@ import { TbPlayCard } from 'react-icons/tb';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 import { Text } from 'src/modules/shared/components/Text';
 
+export const CardSelected: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return (
+    <Text
+      as="span"
+      className="flex place-content-center place-items-center text-ct-primary-300"
+      l1
+    >
+      <i
+        className={`inline-flex text-2xl ${
+          !!children ? 'visible' : 'invisible'
+        }`}
+      >
+        <TbPlayCard className="inline-flex" />
+      </i>
+      <>{children}</>
+    </Text>
+  );
+};
+
 type MemoryGameSelectedCardsProps = {
   className?: string;
   selectedCards: PlayingCard[];
@@ -13,39 +34,10 @@ export const MemoryGameSelectedCards: React.FC<
 > = ({ className, selectedCards }) => {
   return (
     <header
-      className={`ct-neutral-medium-600 z-10 grid grid-cols-[1fr_auto_1fr] rounded-b bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800 p-2 backdrop-blur-sm ${className}`}
+      className={`z-10 grid grid-cols-[1fr_1fr] gap-4 divide-x-2 divide-ct-error-300 bg-gradient-to-r from-ct-secondary-700/90 via-ct-error-800/90 to-ct-secondary-700/90 p-2 shadow-sm shadow-ct-error-500 sm:p-4 ${className}`}
     >
-      <Text
-        as="span"
-        className="flex place-content-center place-items-center text-ct-primary-400"
-      >
-        <i
-          className={`inline-flex text-2xl ${
-            !!selectedCards[0] ? 'visible' : 'invisible'
-          }`}
-        >
-          <TbPlayCard className="inline-block " />
-        </i>
-        <>{selectedCards[0]?.name}</>
-      </Text>
-
-      <Text as="span" className="text-ct-error-100">
-        |
-      </Text>
-
-      <Text
-        as="span"
-        className="flex place-content-center place-items-center text-ct-primary-300"
-      >
-        <i
-          className={`inline-flex text-2xl ${
-            !!selectedCards[1] ? 'visible' : 'invisible'
-          }`}
-        >
-          <TbPlayCard className="inline-flex" />
-        </i>
-        <>{selectedCards[1]?.name}</>
-      </Text>
+      <CardSelected>{selectedCards[0]?.name}</CardSelected>
+      <CardSelected>{selectedCards[1]?.name}</CardSelected>
     </header>
   );
 };

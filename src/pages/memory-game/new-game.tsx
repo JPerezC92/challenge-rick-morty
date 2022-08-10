@@ -42,7 +42,7 @@ const NewGamePage: NextPage = () => {
   }
 
   return (
-    <div className="max-h-screen min-h-screen bg-ct-primary-400/50">
+    <div className="max-h-screen min-h-screen">
       <MemoryGameBoard characterList={characterList} />
     </div>
   );
