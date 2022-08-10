@@ -12,10 +12,13 @@ export const ScrollArea: React.FC<ScrollAreaProps> = ({
 }) => {
   return (
     <ScrollAreaPrimitives.Root
-      className={`overflow-hidden ${className}`}
+      className={`max-h-[inherit] min-h-[inherit] overflow-hidden rounded-[inherit] ${className}`}
       type="hover"
     >
-      <ScrollAreaPrimitives.Viewport className="h-full w-full rounded-[inherit]">
+      <ScrollAreaPrimitives.Viewport
+        className="!block h-full max-h-[inherit] min-h-[inherit] rounded-[inherit]"
+        asChild
+      >
         {children}
       </ScrollAreaPrimitives.Viewport>
       <ScrollAreaPrimitives.ScrollAreaScrollbar

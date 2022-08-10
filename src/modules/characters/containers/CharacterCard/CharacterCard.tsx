@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
-import styles from './CharacterCard.module.css';
 
 type CharacterCardProps = Omit<
   React.DetailedHTMLProps<
@@ -34,25 +33,26 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       type="button"
       disabled={disabled}
       onClick={handleOnClick}
-      className={`${styles.card} relative min-h-[15rem] overflow-hidden rounded-lg border shadow-[0_0_5px_2px] shadow-emerald-500 drop-shadow-lg transition ease-in-out sm:min-h-[18rem]`}
+      className={`relative w-full overflow-hidden rounded-lg border shadow-[0_0_5px_2px] shadow-ct-secondary-300 drop-shadow-lg transition ease-in-out`}
       {...props}
     >
       <Image
         className={` ${
-          flip ? 'opacity-0' : 'opacity-1'
+          flip ? 'scale-0 opacity-0' : 'opacity-1 scale-100'
         } transition duration-500 ease-in-out`}
         src="/card-backface.jpg"
         alt="rick & morty card"
-        width={40}
-        height={60}
+        width={154}
+        height={231}
         objectFit="cover"
+        objectPosition="top"
         priority
-        layout="responsive"
+        layout="fill"
       />
 
       <Image
         className={` ${
-          flip ? 'opacity-1' : '-z-10 opacity-0'
+          flip ? 'opacity-1 scale-100' : '-z-10 scale-0 opacity-0'
         } transition duration-500 ease-in-out`}
         src={image}
         alt="rick & morty card"

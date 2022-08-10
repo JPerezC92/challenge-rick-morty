@@ -13,7 +13,7 @@ export const CardSelected: React.FC<{ children: React.ReactNode }> = ({
       l1
     >
       <i
-        className={`inline-flex text-2xl ${
+        className={`inline-flex text-2xl sm:text-4xl ${
           !!children ? 'visible' : 'invisible'
         }`}
       >
@@ -34,7 +34,7 @@ export const MemoryGameSelectedCards: React.FC<
 > = ({ className, selectedCards }) => {
   return (
     <header
-      className={`z-10 grid grid-cols-[1fr_1fr] gap-4 divide-x-2 divide-ct-error-300 bg-gradient-to-r from-ct-secondary-700/90 via-ct-error-800/90 to-ct-secondary-700/90 p-2 shadow-sm shadow-ct-error-500 sm:p-4 ${className}`}
+      className={`z-10 grid grid-cols-[1fr_1fr] divide-x-2 divide-ct-error-300 border border-ct-error-200 bg-gradient-to-r from-ct-secondary-700/90 via-ct-error-800/90 to-ct-secondary-700/90 p-2 shadow-sm shadow-ct-error-500 sm:p-4 md:rounded-b-2xl ${className}`}
     >
       <CardSelected>{selectedCards[0]?.name}</CardSelected>
       <CardSelected>{selectedCards[1]?.name}</CardSelected>

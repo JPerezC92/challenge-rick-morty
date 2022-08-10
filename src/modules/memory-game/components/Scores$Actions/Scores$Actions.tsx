@@ -14,7 +14,7 @@ export const Scores$Actions: React.FC<Scores$ActionsProps> = ({
 }) => {
   return (
     <footer
-      className={`z-10 rotate-180 bg-gradient-to-r from-ct-primary-600/80 via-ct-primary-300/80 to-ct-primary-600/80 p-2 shadow-sm shadow-ct-secondary-400 ${className}`}
+      className={`z-10 rotate-180 border border-ct-secondary-200 bg-gradient-to-r from-ct-primary-600/80 via-ct-primary-300/80 to-ct-primary-600/80 p-2 shadow-sm shadow-ct-secondary-400 md:rounded-b-2xl ${className}`}
     >
       <div className="flex rotate-180 justify-between">
         <div className="grid auto-cols-min  place-items-center rounded bg-ct-primary-800/10 p-1">

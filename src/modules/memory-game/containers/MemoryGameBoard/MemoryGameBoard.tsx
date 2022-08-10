@@ -26,17 +26,15 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   } = useMemoryGame(characterList);
 
   return (
-    <div
-      className={`grid max-h-[inherit] min-h-[inherit] grid-rows-[auto_1fr_auto] bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800 ${className}`}
-    >
-      <ScrollArea className="relative">
-        <main>
+    <div className={`max-h-[inherit] min-h-[inherit] max-w-3xl ${className}`}>
+      <ScrollArea className="relative overflow-visible">
+        <main className="grid min-h-[inherit] grid-rows-[auto_1fr_auto]">
           <MemoryGameSelectedCards
             selectedCards={selectedCardList}
             className="sticky top-0 backdrop-blur-sm"
           />
 
-          <div className="px-2 py-3">
+          <div className="my-auto px-2 py-3">
             <div
               className={`absolute top-0 left-0 z-10 flex h-full w-full bg-slate-400/80 ${
                 isGameOver ? 'visible' : 'invisible'
