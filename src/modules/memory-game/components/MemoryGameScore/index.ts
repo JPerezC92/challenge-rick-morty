@@ -1,0 +1,1 @@
+export {MemoryGameScore} from './MemoryGameScore'

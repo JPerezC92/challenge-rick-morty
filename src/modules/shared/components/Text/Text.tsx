@@ -75,7 +75,7 @@ export const Text: <T extends HTMLTag>(
   if (l1) {
     return (
       <Tag
-        className={`text-base leading-[150%] sm:text-lg ${
+        className={`font-nunito text-base leading-[150%] sm:text-lg ${
           variant && variant === TextVariant.LIGHT_WEIGTH
             ? 'font-medium tracking-[0%]'
             : variant === TextVariant.ALL_CAPS
@@ -90,7 +90,7 @@ export const Text: <T extends HTMLTag>(
   if (l2) {
     return (
       <Tag
-        className={`text-xs font-semibold leading-[150%] text-ct-info-700 sm:text-sm ${
+        className={`font-nunito text-xs font-semibold leading-[150%] sm:text-sm ${
           variant && variant === TextVariant.ALL_CAPS
             ? 'uppercase tracking-[5%] sm:tracking-[0%]'
             : 'tracking-[0%]'

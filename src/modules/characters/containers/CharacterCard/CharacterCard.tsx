@@ -33,19 +33,19 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       type="button"
       disabled={disabled}
       onClick={handleOnClick}
-      className={`relative w-full overflow-hidden rounded-lg border shadow-[0_0_5px_2px] shadow-ct-secondary-300 drop-shadow-lg transition ease-in-out`}
+      className={`relative w-full overflow-hidden rounded-lg border border-ct-neutral-dark-700 bg-gradient-to-tl from-ct-primary-400 via-ct-secondary-400/80 to-ct-primary-400 shadow-[0_0_5px_2px] shadow-ct-neutral-dark-700 outline-offset-2 outline-ct-neutral-ligth-400 drop-shadow-lg transition ease-in-out `}
       {...props}
     >
       <Image
         className={` ${
           flip ? 'scale-0 opacity-0' : 'opacity-1 scale-100'
         } transition duration-500 ease-in-out`}
-        src="/card-backface.jpg"
+        src="/card-backface.png"
         alt="rick & morty card"
-        width={154}
-        height={231}
-        objectFit="cover"
-        objectPosition="top"
+        width={624}
+        height={650}
+        objectFit="contain"
+        objectPosition="center"
         priority
         layout="fill"
       />
