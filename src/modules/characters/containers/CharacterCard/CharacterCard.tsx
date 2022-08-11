@@ -11,8 +11,8 @@ type CharacterCardProps = Omit<
   'onClick'
 > & {
   playingCard: PlayingCard;
-  onClick?: (playingCard: PlayingCard) => void;
   flip?: boolean;
+  onClick?: (playingCard: PlayingCard) => void;
 };
 
 export const CharacterCard: React.FC<CharacterCardProps> = ({
@@ -42,8 +42,6 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         } transition duration-500 ease-in-out`}
         src="/card-backface.png"
         alt="rick & morty card"
-        width={624}
-        height={650}
         objectFit="contain"
         objectPosition="center"
         priority
@@ -56,8 +54,8 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         } transition duration-500 ease-in-out`}
         src={image}
         alt="rick & morty card"
-        width={40}
-        height={60}
+        width={300}
+        height={300}
         objectFit="cover"
         priority
         layout="responsive"

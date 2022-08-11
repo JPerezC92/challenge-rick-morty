@@ -20,7 +20,10 @@ export const Scores$Actions: React.FC<Scores$ActionsProps> = ({
     >
       <div className="grid rotate-180 grid-cols-5 gap-1 p-1 sm:gap-x-10 sm:p-3">
         <MemoryGameScore value={moves} desc="moves" />
-        <MemoryGameScore value={moves} desc="accuracy" />
+        <MemoryGameScore
+          value={((6 / moves || 0) * 100).toFixed() + '%'}
+          desc="accuracy"
+        />
         <MemoryGameScore value={moves} desc="rounds" />
 
         <Button secondary outline>

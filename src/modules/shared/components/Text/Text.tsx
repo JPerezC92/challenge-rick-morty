@@ -7,6 +7,22 @@ const enum TextVariant {
 
 type HTMLTag = `${keyof Pick<
   JSX.IntrinsicElements,
+  // Text content
+  | 'blockquote'
+  | 'dd'
+  | 'div'
+  | 'dl'
+  | 'dt'
+  | 'figcaption'
+  | 'figure'
+  | 'hr'
+  | 'li'
+  | 'menu'
+  | 'ol'
+  | 'p'
+  | 'pre'
+  | 'ul'
+  // Inline text semantics
   | 'a'
   | 'abbr'
   | 'b'
@@ -63,10 +79,10 @@ type TextProps<T> = T extends HTMLTag
 export const Text: <T extends HTMLTag>(
   props: TextProps<T>
 ) => React.ReactElement<TextProps<T>, T> = ({
-  as = '',
   l1,
   l2,
   variant,
+  as = '',
   className = '',
   ...props
 }) => {

@@ -9,16 +9,16 @@ export const CardSelected: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <Text
-      as="span"
-      className="flex place-content-center place-items-center text-ct-primary-300"
       l1
+      as="div"
+      className="inline-flex items-center justify-center gap-x-1 truncate text-ct-primary-300"
     >
       <Icon
         Icon={TbPlayCard}
         className={` ${!!children ? 'visible' : 'invisible'}`}
       />
 
-      {children}
+      <p className="truncate">{children}</p>
     </Text>
   );
 };
