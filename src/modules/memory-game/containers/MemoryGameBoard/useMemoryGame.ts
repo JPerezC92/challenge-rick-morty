@@ -1,11 +1,14 @@
 import React from 'react';
 import { Character } from 'src/modules/characters/models/Character';
-import * as MemoryGameGameOverEvent from 'src/modules/memory-game/events/MemoryGameGameOver.event';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
+import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
+import { Accuracy } from 'src/modules/memory-game/models/Accuracy';
 import { Board } from 'src/modules/memory-game/models/Board';
 import { Moves } from 'src/modules/memory-game/models/Moves';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 
 interface GameState {
+  accuracy: Accuracy;
   gameBoard: Board;
   selectedCardList: PlayingCard[];
   clearedCardIdList: PlayingCard['id'][];
@@ -14,6 +17,7 @@ interface GameState {
 }
 
 const gameInitialState: GameState = {
+  accuracy: Accuracy.init(),
   gameBoard: Board.init([]),
   selectedCardList: [],
   clearedCardIdList: [],
@@ -31,7 +35,6 @@ const enum GameActionType {
 
 export const gameActions = {
   selectCard: (playingCard: PlayingCard) => {
-    console.log('selectCard');
     return { type: GameActionType.SELECT_CARD, payload: playingCard } as const;
   },
   clearSelectedCard: () => {
@@ -66,19 +69,31 @@ export function useMemoryGame(characterList: Character[]) {
             ...state.clearedCardIdList,
             action.payload,
           ];
+
+          const movesCount = state.movesCount.increment();
+
           return {
             ...state,
-            movesCount: state.movesCount.increment(),
+            accuracy: state.accuracy.calculate({
+              movesCount,
+              clearedCardQuantity: clearedCardIdList.length,
+            }),
             selectedCardList: [],
-            clearedCardIdList: clearedCardIdList,
             isGameOver: state.gameBoard.isGameOver(clearedCardIdList),
+            movesCount,
+            clearedCardIdList,
           };
         }
 
         case GameActionType.IS_MISSMATCH:
+          const movesCount = state.movesCount.increment();
           return {
             ...state,
-            movesCount: state.movesCount.increment(),
+            accuracy: state.accuracy.calculate({
+              movesCount,
+              clearedCardQuantity: state.clearedCardIdList.length,
+            }),
+            movesCount,
             selectedCardList: [],
           };
 
@@ -92,12 +107,13 @@ export function useMemoryGame(characterList: Character[]) {
 
   const handleClicPlayingCard = (playingCard: PlayingCard) => {
     gameDispatch(gameActions.selectCard(playingCard));
+    MemoryGameSelectCardEvent.trigger(playingCard);
   };
 
   React.useEffect(() => {
     if (gameState.isGameOver) {
       const id = setTimeout(() => {
-        MemoryGameGameOverEvent.Trigger();
+        MemoryGameGameOverEvent.trigger();
         clearTimeout(id);
       }, 2000);
       return;
@@ -107,11 +123,13 @@ export function useMemoryGame(characterList: Character[]) {
       return;
     }
 
-    if (Board.isMatch(gameState.selectedCardList)) {
+    const isMatch = Board.isMatch(gameState.selectedCardList);
+
+    if (isMatch) {
       const id = setTimeout(() => {
         const [playingCard] = gameState.selectedCardList;
         gameDispatch(gameActions.match(playingCard.id));
-        clearTimeout(id);
+        window.clearTimeout(id);
       }, 1000);
       return;
     }
@@ -124,10 +142,11 @@ export function useMemoryGame(characterList: Character[]) {
 
   return {
     clearedCardIdList: gameState.clearedCardIdList,
-    handleClicPlayingCard,
+    accuracy: gameState.accuracy.value,
     isGameOver: gameState.isGameOver,
     movesCount: gameState.movesCount.value,
     playingCardList: gameState.gameBoard.playingCardList,
     selectedCardList: gameState.selectedCardList,
+    handleClicPlayingCard,
   };
 }

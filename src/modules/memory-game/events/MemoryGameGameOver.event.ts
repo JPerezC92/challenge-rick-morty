@@ -1,21 +1,21 @@
 import { CleanEvent } from 'src/modules/shared/events/CleanEvent';
 
-const Type = 'MemoryGame:GameOver';
+const type = 'MemoryGame:GameOver';
 
-export function Trigger() {
-  const event = new CustomEvent(Type);
+export const MemoryGameGameOverEvent = {
+  trigger: () => {
+    const event = new CustomEvent(type);
+    window.dispatchEvent(event);
+  },
+  listener: (fn: () => void): CleanEvent => {
+    const listener = (e: Event): void => {
+      fn();
+    };
 
-  window.dispatchEvent(event);
-}
+    window.addEventListener(type, listener);
 
-export function Listener(fn: () => void): CleanEvent {
-  const listener = (e: Event): void => {
-    fn();
-  };
-
-  window.addEventListener(Type, listener);
-
-  return () => {
-    window.removeEventListener(Type, listener);
-  };
-}
+    return () => {
+      window.removeEventListener(type, listener);
+    };
+  },
+};

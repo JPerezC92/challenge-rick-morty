@@ -55,7 +55,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         src={image}
         alt="rick & morty card"
         width={300}
-        height={300}
+        height={370}
         objectFit="cover"
         priority
         layout="responsive"

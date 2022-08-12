@@ -3,8 +3,11 @@ import { NextPage } from 'next';
 import React from 'react';
 
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
+import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/MemoryGameBoardOverlay';
+import { Scores$Actions } from 'src/modules/memory-game/components/Scores$Actions';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
-import * as MemoryGameGameOverEvent from 'src/modules/memory-game/events/MemoryGameGameOver.event';
+import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 
 const NewGamePage: NextPage = () => {
   const {
@@ -30,20 +33,30 @@ const NewGamePage: NextPage = () => {
   );
 
   React.useEffect(() => {
-    const cleanup = MemoryGameGameOverEvent.Listener(() =>
+    const cleanup = MemoryGameGameOverEvent.listener(() =>
       characterListRefetch()
     );
 
     return () => cleanup();
   }, [characterListRefetch]);
 
-  if (!characterList.length || isLoading || isRefetching) {
-    return <>Loading...</>;
-  }
-
   return (
-    <div className="max-h-screen min-h-screen bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800">
-      <MemoryGameBoard characterList={characterList} className="m-auto" />
+    <div className="h-full bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800">
+      <main className="m-auto h-full max-w-3xl">
+        <MemoryGameBoardOverlay
+          topBar={<MemoryGameSelectedCards className="sticky top-0" />}
+          board={
+            !characterList.length || isLoading || isRefetching ? (
+              <>Loading</>
+            ) : (
+              <MemoryGameBoard characterList={characterList} className="py-4" />
+            )
+          }
+          bottomBar={
+            <Scores$Actions className="sticky bottom-0 backdrop-blur-sm" />
+          }
+        />
+      </main>
     </div>
   );
 };
