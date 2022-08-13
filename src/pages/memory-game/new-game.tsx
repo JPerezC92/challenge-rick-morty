@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
 import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/MemoryGameBoardOverlay';
-import { Scores$Actions } from 'src/modules/memory-game/components/Scores$Actions';
+import { MemoryGameScoresAndActions } from 'src/modules/memory-game/components/MemoryGameScoresAndActions';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
@@ -18,14 +18,15 @@ const NewGamePage: NextPage = () => {
   } = useQuery(
     ['characterList'],
     async ({ signal }) => {
-      const _characterRepository = ApiCharactersRepository(signal);
+      const apiCharactersRepository = ApiCharactersRepository(signal);
 
-      const charactersCount = await _characterRepository.getCount();
+      const charactersCount = await apiCharactersRepository.getCount();
 
-      const characterList = await _characterRepository.getRamdomCharacterList({
-        count: charactersCount,
-        limit: 6,
-      });
+      const characterList =
+        await apiCharactersRepository.getRamdomCharacterList({
+          count: charactersCount,
+          limit: 6,
+        });
 
       return characterList || [];
     },
@@ -49,12 +50,13 @@ const NewGamePage: NextPage = () => {
             !characterList.length || isLoading || isRefetching ? (
               <>Loading</>
             ) : (
-              <MemoryGameBoard characterList={characterList} className="py-4" />
+              <MemoryGameBoard
+                characterList={characterList}
+                className="py-4 px-2"
+              />
             )
           }
-          bottomBar={
-            <Scores$Actions className="sticky bottom-0 backdrop-blur-sm" />
-          }
+          bottomBar={<MemoryGameScoresAndActions className="sticky bottom-0" />}
         />
       </main>
     </div>

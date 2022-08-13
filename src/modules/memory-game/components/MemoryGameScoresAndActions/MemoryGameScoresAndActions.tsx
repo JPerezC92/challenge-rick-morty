@@ -7,16 +7,16 @@ import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/Memory
 import { Button } from 'src/modules/shared/components/Button';
 import { Icon } from 'src/modules/shared/components/Icon';
 
-type Scores$ActionsProps = {
+type MemoryGameScoresAndActionsProps = {
   className?: string;
 };
 
-export const Scores$Actions: React.FC<Scores$ActionsProps> = ({
-  className,
-}) => {
+export const MemoryGameScoresAndActions: React.FC<
+  MemoryGameScoresAndActionsProps
+> = ({ className }) => {
   return (
     <footer
-      className={`z-10 rotate-180 border border-ct-secondary-200 bg-gradient-to-b from-ct-primary-600/80 via-ct-primary-400/80 to-ct-primary-600/80 shadow-sm shadow-ct-secondary-400 md:rounded-b-lg ${className} `}
+      className={`z-10 rotate-180 border border-ct-secondary-200 bg-gradient-to-b from-ct-primary-600/80 via-ct-primary-400/80 to-ct-primary-600/80 shadow-sm shadow-ct-secondary-400 backdrop-blur-sm md:rounded-b-lg ${className} `}
     >
       <div className="grid rotate-180 grid-cols-5 gap-1 p-1 sm:gap-x-10 sm:p-3">
         <MemoryGameMovesCount />
