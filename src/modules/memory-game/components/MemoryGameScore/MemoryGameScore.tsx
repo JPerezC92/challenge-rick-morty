@@ -13,7 +13,9 @@ export const MemoryGameScore: React.FC<MemoryGameScoreProps> = ({
   value,
 }) => {
   return (
-    <div className="flex flex-col rounded border border-ct-primary-400 bg-ct-primary-800/50 p-1 text-center text-ct-neutral-ligth-200 sm:p-2">
+    <div
+      className={`flex flex-col rounded border border-ct-primary-400 bg-ct-primary-800/50 p-1 text-center text-ct-neutral-ligth-200 sm:p-2 ${className}`}
+    >
       <Text l1 className="scale-150">
         {value}
       </Text>

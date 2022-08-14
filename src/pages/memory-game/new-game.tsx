@@ -8,6 +8,7 @@ import { MemoryGameScoresAndActions } from 'src/modules/memory-game/components/M
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
+import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestartEvent';
 
 const NewGamePage: NextPage = () => {
   const {
@@ -34,16 +35,22 @@ const NewGamePage: NextPage = () => {
   );
 
   React.useEffect(() => {
-    const cleanup = MemoryGameGameOverEvent.listener(() =>
+    const gameOverCleanup = MemoryGameGameOverEvent.listener(() =>
+      characterListRefetch()
+    );
+    const restartCleanup = MemoryGameRestartEvent.listener(() =>
       characterListRefetch()
     );
 
-    return () => cleanup();
+    return () => {
+      gameOverCleanup();
+      restartCleanup();
+    };
   }, [characterListRefetch]);
 
   return (
-    <div className="h-full bg-gradient-to-r from-ct-neutral-dark-800 via-ct-neutral-medium-600 to-ct-neutral-dark-800">
-      <main className="m-auto h-full max-w-3xl">
+    <div className="h-full bg-[url('/memory-game-wallpaper.png')] bg-cover bg-no-repeat">
+      <main className="m-auto h-full max-w-7xl">
         <MemoryGameBoardOverlay
           topBar={<MemoryGameSelectedCards className="sticky top-0" />}
           board={

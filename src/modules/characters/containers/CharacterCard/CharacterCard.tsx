@@ -11,15 +11,16 @@ type CharacterCardProps = Omit<
   'onClick'
 > & {
   playingCard: PlayingCard;
-  flip?: boolean;
+  isFlip?: boolean;
   onClick?: (playingCard: PlayingCard) => void;
 };
 
 export const CharacterCard: React.FC<CharacterCardProps> = ({
+  className,
   disabled,
+  isFlip,
   onClick,
   playingCard,
-  flip,
   ...props
 }) => {
   const { image } = playingCard;
@@ -33,32 +34,30 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       type="button"
       disabled={disabled}
       onClick={handleOnClick}
-      className={`relative w-full overflow-hidden rounded-lg border border-ct-neutral-dark-700 bg-gradient-to-tl from-ct-primary-400 via-ct-secondary-400/80 to-ct-primary-400 shadow-[0_0_5px_2px] shadow-ct-neutral-dark-700 outline-offset-2 outline-ct-neutral-ligth-400 drop-shadow-lg transition ease-in-out `}
+      className={`relative h-48 w-full overflow-hidden rounded-lg border border-ct-neutral-dark-700 bg-gradient-to-tl from-ct-primary-400 via-ct-secondary-400/80 to-ct-primary-400 shadow-[0_0_5px_2px] shadow-ct-neutral-dark-700 outline-offset-2 outline-ct-neutral-ligth-400 drop-shadow-lg transition ease-in-out sm:h-52 md:h-64 xl:h-72 2xl:h-80 ${className}`}
       {...props}
     >
       <Image
-        className={` ${
-          flip ? 'scale-0 opacity-0' : 'opacity-1 scale-100'
+        className={`${
+          isFlip ? 'scale-0 opacity-0' : 'opacity-1 scale-100'
         } transition duration-500 ease-in-out`}
-        src="/card-backface.png"
+        src="/card-backface.webp"
         alt="rick & morty card"
-        objectFit="contain"
+        objectFit="cover"
         objectPosition="center"
         priority
         layout="fill"
       />
 
       <Image
-        className={` ${
-          flip ? 'opacity-1 scale-100' : '-z-10 scale-0 opacity-0'
+        className={`${
+          isFlip ? 'opacity-1 scale-100' : '-z-10 scale-0 opacity-0'
         } transition duration-500 ease-in-out`}
         src={image}
         alt="rick & morty card"
-        width={300}
-        height={370}
         objectFit="cover"
         priority
-        layout="responsive"
+        layout="fill"
       />
     </button>
   );

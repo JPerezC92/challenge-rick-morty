@@ -1,9 +1,12 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { TbDoorExit } from 'react-icons/tb';
 import { VscDebugRestart } from 'react-icons/vsc';
+import { MemoryGameDialog } from 'src/modules/memory-game/components/MemoryGameDialog';
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
 import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/MemoryGameRoundsCount';
+import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestartEvent';
 import { Button } from 'src/modules/shared/components/Button';
 import { Icon } from 'src/modules/shared/components/Icon';
 
@@ -14,6 +17,8 @@ type MemoryGameScoresAndActionsProps = {
 export const MemoryGameScoresAndActions: React.FC<
   MemoryGameScoresAndActionsProps
 > = ({ className }) => {
+  const router = useRouter();
+
   return (
     <footer
       className={`z-10 rotate-180 border border-ct-secondary-200 bg-gradient-to-b from-ct-primary-600/80 via-ct-primary-400/80 to-ct-primary-600/80 shadow-sm shadow-ct-secondary-400 backdrop-blur-sm md:rounded-b-lg ${className} `}
@@ -23,13 +28,28 @@ export const MemoryGameScoresAndActions: React.FC<
         <MemoryGameAccuracy />
         <MemoryGameRoundsCount />
 
-        <Button secondary outline>
-          <Icon Icon={VscDebugRestart} className="block" />
-        </Button>
+        <MemoryGameDialog
+          trigger={
+            <Button secondary outline>
+              <Icon Icon={VscDebugRestart} />
+            </Button>
+          }
+          title="Are you sure you want to restart?"
+          onConfirm={(close) => {
+            close();
+            MemoryGameRestartEvent.trigger();
+          }}
+        />
 
-        <Button tertiary outline>
-          <Icon Icon={TbDoorExit} className="block" />
-        </Button>
+        <MemoryGameDialog
+          trigger={
+            <Button tertiary outline>
+              <Icon Icon={TbDoorExit} />
+            </Button>
+          }
+          title="Are you sure you want to exit?"
+          onConfirm={(close) => router.push('/memory-game')}
+        />
       </div>
     </footer>
   );

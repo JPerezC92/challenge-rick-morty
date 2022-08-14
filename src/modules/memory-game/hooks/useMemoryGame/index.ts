@@ -1,0 +1,1 @@
+export { useMemoryGame } from './useMemoryGame';

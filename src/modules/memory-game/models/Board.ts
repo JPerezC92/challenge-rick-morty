@@ -1,5 +1,6 @@
 import { Character } from 'src/modules/characters/models/Character';
 import { shuffleArray } from 'src/modules/shared/utils/shuffleArray';
+import { MovementResult } from './MovementResult';
 import { PlayingCard } from './PlayingCard';
 
 export class Board {
@@ -34,12 +35,12 @@ export class Board {
 
   public static maxNumberSelectedCards: number = 2;
 
-  public static canValidateMatch(selectedCardList: PlayingCard[]): boolean {
-    return selectedCardList.length === Board.maxNumberSelectedCards;
-  }
-
-  public static isMatch(selectedCardList: PlayingCard[]): boolean {
-    return selectedCardList[0]?.id === selectedCardList[1]?.id;
+  public static validateSelection(
+    selectedCardList: PlayingCard[]
+  ): MovementResult {
+    return new MovementResult(
+      selectedCardList[0]?.id === selectedCardList[1]?.id
+    );
   }
 
   public isGameOver(clearedCardIdList: PlayingCard['id'][]): boolean {

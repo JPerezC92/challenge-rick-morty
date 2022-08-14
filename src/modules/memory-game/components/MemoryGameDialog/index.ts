@@ -1,0 +1,1 @@
+export {MemoryGameDialog} from './MemoryGameDialog'
