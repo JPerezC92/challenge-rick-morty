@@ -1,12 +1,12 @@
-import { randomInt } from "./randomInt";
+import { randomInt } from './randomInt';
 
 export function randomUniqueIntArray(props: {
   length: number;
   max: number;
   min?: number;
-  noop?: number[];
+  noop?: readonly number[];
 }): number[] {
-  const { length, max, min = 1, noop } = props;
+  const { length, max, min = 1, noop = [] } = props;
 
   const randomNumber = randomInt(max, min, noop);
 
@@ -27,7 +27,7 @@ export function randomUniqueIntArray(props: {
       length: repeatedNumbersCount,
       max,
       min,
-      noop: setToArray,
+      noop: [...setToArray, ...noop],
     }),
   ];
 }

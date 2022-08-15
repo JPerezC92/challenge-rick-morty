@@ -31,7 +31,8 @@ export const MemoryGameScoresAndActions: React.FC<
         <MemoryGameDialog
           trigger={
             <Button secondary outline>
-              <Icon Icon={VscDebugRestart} />
+              <Icon Icon={VscDebugRestart} />{' '}
+              <span className="hidden md:inline">Restart</span>
             </Button>
           }
           title="Are you sure you want to restart?"
@@ -44,7 +45,8 @@ export const MemoryGameScoresAndActions: React.FC<
         <MemoryGameDialog
           trigger={
             <Button tertiary outline>
-              <Icon Icon={TbDoorExit} />
+              <Icon Icon={TbDoorExit} />{' '}
+              <span className="hidden md:inline">Exit</span>
             </Button>
           }
           title="Are you sure you want to exit?"

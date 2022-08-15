@@ -4,6 +4,7 @@ import React from 'react';
 
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
 import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/MemoryGameBoardOverlay';
+import { MemoryGameBoardSkeleton } from 'src/modules/memory-game/components/MemoryGameBoardSkeleton';
 import { MemoryGameScoresAndActions } from 'src/modules/memory-game/components/MemoryGameScoresAndActions';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
@@ -35,15 +36,11 @@ const NewGamePage: NextPage = () => {
   );
 
   React.useEffect(() => {
-    const gameOverCleanup = MemoryGameGameOverEvent.listener(() =>
-      characterListRefetch()
-    );
     const restartCleanup = MemoryGameRestartEvent.listener(() =>
       characterListRefetch()
     );
 
     return () => {
-      gameOverCleanup();
       restartCleanup();
     };
   }, [characterListRefetch]);
@@ -55,7 +52,7 @@ const NewGamePage: NextPage = () => {
           topBar={<MemoryGameSelectedCards className="sticky top-0" />}
           board={
             !characterList.length || isLoading || isRefetching ? (
-              <>Loading</>
+              <MemoryGameBoardSkeleton />
             ) : (
               <MemoryGameBoard
                 characterList={characterList}

@@ -37,14 +37,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       primary && outline
         ? 'border border-teal-400/50 hover:border-teal-400 hover:bg-teal-500/5'
         : secondary && outline
-        ? 'border bg-ct-secondary-800/30 border-ct-secondary-500/50 border-2 text-ct-secondary-800 hover:border-ct-secondary-500 hover:text-ct-secondary-500 hover:bg-ct-secondary-500/40'
+        ? 'border bg-ct-secondary-800/80 border-ct-secondary-500/50 border-2 text-ct-secondary-500 hover:border-ct-secondary-500 hover:text-ct-secondary-300 hover:bg-ct-secondary-700/80'
         : tertiary && outline
-        ? 'border bg-ct-error-800/30 border-ct-error-500/50 border-2 text-ct-error-800 hover:border-ct-error-300 hover:text-ct-error-300 hover:bg-ct-error-300/40'
+        ? 'border bg-ct-error-800/80 border-ct-error-500/50 border-2 text-ct-error-500 hover:border-ct-error-500 hover:text-ct-error-300 hover:bg-ct-error-700/80'
         : '';
 
     return (
       <button
-        className={`rounded-lg p-2 shadow-sm transition-all ease-in-out disabled:pointer-events-none disabled:border-gray-400 disabled:opacity-60 ${background} ${outlineColor} ${className}`}
+        className={`whitespace-nowrap rounded-lg p-2 shadow-sm transition-all ease-in-out disabled:pointer-events-none disabled:border-gray-400 disabled:opacity-60 ${background} ${outlineColor} ${className}`}
         {...props}
         ref={ref}
       >

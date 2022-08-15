@@ -15,7 +15,10 @@ export class Accuracy {
 
     return new Accuracy(
       Number(
-        ((props.clearedCardQuantity * 100) / props.movesCount.value).toFixed(1)
+        (
+          ((props.clearedCardQuantity / 2) * 100) /
+          props.movesCount.value
+        ).toFixed(1)
       )
     );
   }

@@ -43,7 +43,7 @@ export class Board {
     );
   }
 
-  public isGameOver(clearedCardIdList: PlayingCard['id'][]): boolean {
-    return this.characterList.length === clearedCardIdList.length;
+  public isGameOver(clearedCardList: PlayingCard[]): boolean {
+    return this.playingCardList.length === clearedCardList.length;
   }
 }

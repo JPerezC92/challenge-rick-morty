@@ -67,13 +67,15 @@ export const memoryGameReducer = (
         ? [...state.clearedCardList, ...state.selectedCardList]
         : [...state.clearedCardList];
       const movesCount = state.movesCount.increment();
+      const isGameOver = state.gameBoard.isGameOver(clearedCardList);
       const accuracy = state.accuracy.calculate({
         movesCount,
-        clearedCardQuantity: state.clearedCardList.length,
+        clearedCardQuantity: clearedCardList.length,
       });
 
       return {
         ...state,
+        isGameOver,
         clearedCardList,
         movementResult,
         accuracy,

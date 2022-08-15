@@ -1,6 +1,7 @@
 import React from 'react';
 import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
 import { Character } from 'src/modules/characters/models/Character';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { useMemoryGame } from 'src/modules/memory-game/hooks/useMemoryGame';
 import { MovementResult } from 'src/modules/memory-game/models/MovementResult';
@@ -25,6 +26,10 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
     selectedCardList,
     clearedCardList,
   } = useMemoryGame(characterList);
+
+  React.useEffect(() => {
+    isGameOver && MemoryGameGameOverEvent.trigger();
+  }, [isGameOver]);
 
   React.useEffect(() => {
     MemoryGameMoveFinishedEvent.trigger({ movesCount, accuracy });
