@@ -1,7 +1,8 @@
 import React from 'react';
 import { TbPlayCard } from 'react-icons/tb';
-import { useSelectedCardListStore } from 'src/modules/memory-game/hooks/useSelectedCardListStore';
+import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
+import { useSelectedCardListStore } from 'src/modules/memory-game/hooks/useSelectedCardListStore';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { Text } from 'src/modules/shared/components/Text';
 
@@ -36,11 +37,20 @@ export const MemoryGameSelectedCards: React.FC<
   const { selectedCardList, selectedCardStore } = useSelectedCardListStore();
 
   React.useEffect(() => {
-    const cleanup = MemoryGameSelectCardEvent.listener((p) => {
-      selectedCardStore.add(p);
+    const selectCardCleanup = MemoryGameSelectCardEvent.listener(
+      (playingCard) => {
+        selectedCardStore.add(playingCard);
+      }
+    );
+
+    const restartCleanup = MemoryGameRestartEvent.listener(() => {
+      selectedCardStore.clean();
     });
 
-    return () => cleanup();
+    return () => {
+      selectCardCleanup();
+      restartCleanup();
+    };
   }, [selectedCardStore]);
 
   return (

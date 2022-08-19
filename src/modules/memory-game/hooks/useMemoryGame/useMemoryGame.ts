@@ -1,6 +1,5 @@
 import React from 'react';
 import { Character } from 'src/modules/characters/models/Character';
-import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { Board } from 'src/modules/memory-game/models/Board';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 import {
@@ -16,20 +15,11 @@ export function useMemoryGame(characterList: Character[]) {
     (s) => ({ ...s, gameBoard: Board.init(characterList) })
   );
 
-  const handleClicPlayingCard = (playingCard: PlayingCard) => {
+  const handleSelectCard = (playingCard: PlayingCard) => {
     gameDispatch(gameActions.selectCard(playingCard));
-    MemoryGameSelectCardEvent.trigger(playingCard);
   };
 
   React.useEffect(() => {
-    // if (gameState.isGameOver) {
-    //   const id = setTimeout(() => {
-    //     MemoryGameGameOverEvent.trigger();
-    //     clearTimeout(id);
-    //   }, 2000);
-    //   return;
-    // }
-
     if (!gameState.isValidatingSelection) {
       return;
     }
@@ -45,14 +35,14 @@ export function useMemoryGame(characterList: Character[]) {
   }, [gameState.isValidatingSelection]);
 
   return {
+    accuracy: gameState.accuracy.value,
+    clearedCardList: gameState.clearedCardList,
+    isGameOver: gameState.isGameOver,
     isValidatingSelection: gameState.isValidatingSelection,
     movementResult: gameState.movementResult,
-    clearedCardList: gameState.clearedCardList,
-    accuracy: gameState.accuracy.value,
-    isGameOver: gameState.isGameOver,
     movesCount: gameState.movesCount.value,
     playingCardList: gameState.gameBoard.playingCardList,
     selectedCardList: gameState.selectedCardList,
-    handleClicPlayingCard,
+    handleSelectCard,
   };
 }

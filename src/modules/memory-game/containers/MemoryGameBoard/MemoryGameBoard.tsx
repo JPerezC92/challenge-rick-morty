@@ -3,8 +3,10 @@ import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
 import { Character } from 'src/modules/characters/models/Character';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { useMemoryGame } from 'src/modules/memory-game/hooks/useMemoryGame';
 import { MovementResult } from 'src/modules/memory-game/models/MovementResult';
+import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 
 type MemoryGameBoardProps = {
   className?: string;
@@ -16,7 +18,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   characterList,
 }) => {
   const {
-    handleClicPlayingCard,
+    handleSelectCard,
     isGameOver,
     movementResult,
     isValidatingSelection,
@@ -27,13 +29,18 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
     clearedCardList,
   } = useMemoryGame(characterList);
 
-  React.useEffect(() => {
-    isGameOver && MemoryGameGameOverEvent.trigger();
-  }, [isGameOver]);
+  const handlePlayingCardClic = (playingCard: PlayingCard) => {
+    handleSelectCard(playingCard);
+    MemoryGameSelectCardEvent.trigger(playingCard);
+  };
 
   React.useEffect(() => {
     MemoryGameMoveFinishedEvent.trigger({ movesCount, accuracy });
   }, [accuracy, movesCount]);
+
+  React.useEffect(() => {
+    isGameOver && MemoryGameGameOverEvent.trigger();
+  }, [isGameOver]);
 
   return (
     <ul
@@ -43,7 +50,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
         <li key={playingCard.boardId} className="inline-flex w-full">
           <CharacterCard
             playingCard={playingCard}
-            onClick={handleClicPlayingCard}
+            onClick={handlePlayingCardClic}
             disabled={
               isValidatingSelection ||
               selectedCardList.includes(playingCard) ||
@@ -54,8 +61,8 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
               !selectedCardList.includes(playingCard)
                 ? ''
                 : movementResult.value
-                ? 'border-ct-success-200 shadow-ct-success-500'
-                : 'border-ct-error-200 shadow-ct-error-500'
+                ? 'border-ct-success-200 shadow-ct-success-400'
+                : 'border-ct-error-200 shadow-ct-error-400'
             }`}
             isFlip={
               clearedCardList.includes(playingCard) ||

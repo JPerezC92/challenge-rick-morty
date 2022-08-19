@@ -51,7 +51,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
 
       <Image
         className={`${
-          isFlip ? 'opacity-1 scale-100' : '-z-10 scale-0 opacity-0'
+          isFlip ? 'opacity-1 scale-100' : 'scale-0 opacity-0'
         } transition duration-500 ease-in-out`}
         src={image}
         alt="rick & morty card"

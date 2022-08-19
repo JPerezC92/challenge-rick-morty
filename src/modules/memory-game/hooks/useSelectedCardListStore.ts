@@ -15,6 +15,8 @@ export function useSelectedCardListStore() {
           : [...s, new PlayingCard(playingCard)]
       );
     },
+
+    clean: () => setSelectedCardList([]),
   });
 
   return { selectedCardList, selectedCardStore: selectedCardStore.current };

@@ -4,7 +4,7 @@ import { Text } from 'src/modules/shared/components/Text';
 type MemoryGameScoreProps = {
   className?: string;
   desc: string;
-  value: number | string;
+  value?: number | string;
 };
 
 export const MemoryGameScore: React.FC<MemoryGameScoreProps> = ({

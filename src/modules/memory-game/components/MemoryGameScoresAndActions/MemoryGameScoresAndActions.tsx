@@ -6,7 +6,7 @@ import { MemoryGameDialog } from 'src/modules/memory-game/components/MemoryGameD
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
 import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/MemoryGameRoundsCount';
-import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestartEvent';
+import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { Button } from 'src/modules/shared/components/Button';
 import { Icon } from 'src/modules/shared/components/Icon';
 
