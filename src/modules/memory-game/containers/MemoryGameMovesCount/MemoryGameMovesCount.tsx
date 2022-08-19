@@ -4,20 +4,22 @@ import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/Memo
 
 type MemoryGameMovesCountProps = {
   className?: string;
+  moveFinishedEvent: MemoryGameMoveFinishedEvent;
 };
 
 export const MemoryGameMovesCount: React.FC<MemoryGameMovesCountProps> = ({
   className = '',
+  moveFinishedEvent,
 }) => {
   const [movesCount, setMovesCount] = useState(0);
 
   useEffect(() => {
-    const cleanup = MemoryGameMoveFinishedEvent.listener((e) =>
+    const cleanup = moveFinishedEvent.listener((e) =>
       setMovesCount(e.movesCount)
     );
 
     return () => cleanup();
-  }, []);
+  }, [moveFinishedEvent]);
 
   return (
     <MemoryGameScore desc="Moves" value={movesCount} className={className} />

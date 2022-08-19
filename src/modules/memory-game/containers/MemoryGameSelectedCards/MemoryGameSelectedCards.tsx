@@ -29,21 +29,21 @@ export const CardSelected: React.FC<{ children: React.ReactNode }> = ({
 
 type MemoryGameSelectedCardsProps = {
   className?: string;
+  selectCardEvent: MemoryGameSelectCardEvent;
+  restartEvent: MemoryGameRestartEvent;
 };
 
 export const MemoryGameSelectedCards: React.FC<
   MemoryGameSelectedCardsProps
-> = ({ className = '' }) => {
+> = ({ className = '', selectCardEvent, restartEvent }) => {
   const { selectedCardList, selectedCardStore } = useSelectedCardListStore();
 
   React.useEffect(() => {
-    const selectCardCleanup = MemoryGameSelectCardEvent.listener(
-      (playingCard) => {
-        selectedCardStore.add(playingCard);
-      }
-    );
+    const selectCardCleanup = selectCardEvent.listener((playingCard) => {
+      selectedCardStore.add(playingCard);
+    });
 
-    const restartCleanup = MemoryGameRestartEvent.listener(() => {
+    const restartCleanup = restartEvent.listener(() => {
       selectedCardStore.clean();
     });
 
@@ -51,7 +51,7 @@ export const MemoryGameSelectedCards: React.FC<
       selectCardCleanup();
       restartCleanup();
     };
-  }, [selectedCardStore]);
+  }, [restartEvent, selectCardEvent, selectedCardStore]);
 
   return (
     <header

@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
+import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
 
@@ -19,7 +20,12 @@ const playingCard2 = new PlayingCard({
 
 describe('Test MemoryGameSelectedCards', () => {
   test('initial content should be empty', () => {
-    render(<MemoryGameSelectedCards />);
+    render(
+      <MemoryGameSelectedCards
+        selectCardEvent={MemoryGameSelectCardEvent}
+        restartEvent={MemoryGameRestartEvent}
+      />
+    );
 
     const paragraphList = screen.getAllByRole('paragraph');
 
@@ -29,7 +35,12 @@ describe('Test MemoryGameSelectedCards', () => {
   });
 
   test('should add one item', async () => {
-    render(<MemoryGameSelectedCards />);
+    render(
+      <MemoryGameSelectedCards
+        selectCardEvent={MemoryGameSelectCardEvent}
+        restartEvent={MemoryGameRestartEvent}
+      />
+    );
 
     act(() => {
       MemoryGameSelectCardEvent.trigger(playingCard1);
@@ -41,7 +52,12 @@ describe('Test MemoryGameSelectedCards', () => {
   });
 
   test('should add a second item', async () => {
-    render(<MemoryGameSelectedCards />);
+    render(
+      <MemoryGameSelectedCards
+        selectCardEvent={MemoryGameSelectCardEvent}
+        restartEvent={MemoryGameRestartEvent}
+      />
+    );
 
     act(() => {
       MemoryGameSelectCardEvent.trigger(playingCard1);
@@ -55,8 +71,13 @@ describe('Test MemoryGameSelectedCards', () => {
     expect(paragraph2).toHaveTextContent(playingCard2.name);
   });
 
-  test('when add a third item should replace the olds state', async () => {
-    render(<MemoryGameSelectedCards />);
+  test('when add a third item should replace the previous selections', async () => {
+    render(
+      <MemoryGameSelectedCards
+        selectCardEvent={MemoryGameSelectCardEvent}
+        restartEvent={MemoryGameRestartEvent}
+      />
+    );
 
     act(() => {
       MemoryGameSelectCardEvent.trigger(playingCard1);
@@ -68,6 +89,30 @@ describe('Test MemoryGameSelectedCards', () => {
 
     expect(paragraphList.length).toBe(2);
     expect(paragraphList[0]).toHaveTextContent(playingCard1.name);
+    expect(paragraphList[1]).toHaveTextContent('');
+  });
+
+  test('when the game is restarted should clear the selected cards', async () => {
+    render(
+      <MemoryGameSelectedCards
+        selectCardEvent={MemoryGameSelectCardEvent}
+        restartEvent={MemoryGameRestartEvent}
+      />
+    );
+
+    act(() => {
+      MemoryGameSelectCardEvent.trigger(playingCard1);
+      MemoryGameSelectCardEvent.trigger(playingCard2);
+    });
+
+    const paragraphList = screen.getAllByRole('paragraph');
+
+    act(() => {
+      MemoryGameRestartEvent.trigger();
+    });
+
+    expect(paragraphList.length).toBe(2);
+    expect(paragraphList[0]).toHaveTextContent('');
     expect(paragraphList[1]).toHaveTextContent('');
   });
 });

@@ -10,6 +10,7 @@ import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBo
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
 import { useMemoryGameConfigurationContext } from 'src/modules/memory-game/context/MemoryGameConfigurationContext/MemoryGameConfigurationContext';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
+import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { NextPageWithLayout } from 'src/pages/_app';
 
 const NewGamePage: NextPageWithLayout = () => {
@@ -51,7 +52,13 @@ const NewGamePage: NextPageWithLayout = () => {
     <>
       <main className="m-auto h-full max-w-7xl">
         <MemoryGameBoardOverlay
-          topBar={<MemoryGameSelectedCards className="sticky top-0" />}
+          topBar={
+            <MemoryGameSelectedCards
+              className="sticky top-0"
+              selectCardEvent={MemoryGameSelectCardEvent}
+              restartEvent={MemoryGameRestartEvent}
+            />
+          }
           board={
             !characterList.length || isLoading || isRefetching ? (
               <MemoryGameBoardSkeleton />

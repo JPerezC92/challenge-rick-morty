@@ -4,20 +4,20 @@ import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/Memo
 
 type MemoryGameAccuracyProps = {
   className?: string;
+  moveFinishedEvent: MemoryGameMoveFinishedEvent;
 };
 
 export const MemoryGameAccuracy: React.FC<MemoryGameAccuracyProps> = ({
   className = '',
+  moveFinishedEvent,
 }) => {
   const [accuracy, setAccuracy] = React.useState(0);
 
   React.useEffect(() => {
-    const cleanup = MemoryGameMoveFinishedEvent.listener((e) =>
-      setAccuracy(e.accuracy)
-    );
+    const cleanup = moveFinishedEvent.listener((e) => setAccuracy(e.accuracy));
 
     return () => cleanup();
-  }, []);
+  }, [moveFinishedEvent]);
 
   return (
     <MemoryGameScore className={className} desc="accuracy" value={accuracy} />
