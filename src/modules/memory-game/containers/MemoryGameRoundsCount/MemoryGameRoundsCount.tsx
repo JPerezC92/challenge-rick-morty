@@ -12,16 +12,18 @@ import { useRoundsCountQuery } from './useRoundsCountQuery';
 
 type MemoryGameRoundsCountProps = {
   className?: string;
+  gameOverEvent: MemoryGameGameOverEvent;
 };
 
 export const MemoryGameRoundsCount: React.FC<MemoryGameRoundsCountProps> = ({
   className = '',
+  gameOverEvent,
 }) => {
   const qc = useQueryClient();
   const { roundsCount, isLoading } = useRoundsCountQuery();
 
   React.useEffect(() => {
-    const cleanup = MemoryGameGameOverEvent.listener(() => {
+    const cleanup = gameOverEvent.listener(() => {
       qc.setQueryData<Counter>(MemoryGameQueryKeys.roundsCount(), (c) => {
         const roundsCount = c?.increment();
 
@@ -33,8 +35,9 @@ export const MemoryGameRoundsCount: React.FC<MemoryGameRoundsCountProps> = ({
         return roundsCount;
       });
     });
+
     return () => cleanup();
-  }, [qc]);
+  }, [gameOverEvent, qc]);
 
   if (isLoading) {
     return <MemoryGameScoreSkeleton />;

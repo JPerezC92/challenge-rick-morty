@@ -13,7 +13,7 @@ describe('test <MemoryGameAccuracy />', () => {
     expect(accuracy).toHaveTextContent('0');
   });
 
-  test('initial content should be "0"', async () => {
+  test('when the move finished should update the accuracy', async () => {
     render(
       <MemoryGameAccuracy moveFinishedEvent={MemoryGameMoveFinishedEvent} />
     );

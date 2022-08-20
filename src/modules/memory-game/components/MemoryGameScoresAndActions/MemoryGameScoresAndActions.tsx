@@ -6,6 +6,7 @@ import { MemoryGameDialog } from 'src/modules/memory-game/components/MemoryGameD
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
 import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/MemoryGameRoundsCount';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { Button } from 'src/modules/shared/components/Button';
@@ -27,7 +28,7 @@ export const MemoryGameScoresAndActions: React.FC<
       <div className="grid rotate-180 grid-cols-5 gap-1 p-1 sm:gap-x-10 sm:p-3">
         <MemoryGameMovesCount moveFinishedEvent={MemoryGameMoveFinishedEvent} />
         <MemoryGameAccuracy moveFinishedEvent={MemoryGameMoveFinishedEvent} />
-        <MemoryGameRoundsCount />
+        <MemoryGameRoundsCount gameOverEvent={MemoryGameGameOverEvent} />
 
         <MemoryGameDialog
           trigger={
