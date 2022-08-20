@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { TbDoorExit } from 'react-icons/tb';
-import { VscDebugRestart } from 'react-icons/vsc';
 import { MemoryGameDialog } from 'src/modules/memory-game/components/MemoryGameDialog';
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
+import { MemoryGameRestartButton } from 'src/modules/memory-game/containers/MemoryGameRestartButton';
 import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/MemoryGameRoundsCount';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
@@ -29,20 +29,7 @@ export const MemoryGameScoresAndActions: React.FC<
         <MemoryGameMovesCount moveFinishedEvent={MemoryGameMoveFinishedEvent} />
         <MemoryGameAccuracy moveFinishedEvent={MemoryGameMoveFinishedEvent} />
         <MemoryGameRoundsCount gameOverEvent={MemoryGameGameOverEvent} />
-
-        <MemoryGameDialog
-          trigger={
-            <Button secondary outline>
-              <Icon Icon={VscDebugRestart} />{' '}
-              <span className="hidden md:inline">Restart</span>
-            </Button>
-          }
-          title="Are you sure you want to restart?"
-          onConfirm={(close) => {
-            close();
-            MemoryGameRestartEvent.trigger();
-          }}
-        />
+        <MemoryGameRestartButton restartEvent={MemoryGameRestartEvent} />
 
         <MemoryGameDialog
           trigger={
