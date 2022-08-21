@@ -1,32 +1,32 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
+import { PlayingCard as PlayingCardModel } from 'src/modules/memory-game/models/PlayingCard';
 
-type CharacterCardProps = Omit<
+type MemoryGamePlayingCardProps = Omit<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >,
   'onClick'
 > & {
-  playingCard: PlayingCard;
+  playingCardModel: PlayingCardModel;
   isFlip?: boolean;
-  onClick?: (playingCard: PlayingCard) => void;
+  onClick?: (playingCard: PlayingCardModel) => void;
 };
 
-export const CharacterCard: React.FC<CharacterCardProps> = ({
+export const MemoryGamePlayingCard: React.FC<MemoryGamePlayingCardProps> = ({
   className,
   disabled,
   isFlip,
   onClick,
-  playingCard,
+  playingCardModel,
   ...props
 }) => {
-  const { image } = playingCard;
+  const { image } = playingCardModel;
 
   const handleOnClick = () => {
-    onClick?.(playingCard);
+    onClick?.(playingCardModel);
   };
 
   return (
@@ -38,11 +38,12 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       {...props}
     >
       <Image
+        role={isFlip ? 'none' : 'presentation'}
         className={`${
           isFlip ? 'scale-0 opacity-0' : 'opacity-1 scale-100'
         } transition duration-500 ease-in-out`}
         src="/card-backface.webp"
-        alt="rick & morty card"
+        alt="rick & morty card backface"
         objectFit="cover"
         objectPosition="center"
         priority
@@ -50,6 +51,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       />
 
       <Image
+        role={!isFlip ? 'none' : 'presentation'}
         className={`${
           isFlip ? 'opacity-1 scale-100' : 'scale-0 opacity-0'
         } transition duration-500 ease-in-out`}

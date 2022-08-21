@@ -1,0 +1,1 @@
+export { MemoryGamePlayingCard } from './MemoryGamePlayingCard';

@@ -1,12 +1,12 @@
 import React from 'react';
-import { CharacterCard } from 'src/modules/characters/containers/CharacterCard';
 import { Character } from 'src/modules/characters/models/Character';
+import { MemoryGamePlayingCard } from 'src/modules/memory-game/containers/MemoryGamePlayingCard';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { useMemoryGame } from 'src/modules/memory-game/hooks/useMemoryGame';
 import { MovementResult } from 'src/modules/memory-game/models/MovementResult';
-import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
+import { PlayingCard as PlayingCardModel } from 'src/modules/memory-game/models/PlayingCard';
 
 type MemoryGameBoardProps = {
   className?: string;
@@ -18,18 +18,18 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   characterList,
 }) => {
   const {
+    accuracy,
+    clearedCardList,
     handleSelectCard,
     isGameOver,
-    movementResult,
     isValidatingSelection,
+    movementResult,
     movesCount,
-    accuracy,
     playingCardList,
     selectedCardList,
-    clearedCardList,
   } = useMemoryGame(characterList);
 
-  const handlePlayingCardClic = (playingCard: PlayingCard) => {
+  const handlePlayingCardClic = (playingCard: PlayingCardModel) => {
     handleSelectCard(playingCard);
     MemoryGameSelectCardEvent.trigger(playingCard);
   };
@@ -48,8 +48,8 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
     >
       {playingCardList?.map((playingCard) => (
         <li key={playingCard.boardId} className="inline-flex w-full">
-          <CharacterCard
-            playingCard={playingCard}
+          <MemoryGamePlayingCard
+            playingCardModel={playingCard}
             onClick={handlePlayingCardClic}
             disabled={
               isValidatingSelection ||

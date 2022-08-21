@@ -2,21 +2,10 @@ import { act, render, screen } from '@testing-library/react';
 import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
-import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
-
-const playingCard1 = new PlayingCard({
-  boardId: '123',
-  id: 1,
-  image: 'src',
-  name: 'Rick',
-});
-
-const playingCard2 = new PlayingCard({
-  boardId: '321',
-  id: 2,
-  image: 'src',
-  name: 'Morty',
-});
+import {
+  playingCard1,
+  playingCard2,
+} from '__TEST__/modules/memory-game/fixtures/playingCard.fixture';
 
 describe('Test MemoryGameSelectedCards', () => {
   test('initial content should be empty', () => {
