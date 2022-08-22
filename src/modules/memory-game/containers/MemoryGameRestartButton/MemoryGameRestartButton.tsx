@@ -1,6 +1,6 @@
 import React from 'react';
 import { VscDebugRestart } from 'react-icons/vsc';
-import { MemoryGameDialog } from 'src/modules/memory-game/components/MemoryGameDialog';
+import { MemoryGameDialog } from 'src/modules/memory-game/containers/MemoryGameDialog';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { Button } from 'src/modules/shared/components/Button';
 import { Icon } from 'src/modules/shared/components/Icon';

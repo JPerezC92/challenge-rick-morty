@@ -12,7 +12,7 @@ type MemoryGameDialogProps = {
     close: () => void,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
-  onClose?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 export const MemoryGameDialog: React.FC<MemoryGameDialogProps> = ({
@@ -21,7 +21,7 @@ export const MemoryGameDialog: React.FC<MemoryGameDialogProps> = ({
   title,
   description,
   onConfirm,
-  onClose,
+  onCancel,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -49,7 +49,7 @@ export const MemoryGameDialog: React.FC<MemoryGameDialogProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <DialogPrimitives.Close asChild>
-              <Button tertiary outline onClick={onClose}>
+              <Button tertiary outline onClick={onCancel}>
                 Cancel
               </Button>
             </DialogPrimitives.Close>
