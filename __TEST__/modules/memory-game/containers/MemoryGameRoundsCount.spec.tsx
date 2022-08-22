@@ -1,25 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  act,
-  prettyDOM,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { MemoryGameRoundsCount } from 'src/modules/memory-game/containers/MemoryGameRoundsCount';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameLSKeys } from 'src/modules/memory-game/service/MemoryGameLSKeys';
 import { LocalStorageService } from 'src/modules/shared/service/LocalStorageSservice';
-
-function queryClientWrapper(): React.FC<{ children: React.ReactElement }> {
-  const queryClient = new QueryClient();
-
-  return function QueryClientWrapper({ children }) {
-    return (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-  };
-}
+import { queryClientWrapper } from '__TEST__/modules/memory-game/fixtures/queryClientWrapper.fixture';
 
 LocalStorageService.setItem = jest.fn();
 LocalStorageService.getItem = jest
@@ -60,8 +44,6 @@ describe('Test <MemoryGameRoundsCount />', () => {
     act(() => MemoryGameGameOverEvent.trigger());
 
     await waitFor(() => screen.getByText(/1/i));
-
-    // console.log(prettyDOM(rounds));
 
     expect(rounds).toHaveTextContent('1');
     expect(LocalStorageService.setItem).toHaveBeenCalledTimes(1);

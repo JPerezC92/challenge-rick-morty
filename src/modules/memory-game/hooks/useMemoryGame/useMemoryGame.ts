@@ -8,7 +8,7 @@ import {
   memoryGameReducer,
 } from './memoryGameReducer';
 
-export function useMemoryGame(characterList: Character[]) {
+export const useMemoryGame = (characterList: Character[]) => {
   const [gameState, gameDispatch] = React.useReducer(
     memoryGameReducer,
     gameInitialState,
@@ -45,4 +45,4 @@ export function useMemoryGame(characterList: Character[]) {
     selectedCardList: gameState.selectedCardList,
     handleSelectCard,
   };
-}
+};

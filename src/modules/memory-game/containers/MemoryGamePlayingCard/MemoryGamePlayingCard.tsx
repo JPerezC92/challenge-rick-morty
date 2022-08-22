@@ -18,7 +18,7 @@ type MemoryGamePlayingCardProps = Omit<
 export const MemoryGamePlayingCard: React.FC<MemoryGamePlayingCardProps> = ({
   className,
   disabled,
-  isFlip,
+  isFlip = false,
   onClick,
   playingCardModel,
   ...props

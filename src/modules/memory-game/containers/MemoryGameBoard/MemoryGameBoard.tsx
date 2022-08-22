@@ -11,11 +11,17 @@ import { PlayingCard as PlayingCardModel } from 'src/modules/memory-game/models/
 type MemoryGameBoardProps = {
   className?: string;
   characterList: Character[];
+  gameOverEvent: MemoryGameGameOverEvent;
+  moveFinishedEvent: MemoryGameMoveFinishedEvent;
+  selectCardEvent: MemoryGameSelectCardEvent;
 };
 
 export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   className = '',
   characterList,
+  gameOverEvent,
+  moveFinishedEvent,
+  selectCardEvent,
 }) => {
   const {
     accuracy,
@@ -31,16 +37,18 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
 
   const handlePlayingCardClic = (playingCard: PlayingCardModel) => {
     handleSelectCard(playingCard);
-    MemoryGameSelectCardEvent.trigger(playingCard);
+    selectCardEvent.trigger(playingCard);
   };
 
   React.useEffect(() => {
-    MemoryGameMoveFinishedEvent.trigger({ movesCount, accuracy });
-  }, [accuracy, movesCount]);
+    if (!accuracy || !movesCount) return;
+    moveFinishedEvent.trigger({ movesCount, accuracy });
+  }, [accuracy, moveFinishedEvent, movesCount]);
 
   React.useEffect(() => {
-    isGameOver && MemoryGameGameOverEvent.trigger();
-  }, [isGameOver]);
+    if (!isGameOver) return;
+    gameOverEvent.trigger();
+  }, [gameOverEvent, isGameOver]);
 
   return (
     <ul
@@ -49,6 +57,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
       {playingCardList?.map((playingCard) => (
         <li key={playingCard.boardId} className="inline-flex w-full">
           <MemoryGamePlayingCard
+            data-testid={playingCard.id}
             playingCardModel={playingCard}
             onClick={handlePlayingCardClic}
             disabled={

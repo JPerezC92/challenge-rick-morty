@@ -8,7 +8,7 @@ const cardImgSrc =
 
 const handleOnClick = jest.fn();
 
-describe('Test <PlayingCard />', () => {
+describe('Test <MemoryGamePlayingCard />', () => {
   test('on the initial render the backface should be visible', () => {
     render(<MemoryGamePlayingCard playingCardModel={playingCard1} />);
 
