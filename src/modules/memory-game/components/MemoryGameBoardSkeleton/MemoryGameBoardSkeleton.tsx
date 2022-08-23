@@ -11,6 +11,7 @@ export const MemoryGameBoardSkeleton: React.FC<
 
   return (
     <ul
+      role="progressbar"
       className={`grid w-full grid-cols-3 place-content-center gap-4 py-4 px-2 sm:grid-cols-4 lg:grid-cols-6 ${className}`}
     >
       {Array(12)

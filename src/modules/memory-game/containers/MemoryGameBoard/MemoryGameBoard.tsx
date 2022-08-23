@@ -41,9 +41,9 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   };
 
   React.useEffect(() => {
-    if (!accuracy || !movesCount) return;
+    if (MovementResult.isMovementResult(movementResult)) return;
     moveFinishedEvent.trigger({ movesCount, accuracy });
-  }, [accuracy, moveFinishedEvent, movesCount]);
+  }, [accuracy, moveFinishedEvent, movementResult, movesCount]);
 
   React.useEffect(() => {
     if (!isGameOver) return;

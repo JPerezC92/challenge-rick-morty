@@ -32,7 +32,7 @@ describe('Test <MemoryGameRoundsCount />', () => {
     );
   });
 
-  test('initial content should be "0"', async () => {
+  test('when a game over event is triggered the count of rounds should be increased', async () => {
     render(<MemoryGameRoundsCount gameOverEvent={MemoryGameGameOverEvent} />, {
       wrapper: queryClientWrapper(),
     });

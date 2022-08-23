@@ -22,6 +22,11 @@ export const MemoryGameMovesCount: React.FC<MemoryGameMovesCountProps> = ({
   }, [moveFinishedEvent]);
 
   return (
-    <MemoryGameScore desc="Moves" value={movesCount} className={className} />
+    <MemoryGameScore
+      data-testid={'moves-count'}
+      desc="Moves"
+      value={movesCount}
+      className={className}
+    />
   );
 };

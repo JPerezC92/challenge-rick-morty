@@ -45,6 +45,7 @@ export const MemoryGameRoundsCount: React.FC<MemoryGameRoundsCountProps> = ({
 
   return (
     <MemoryGameScore
+      data-testid="rounds-count"
       className={`${className}`}
       desc="rounds"
       value={roundsCount?.value}

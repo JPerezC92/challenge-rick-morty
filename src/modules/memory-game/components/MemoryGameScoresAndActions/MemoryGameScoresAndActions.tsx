@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
 import { MemoryGameExitButton } from 'src/modules/memory-game/containers/MemoryGameExitButton';

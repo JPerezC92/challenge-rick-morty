@@ -2,6 +2,7 @@ import React from 'react';
 import { Character } from 'src/modules/characters/models/Character';
 import { Board } from 'src/modules/memory-game/models/Board';
 import { PlayingCard } from 'src/modules/memory-game/models/PlayingCard';
+import { isTest } from 'src/modules/shared/utils/nodeEnv';
 import {
   gameActions,
   gameInitialState,
@@ -26,10 +27,13 @@ export const useMemoryGame = (characterList: Character[]) => {
 
     gameDispatch(gameActions.validateSelection());
 
-    const id = setTimeout(() => {
-      gameDispatch(gameActions.clearSelectedCard());
-      window.clearTimeout(id);
-    }, 1000);
+    const id = setTimeout(
+      () => {
+        gameDispatch(gameActions.clearSelectedCard());
+        window.clearTimeout(id);
+      },
+      isTest() ? 0 : 1000
+    );
 
     return () => window.clearTimeout(id);
   }, [gameState.isValidatingSelection]);

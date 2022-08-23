@@ -4,8 +4,8 @@ jest.mock('src/modules/memory-game/hooks/useMemoryGame/useMemoryGame', () => {
   );
 
   return {
-    __esModule: true,
     ...original,
+    __esModule: true,
     useMemoryGame: jest
       .fn()
       .mockImplementation(original.useMemoryGame)

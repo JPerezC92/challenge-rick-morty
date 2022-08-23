@@ -1,7 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
-import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
 import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/MemoryGameBoardOverlay';
 import { MemoryGameBoardSkeleton } from 'src/modules/memory-game/components/MemoryGameBoardSkeleton';
 import { MemoryGameLayout } from 'src/modules/memory-game/components/MemoryGameLayout';
@@ -13,32 +11,17 @@ import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGa
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
+import { useCharacterListQuery } from 'src/modules/memory-game/hooks/useCharacterListQuery';
 import { NextPageWithLayout } from 'src/pages/_app';
 
 const NewGamePage: NextPageWithLayout = () => {
   const { boardSize } = useMemoryGameConfigurationContext();
   const {
-    data: characterList = [],
-    refetch: characterListRefetch,
+    characterList = [],
+    characterListRefetch,
     isRefetching,
     isLoading,
-  } = useQuery(
-    ['characterList', boardSize],
-    async ({ signal }) => {
-      const apiCharactersRepository = ApiCharactersRepository(signal);
-
-      const charactersCount = await apiCharactersRepository.getCount();
-
-      const characterList =
-        await apiCharactersRepository.getRamdomCharacterList({
-          count: charactersCount,
-          limit: boardSize / 2,
-        });
-
-      return characterList || [];
-    },
-    { refetchOnWindowFocus: false, refetchInterval: false }
-  );
+  } = useCharacterListQuery(boardSize);
 
   React.useEffect(() => {
     const restartCleanup = MemoryGameRestartEvent.listener(() =>

@@ -20,6 +20,11 @@ export const MemoryGameAccuracy: React.FC<MemoryGameAccuracyProps> = ({
   }, [moveFinishedEvent]);
 
   return (
-    <MemoryGameScore className={className} desc="accuracy" value={accuracy} />
+    <MemoryGameScore
+      data-testid="accuracy"
+      className={className}
+      desc="accuracy"
+      value={accuracy}
+    />
   );
 };
