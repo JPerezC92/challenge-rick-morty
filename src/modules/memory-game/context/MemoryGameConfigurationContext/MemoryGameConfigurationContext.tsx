@@ -40,7 +40,7 @@ export const MemoryGameConfigurationProvider: React.FC<
 > = ({ children }) => {
   const qc = useQueryClient();
 
-  const { boardSize, isLoading } = useConfigurationQuery(sizeStorageKey);
+  const { boardSize, isLoading } = useConfigurationQuery();
 
   const setBoardSizeRef = React.useRef((boardSize: BoardSize) => {
     LocalStorageService.setItem(

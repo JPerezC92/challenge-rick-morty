@@ -15,13 +15,17 @@ import { useCharacterListQuery } from 'src/modules/memory-game/hooks/useCharacte
 import { NextPageWithLayout } from 'src/pages/_app';
 
 const NewGamePage: NextPageWithLayout = () => {
-  const { boardSize } = useMemoryGameConfigurationContext();
+  const { boardSize, isLoading: configurationIsLoading } =
+    useMemoryGameConfigurationContext();
+
+  console.log({ boardSize });
+
   const {
     characterList = [],
     characterListRefetch,
     isRefetching,
     isLoading,
-  } = useCharacterListQuery(boardSize);
+  } = useCharacterListQuery({ boardSize, enabled: !configurationIsLoading });
 
   React.useEffect(() => {
     const restartCleanup = MemoryGameRestartEvent.listener(() =>

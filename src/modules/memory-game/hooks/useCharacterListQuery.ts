@@ -7,7 +7,15 @@ export type UseCharacterListQueryResult = ReturnType<
   typeof useCharacterListQuery
 >;
 
-export function useCharacterListQuery(boardSize: BoardSize) {
+interface CharacterListQueryProps {
+  boardSize: BoardSize;
+  enabled?: boolean;
+}
+
+export function useCharacterListQuery({
+  boardSize,
+  enabled,
+}: CharacterListQueryProps) {
   const { data, refetch, ...props } = useQuery(
     MemoryGameQueryKeys.characterList(boardSize),
     async ({ signal }) => {
@@ -23,8 +31,12 @@ export function useCharacterListQuery(boardSize: BoardSize) {
 
       return characterList || [];
     },
-    { refetchOnWindowFocus: false, refetchInterval: false }
+    { refetchOnWindowFocus: false, refetchInterval: false, enabled }
   );
 
-  return { characterList: data, characterListRefetch: refetch, ...props };
+  return {
+    characterList: data,
+    characterListRefetch: refetch,
+    ...props,
+  };
 }
