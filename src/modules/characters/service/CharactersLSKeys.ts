@@ -1,0 +1,3 @@
+export enum CharactersLSKeys {
+  PREVIEW_PAGINATION = 'CHARACTERS_PREVIEW_PAGINATION',
+}

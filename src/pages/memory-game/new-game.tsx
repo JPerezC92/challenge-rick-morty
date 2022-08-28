@@ -18,8 +18,6 @@ const NewGamePage: NextPageWithLayout = () => {
   const { boardSize, isLoading: configurationIsLoading } =
     useMemoryGameConfigurationContext();
 
-  console.log({ boardSize });
-
   const {
     characterList = [],
     characterListRefetch,

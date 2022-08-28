@@ -21,6 +21,7 @@ const MemoryGamePage: NextPageWithLayout = () => {
         ) : (
           <>
             <Button
+              l1
               primary
               className="m-auto block w-full max-w-xs"
               onClick={() => router.push(MemoryGameRoutes.newGamePath)}
@@ -29,6 +30,7 @@ const MemoryGamePage: NextPageWithLayout = () => {
             </Button>
 
             <Button
+              l1
               primary
               className="m-auto block w-full max-w-xs"
               onClick={() => router.push(EnvironmentVariable.WEB_URL)}

@@ -16,7 +16,7 @@ export const CardSelected: React.FC<{ children: React.ReactNode }> = ({
       className="inline-flex items-center justify-center gap-x-1 truncate text-ct-primary-300"
     >
       <Icon
-        Icon={TbPlayCard}
+        as={TbPlayCard}
         className={` ${!!children ? 'visible' : 'invisible'}`}
       />
 

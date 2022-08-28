@@ -1,10 +1,11 @@
+import { Status } from 'src/modules/characters/models/Status';
 import { z } from 'zod';
 import { OriginOrLocationScheme } from './OriginOrLocation.schema';
 
 export const CharacterEndpointSchema = z.object({
   id: z.number(),
   name: z.string(),
-  status: z.string(),
+  status: z.nativeEnum(Status),
   species: z.string(),
   type: z.string(),
   gender: z.string(),

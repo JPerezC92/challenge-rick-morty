@@ -1,0 +1,1 @@
+export {CharactersPreviewCardSkeleton} from './CharactersPreviewCardSkeleton'

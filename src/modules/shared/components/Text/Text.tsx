@@ -7,6 +7,7 @@ const enum TextVariant {
 
 type HTMLTag = `${keyof Pick<
   JSX.IntrinsicElements,
+  | 'button'
   // Text content
   | 'blockquote'
   | 'dd'
@@ -91,6 +92,7 @@ export const Text: <T extends HTMLTag>(
   if (l1) {
     return (
       <Tag
+        {...props}
         className={`font-nunito text-base leading-[150%] sm:text-lg ${
           variant && variant === TextVariant.LIGHT_WEIGTH
             ? 'font-medium tracking-[0%]'
@@ -98,7 +100,6 @@ export const Text: <T extends HTMLTag>(
             ? 'font-semibold uppercase tracking-[24%]'
             : 'font-semibold tracking-[0%]'
         } ${className}`}
-        {...props}
       />
     );
   }
@@ -106,12 +107,12 @@ export const Text: <T extends HTMLTag>(
   if (l2) {
     return (
       <Tag
+        {...props}
         className={`font-nunito text-xs font-semibold leading-[150%] sm:text-sm ${
           variant && variant === TextVariant.ALL_CAPS
             ? 'uppercase tracking-[5%] sm:tracking-[0%]'
             : 'tracking-[0%]'
         } ${className}`}
-        {...props}
       />
     );
   }

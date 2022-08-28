@@ -16,8 +16,8 @@ export const MemoryGameRestartButton: React.FC<
   return (
     <MemoryGameDialog
       trigger={
-        <Button secondary outline className={className}>
-          <Icon Icon={VscDebugRestart} />{' '}
+        <Button l1 secondary outline className={className}>
+          <Icon as={VscDebugRestart} />{' '}
           <span className="hidden md:inline">Restart</span>
         </Button>
       }

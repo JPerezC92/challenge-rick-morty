@@ -17,8 +17,8 @@ export const MemoryGameExitButton: React.FC<MemoryGameExitButtonProps> = ({
   return (
     <MemoryGameDialog
       trigger={
-        <Button tertiary outline className={className}>
-          <Icon Icon={TbDoorExit} />{' '}
+        <Button l1 tertiary outline className={className}>
+          <Icon as={TbDoorExit} />{' '}
           <span className="hidden md:inline">Exit</span>
         </Button>
       }

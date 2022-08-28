@@ -1,10 +1,7 @@
 import React from 'react';
 import { Text } from 'src/modules/shared/components/Text';
 
-type ButtonProps = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & {
+type ButtonProps = Parameters<typeof Text<'button'>>[0] & {
   primary?: boolean;
   secondary?: boolean;
   tertiary?: boolean;
@@ -26,16 +23,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const background =
       primary && !outline
-        ? 'border-2 border-ct-primary-400 bg-ct-primary-600 text-ct-neutral-ligth-500 shadow-ct-primary-600 hover:bg-ct-primary-400 hover:text-ct-neutral-ligth-200'
+        ? 'border border-ct-primary-500 bg-ct-primary-600 text-ct-special-ligth-100 shadow-ct-primary-600 hover:bg-ct-primary-700'
         : secondary && !outline
-        ? 'bg-ct-info-400/50 text-ct-error-700 hover:text-ct-error-400 hover:bg-ct-info-400/90'
+        ? 'border border-ct-secondary-500 bg-ct-secondary-600 text-ct-special-ligth-100 shadow-ct-secondary-600 hover:bg-ct-secondary-700'
         : tertiary && !outline
-        ? 'bg-cyan-400/50 hover:bg-cyan-400'
+        ? 'border border-ct-error-500 bg-ct-error-600 text-ct-special-ligth-100 shadow-ct-error-600 hover:bg-ct-error-700'
         : '';
 
     const outlineColor =
       primary && outline
-        ? 'border border-teal-400/50 hover:border-teal-400 hover:bg-teal-500/5'
+        ? 'border bg-ct-primary-800/80 border-ct-primary-500/50 border-2 text-ct-primary-500 hover:border-ct-primary-500 hover:text-ct-primary-300 hover:bg-ct-primary-700/80'
         : secondary && outline
         ? 'border bg-ct-secondary-800/80 border-ct-secondary-500/50 border-2 text-ct-secondary-500 hover:border-ct-secondary-500 hover:text-ct-secondary-300 hover:bg-ct-secondary-700/80'
         : tertiary && outline
@@ -43,13 +40,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         : '';
 
     return (
-      <button
+      <Text
+        as="button"
         className={`whitespace-nowrap rounded-lg p-2 shadow-sm transition-all ease-in-out disabled:pointer-events-none disabled:border-gray-400 disabled:opacity-60 ${background} ${outlineColor} ${className}`}
         {...props}
         ref={ref}
       >
-        <Text l1>{children}</Text>
-      </button>
+        {children}
+      </Text>
     );
   }
 );
