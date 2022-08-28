@@ -1,8 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { CharacterPreview } from 'src/modules/characters/dto/CharacterPreview';
+import { CharactersRoutes } from 'src/modules/characters/models/routes';
 import { Status } from 'src/modules/characters/models/Status';
+import { Heading } from 'src/modules/shared/components/Heading';
 import { Text } from 'src/modules/shared/components/Text';
+import { Tooltip } from 'src/modules/shared/components/Tooltip';
 
 type CharactersPreviewCardProps = {
   className?: string;
@@ -30,16 +34,15 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
         <Image alt={name} layout="fill" priority objectFit="cover" src={img} />
       </picture>
 
-      <div className="p-4">
+      <div className="overflow-hidden px-2 py-2 sm:p-4">
         <header>
-          <Text
-            l1
-            variant="ALL_CAPS"
-            className="truncate bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text font-extrabold tracking-wide text-transparent"
-            as="p"
-          >
-            {name}
-          </Text>
+          <Tooltip content={name}>
+            <Heading card as="h3" className="truncate overflow-ellipsis">
+              <Link href={CharactersRoutes.characterId(id)}>
+                <a>{name}</a>
+              </Link>
+            </Heading>
+          </Tooltip>
 
           <Text
             l2
@@ -69,11 +72,14 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
               <Text
                 l1
                 variant="LIGHT_WEIGTH"
-                className="text-ct-neutral-medium-100"
-                title={v.value}
+                className="truncate text-ct-neutral-medium-100"
+                as="p"
               >
                 <b className="capitalize">{v.description}: </b>
-                {v.value}
+
+                <Tooltip content={v.value}>
+                  <span>{v.value}</span>
+                </Tooltip>
               </Text>
             </li>
           ))}

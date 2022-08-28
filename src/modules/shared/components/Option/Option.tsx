@@ -16,7 +16,11 @@ export const Option: React.FC<OptionProps> = ({
   return (
     <SelectPrimitive.SelectItem value={value.toString()}>
       <SelectPrimitive.SelectItemText>
-        <Text as="div" l1 className={`select-none px-1 py-2 ${className}`}>
+        <Text
+          as="div"
+          l1
+          className={`select-none px-1 py-2 font-semibold ${className}`}
+        >
           {children}
         </Text>
       </SelectPrimitive.SelectItemText>

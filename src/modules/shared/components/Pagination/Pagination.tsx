@@ -40,7 +40,6 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       <Select value={currentPage.toString()} onChange={onChangePage}>
         {range(pages || currentPage).map((v) => (
-          // {range(!pages || pages < currentPage ? currentPage : pages).map((v) => (
           <Option
             key={v}
             value={v + 1}

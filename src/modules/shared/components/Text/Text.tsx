@@ -98,7 +98,7 @@ export const Text: <T extends HTMLTag>(
             ? 'font-medium tracking-[0%]'
             : variant === TextVariant.ALL_CAPS
             ? 'font-semibold uppercase tracking-[24%]'
-            : 'font-semibold tracking-[0%]'
+            : 'tracking-[0%]'
         } ${className}`}
       />
     );
