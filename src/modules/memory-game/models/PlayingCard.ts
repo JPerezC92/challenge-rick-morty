@@ -1,6 +1,6 @@
 import { Character } from 'src/modules/characters/models/Character';
 
-export class PlayingCard implements Character {
+export class PlayingCard implements Pick<Character, 'id' | 'name' | 'image'> {
   boardId: string;
   id: number;
   name: string;

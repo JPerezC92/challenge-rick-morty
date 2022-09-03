@@ -8,7 +8,7 @@ export function useCharacterPreviewQuery(
     enabled?: boolean;
   }
 ) {
-  const { data, ...props } = useQuery(
+  return useQuery(
     CharactersQueryKeys.characterList(page),
     async ({ signal }) => {
       const charactersRepository = ApiCharactersRepository(signal);
@@ -23,6 +23,4 @@ export function useCharacterPreviewQuery(
       initialData: { characterPreviewList: [], pages: 0 },
     }
   );
-
-  return { data, ...props };
 }

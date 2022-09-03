@@ -30,11 +30,17 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
           : 'border-ct-neutral-dark-300 shadow-ct-neutral-dark-400'
       } ${className}`}
     >
-      <picture className="relative">
-        <Image alt={name} layout="fill" priority objectFit="cover" src={img} />
-      </picture>
+      <div className="relative grid bg-ct-primary-100">
+        <Image
+          alt={name}
+          className="object-cover object-top"
+          layout="fill"
+          priority
+          src={img}
+        />
+      </div>
 
-      <div className="overflow-hidden px-2 py-2 sm:p-4">
+      <div className="overflow-hidden px-2 py-4 sm:p-4">
         <header>
           <Tooltip content={name}>
             <Heading card as="h3" className="truncate overflow-ellipsis">

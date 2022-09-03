@@ -10,4 +10,5 @@ export interface CharactersRepository {
   getCharacterList(
     page?: number
   ): Promise<{ characterPreviewList: CharacterPreview[]; pages: number }>;
+  findById: (id: string | number) => Promise<Character>;
 }

@@ -31,7 +31,7 @@ export const Select: React.FC<SelectProps> = ({
         </SelectPrimitive.Icon>
       </SelectPrimitive.SelectTrigger>
 
-      <SelectPrimitive.Portal>
+      <SelectPrimitive.Portal className="z-10">
         <SelectPrimitive.Content className="h-56 min-h-[14rem] w-full overflow-auto rounded-lg border border-ct-neutral-dark-400 bg-ct-neutral-dark-800">
           <ScrollAreaPrimitive.ScrollArea
             type="auto"

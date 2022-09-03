@@ -1,5 +1,6 @@
 import { CharacterEndpointToDomain } from 'src/modules/characters/adapters/CharacterEndpointToDomain';
 import { CharacterEndpointToPreview } from 'src/modules/characters/adapters/CharacterEndpointToPreview';
+import { CharacterEndpointSchema } from 'src/modules/characters/dto/CharacterEndpoint';
 import {
   CharacterGetEndpoint,
   CharacterGetEndpointSchema,
@@ -61,6 +62,16 @@ export const ApiCharactersRepository: Repository<CharactersRepository> = (
         ),
         pages: validatedResult.info.pages,
       };
+    },
+
+    findById: async (id): Promise<Character> => {
+      const response = await fetch(baseUrl + `/${id}`);
+
+      const result = await response.json();
+
+      const validatedResult = CharacterEndpointSchema.parse(result);
+
+      return CharacterEndpointToDomain(validatedResult);
     },
   };
 };

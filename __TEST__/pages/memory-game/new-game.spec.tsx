@@ -11,17 +11,19 @@ jest.mock('src/modules/memory-game/hooks/useCharacterListQuery', () => {
   };
 });
 
-import {
-  fireEvent,
-  prettyDOM,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as useCharacterListQuery from 'src/modules/memory-game/hooks/useCharacterListQuery';
 import NewGamePage from 'src/pages/memory-game/new-game';
 import { characterList } from '__TEST__/modules/memory-game/fixtures/characterList.fixture';
 import { queryClientWrapper } from '__TEST__/modules/memory-game/fixtures/queryClientWrapper.fixture';
+
+window.ResizeObserver =
+  window.ResizeObserver ||
+  jest.fn().mockImplementation(() => ({
+    disconnect: jest.fn(),
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+  }));
 
 const characterListRefetch = jest.fn();
 

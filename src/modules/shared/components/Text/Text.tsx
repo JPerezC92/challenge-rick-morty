@@ -55,7 +55,7 @@ type HTMLTag = `${keyof Pick<
   | 'wbr'
 >}`;
 
-type TextProps<T> = T extends HTMLTag
+type TextProps<T extends string> = T extends HTMLTag
   ?
       | (JSX.IntrinsicElements[T] & {
           as?: T;
@@ -77,22 +77,20 @@ type TextProps<T> = T extends HTMLTag
         })
   : never;
 
-export const Text: <T extends HTMLTag>(
-  props: TextProps<T>
-) => React.ReactElement<TextProps<T>, T> = ({
-  l1,
-  l2,
-  variant,
-  as = '',
-  className = '',
-  ...props
-}) => {
-  const Tag = as || 'span';
+export const Text = React.forwardRef(function Text<
+  T extends HTMLTag,
+  P extends TextProps<T>
+>(
+  { l1, l2, variant, as = 'span', className = '', ...props }: P,
+  ref: P['ref']
+) {
+  const Tag = as as string;
+  const _props = { ...props, ref } as typeof props;
 
   if (l1) {
     return (
       <Tag
-        {...props}
+        {..._props}
         className={`font-nunito text-base leading-[150%] sm:text-lg ${
           variant && variant === TextVariant.LIGHT_WEIGTH
             ? 'font-medium tracking-[0%]'
@@ -107,7 +105,7 @@ export const Text: <T extends HTMLTag>(
   if (l2) {
     return (
       <Tag
-        {...props}
+        {..._props}
         className={`font-nunito text-xs font-semibold leading-[150%] sm:text-sm ${
           variant && variant === TextVariant.ALL_CAPS
             ? 'uppercase tracking-[5%] sm:tracking-[0%]'
@@ -117,5 +115,7 @@ export const Text: <T extends HTMLTag>(
     );
   }
 
-  return <Tag className={`${className}`} {...props} />;
-};
+  return <Tag className={`${className}`} {..._props} />;
+}) as <T extends HTMLTag>(
+  p: TextProps<T>
+) => React.ReactElement<TextProps<T>, T>;
