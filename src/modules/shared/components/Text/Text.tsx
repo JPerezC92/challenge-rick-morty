@@ -87,35 +87,24 @@ export const Text = React.forwardRef(function Text<
   const Tag = as as string;
   const _props = { ...props, ref } as typeof props;
 
-  if (l1) {
-    return (
-      <Tag
-        {..._props}
-        className={`font-nunito text-base leading-[150%] sm:text-lg ${
-          variant && variant === TextVariant.LIGHT_WEIGTH
-            ? 'font-medium tracking-[0%]'
-            : variant === TextVariant.ALL_CAPS
-            ? 'font-semibold uppercase tracking-[24%]'
-            : 'tracking-[0%]'
-        } ${className}`}
-      />
-    );
-  }
-
-  if (l2) {
-    return (
-      <Tag
-        {..._props}
-        className={`font-nunito text-xs font-semibold leading-[150%] sm:text-sm ${
-          variant && variant === TextVariant.ALL_CAPS
-            ? 'uppercase tracking-[5%] sm:tracking-[0%]'
-            : 'tracking-[0%]'
-        } ${className}`}
-      />
-    );
-  }
-
-  return <Tag className={`${className}`} {..._props} />;
+  return (
+    <Tag
+      {..._props}
+      className={`font-nunito ${
+        l1
+          ? 'text-base leading-[150%] sm:text-lg'
+          : l2
+          ? 'text-xs font-semibold leading-[150%] sm:text-sm'
+          : ''
+      } ${
+        variant && variant === TextVariant.LIGHT_WEIGTH
+          ? 'font-medium tracking-[0%]'
+          : variant === TextVariant.ALL_CAPS
+          ? 'font-semibold uppercase tracking-[24%]'
+          : 'tracking-[0%]'
+      } ${className}`}
+    />
+  );
 }) as <T extends HTMLTag>(
-  p: TextProps<T>
+  props: TextProps<T>
 ) => React.ReactElement<TextProps<T>, T>;

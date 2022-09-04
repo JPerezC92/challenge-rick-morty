@@ -1,8 +1,12 @@
 import React from 'react';
 
+enum ColorGradientVariant {
+  SPECIAL_1 = 'special1',
+}
+
 type HTMLTag = `${keyof Pick<
   JSX.IntrinsicElements,
-  'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'a'
 >}`;
 
 type HeadingProps<T> = T extends HTMLTag
@@ -15,85 +19,55 @@ type HeadingProps<T> = T extends HTMLTag
       l3?: boolean;
       card?: boolean;
       dialog?: boolean;
+      colorGradient?: `${ColorGradientVariant}`;
     }
   : never;
 
-export const Heading = React.forwardRef<
-  HTMLHeadingElement,
-  HeadingProps<HTMLTag>
+export const Heading = React.forwardRef(function Heading<
+  T extends HTMLTag,
+  P extends HeadingProps<T>
 >(
-  (
-    { className, children, as = 'h1', l1, l2, l3, dialog, card, ...props },
-    ref
-  ) => {
-    const HeadingTag = as;
+  {
+    as = 'h1',
+    card,
+    children,
+    className,
+    colorGradient,
+    dialog,
+    l1,
+    l2,
+    l3,
+    ...props
+  }: P,
+  ref: P['ref']
+) {
+  const HeadingTag = as as string;
+  const _props = { ...props, ref } as typeof props;
 
-    if (l1) {
-      return (
-        <HeadingTag
-          {...props}
-          className={`text-5xl font-black uppercase leading-[80%] md:text-7xl ${className}`}
-          ref={ref}
-        >
-          {children}
-        </HeadingTag>
-      );
-    }
-
-    if (l2) {
-      return (
-        <HeadingTag
-          {...props}
-          className={`text-4xl font-black uppercase leading-[80%] md:text-5xl ${className}`}
-          ref={ref}
-        >
-          {children}
-        </HeadingTag>
-      );
-    }
-
-    if (l3) {
-      return (
-        <HeadingTag
-          {...props}
-          className={`text-2xl font-black uppercase leading-[80%] md:text-4xl ${className}`}
-          ref={ref}
-        >
-          {children}
-        </HeadingTag>
-      );
-    }
-
-    if (dialog) {
-      return (
-        <HeadingTag
-          {...props}
-          className={`text-2xl font-black leading-[150%] md:text-4xl ${className}`}
-          ref={ref}
-        >
-          {children}
-        </HeadingTag>
-      );
-    }
-
-    if (card) {
-      return (
-        <HeadingTag
-          {...props}
-          className={`mb-1 bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-lg font-black uppercase leading-[150%] tracking-wide text-transparent sm:mb-2 md:text-xl ${className}`}
-          ref={ref}
-        >
-          {children}
-        </HeadingTag>
-      );
-    }
-
-    return (
-      <HeadingTag {...props} className={className} ref={ref}>
-        {children}
-      </HeadingTag>
-    );
-  }
-);
-
-Heading.displayName = 'Heading';
+  return (
+    <HeadingTag
+      {..._props}
+      className={`font-nunito ${
+        l1
+          ? 'text-5xl font-black uppercase leading-[80%] md:text-7xl'
+          : l2
+          ? 'text-4xl font-black uppercase leading-[80%] md:text-5xl'
+          : l3
+          ? 'text-2xl font-black uppercase leading-[80%] md:text-4xl'
+          : dialog
+          ? 'text-2xl font-black leading-[150%] md:text-4xl '
+          : card
+          ? 'text-lg font-black uppercase leading-[150%] tracking-wide underline decoration-1 underline-offset-2 transition-all duration-100 hover:cursor-pointer hover:decoration-ct-secondary-400/80 md:text-xl'
+          : ''
+      } ${
+        colorGradient === ColorGradientVariant.SPECIAL_1
+          ? 'bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-transparent hover:from-ct-primary-500 hover:to-ct-secondary-500'
+          : ''
+      } ${className}`}
+    >
+      {children}
+    </HeadingTag>
+  );
+}) as <T extends HTMLTag>(
+  props: HeadingProps<T>
+) => React.ReactElement<HeadingProps<T>, T>;

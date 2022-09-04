@@ -9,13 +9,12 @@ import { NextPageWithLayout } from 'src/pages/_app';
 
 const Home: NextPageWithLayout = () => {
   return (
-    <main className="p-4">
-      <Heading
-        className="mb-8 bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-transparent"
-        l2
-      >
+    <main className="my-8 px-4">
+      <Heading colorGradient="special1" l2>
         Characters
       </Heading>
+
+      <hr className="mt-2 mb-8 border-ct-neutral-ligth-400" />
 
       <CharactersPreviewPagination
         className="mb-4 ml-auto"

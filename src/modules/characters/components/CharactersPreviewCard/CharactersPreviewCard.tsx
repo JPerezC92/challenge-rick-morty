@@ -43,7 +43,12 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
       <div className="overflow-hidden px-2 py-4 sm:p-4">
         <header>
           <Tooltip content={name}>
-            <Heading card as="h3" className="truncate overflow-ellipsis">
+            <Heading
+              card
+              as="h3"
+              className="truncate overflow-ellipsis"
+              colorGradient="special1"
+            >
               <Link href={CharactersRoutes.characterId(id)}>
                 <a>{name}</a>
               </Link>
