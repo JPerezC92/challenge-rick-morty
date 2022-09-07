@@ -1,42 +1,39 @@
 import { useQuery } from '@tanstack/react-query';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
-import { BoardSize } from 'src/modules/memory-game/models/BoardSizes';
 import { MemoryGameQueryKeys } from 'src/modules/memory-game/models/MemoryGameQueryKeys';
+import { randomUniqueIntArray } from 'src/modules/shared/utils/randomUniqueIntArray';
 
 export type UseCharacterListQueryResult = ReturnType<
   typeof useCharacterListQuery
 >;
 
 interface CharacterListQueryProps {
-  boardSize: BoardSize;
+  size: number;
   enabled?: boolean;
 }
 
 export function useCharacterListQuery({
-  boardSize,
+  size,
   enabled,
 }: CharacterListQueryProps) {
-  const { data, refetch, ...props } = useQuery(
-    MemoryGameQueryKeys.characterList(boardSize),
+  return useQuery(
+    MemoryGameQueryKeys.randomCharacterList(size),
     async ({ signal }) => {
-      const apiCharactersRepository = ApiCharactersRepository(signal);
+      const charactersRepository = ApiCharactersRepository(signal);
 
-      const charactersCount = await apiCharactersRepository.getCount();
+      const charactersCount = await charactersRepository.getCount();
 
-      const characterList =
-        await apiCharactersRepository.getRamdomCharacterList({
-          count: charactersCount,
-          limit: boardSize / 2,
-        });
+      const characterIdList = randomUniqueIntArray({
+        length: size,
+        max: charactersCount,
+      });
+
+      const characterList = await charactersRepository.getMany({
+        characterIdList,
+      });
 
       return characterList || [];
     },
     { refetchOnWindowFocus: false, refetchInterval: false, enabled }
   );
-
-  return {
-    characterList: data,
-    characterListRefetch: refetch,
-    ...props,
-  };
 }

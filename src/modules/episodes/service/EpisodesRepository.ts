@@ -1,3 +1,4 @@
+import { EpisodesGetFilteredEndpointSchema } from 'src/modules/episodes/dto/EpisodesGetFilteredEndpoint.schema';
 import { EpisodesGetManyEndpointSchema } from 'src/modules/episodes/dto/EpisodesGetManyEndpoint';
 import { Episode } from 'src/modules/episodes/models/Episode';
 import { Repository } from 'src/modules/shared/service/Repository';
@@ -6,6 +7,7 @@ import { EpisodeEndpointToDomain } from '../adapters/EpisodeEndpointToDomain';
 
 export interface EpisodesRepository {
   getMany: (episodeIdList: number[]) => Promise<Episode[]>;
+  filter: (props: { name?: string; episode?: string }) => Promise<Episode[]>;
 }
 
 export const ApiEpisodesRepository: Repository<EpisodesRepository> = (
@@ -22,6 +24,18 @@ export const ApiEpisodesRepository: Repository<EpisodesRepository> = (
       const validatedResult = EpisodesGetManyEndpointSchema.parse(result);
 
       return validatedResult.map(EpisodeEndpointToDomain);
+    },
+
+    async filter({ episode, name }) {
+      const response = await fetch(
+        baseUrl + `?episode=${episode || ''}&name=${name || ''}`
+      );
+
+      const result = await response.json();
+
+      const validatedResult = EpisodesGetFilteredEndpointSchema.parse(result);
+
+      return validatedResult.results.map(EpisodeEndpointToDomain);
     },
   };
 };

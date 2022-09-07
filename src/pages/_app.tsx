@@ -5,7 +5,7 @@ import 'styles/globals.css';
 
 const queryClient = new QueryClient();
 
-export type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 

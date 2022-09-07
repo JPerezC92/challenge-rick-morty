@@ -17,12 +17,18 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
   className = '',
   characterPreview,
 }) => {
-  const { status, id, img, apparitionEpisodes, name, species } =
-    characterPreview;
+  const {
+    status,
+    id,
+    image: img,
+    apparitionEpisodes,
+    name,
+    species,
+  } = characterPreview;
 
   return (
     <article
-      className={`grid grid-cols-[40%_60%] overflow-hidden rounded-l-full border bg-ct-neutral-dark-700/50 shadow ${
+      className={`grid grid-cols-[40%_60%] overflow-hidden rounded-l-full border bg-ct-neutral-dark-700/50 shadow sm:grid-cols-[35%_65%] md:grid-cols-[38%_62%] ${
         status === Status.ALIVE
           ? 'border-ct-primary-300 shadow-ct-primary-400'
           : status === Status.DEAD
@@ -30,17 +36,25 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
           : 'border-ct-neutral-dark-300 shadow-ct-neutral-dark-400'
       } ${className}`}
     >
-      <div className="relative grid bg-ct-primary-100">
+      <picture className="relative">
         <Image
           alt={name}
-          className="object-cover object-top"
+          className="object-cover"
           layout="fill"
           priority
           src={img}
         />
-      </div>
+      </picture>
 
-      <div className="overflow-hidden px-2 py-4 sm:p-4">
+      <div
+        className={`overflow-hidden border-l px-4 py-8 md:py-4 ${
+          status === Status.ALIVE
+            ? 'border-ct-primary-300 shadow-ct-primary-400'
+            : status === Status.DEAD
+            ? 'border-ct-error-300 shadow-ct-error-400'
+            : 'border-ct-neutral-dark-300 shadow-ct-neutral-dark-400'
+        }`}
+      >
         <header>
           <Tooltip content={name}>
             <Heading

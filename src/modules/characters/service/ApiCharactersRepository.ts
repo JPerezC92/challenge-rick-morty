@@ -29,15 +29,7 @@ export const ApiCharactersRepository: Repository<CharactersRepository> = (
       return validatedResult.info.count;
     },
 
-    getRamdomCharacterList: async ({
-      count,
-      limit = 2,
-    }): Promise<Character[]> => {
-      const characterIdList = randomUniqueIntArray({
-        length: limit,
-        max: count,
-      });
-
+    getMany: async ({ characterIdList }): Promise<Character[]> => {
       const response = await fetch(baseUrl + `/${characterIdList}`, { signal });
 
       const result = await response.json();

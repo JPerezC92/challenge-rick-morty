@@ -19,11 +19,14 @@ const NewGamePage: NextPageWithLayout = () => {
     useMemoryGameConfigurationContext();
 
   const {
-    characterList = [],
-    characterListRefetch,
+    data: characterList = [],
+    refetch: characterListRefetch,
     isRefetching,
     isLoading,
-  } = useCharacterListQuery({ boardSize, enabled: !configurationIsLoading });
+  } = useCharacterListQuery({
+    size: boardSize / 2,
+    enabled: !configurationIsLoading,
+  });
 
   React.useEffect(() => {
     const restartCleanup = MemoryGameRestartEvent.listener(() =>

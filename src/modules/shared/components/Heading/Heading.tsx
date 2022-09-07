@@ -57,11 +57,11 @@ export const Heading = React.forwardRef(function Heading<
           : dialog
           ? 'text-2xl font-black leading-[150%] md:text-4xl '
           : card
-          ? 'text-lg font-black uppercase leading-[150%] tracking-wide underline decoration-1 underline-offset-2 transition-all duration-100 hover:cursor-pointer hover:decoration-ct-secondary-400/80 md:text-xl'
+          ? 'text-lg font-black uppercase leading-[150%] tracking-wide underline decoration-1 underline-offset-2 transition-all duration-100 hover:cursor-pointer hover:decoration-ct-secondary-400/80 hover:saturate-150 md:text-xl'
           : ''
       } ${
         colorGradient === ColorGradientVariant.SPECIAL_1
-          ? 'bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-transparent hover:from-ct-primary-500 hover:to-ct-secondary-500'
+          ? 'bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-transparent'
           : ''
       } ${className}`}
     >

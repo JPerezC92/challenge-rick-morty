@@ -33,8 +33,8 @@ jest
     isLoading: true,
   } as unknown as useCharacterListQuery.UseCharacterListQueryResult)
   .mockReturnValue({
-    characterList,
-    characterListRefetch,
+    data: characterList,
+    refetch: characterListRefetch,
   } as unknown as useCharacterListQuery.UseCharacterListQueryResult);
 
 describe('Test <NewGamePage />', () => {

@@ -4,9 +4,7 @@ import { ApiCharactersRepository } from 'src/modules/characters/service/ApiChara
 
 export function useCharacterPreviewQuery(
   page?: number,
-  config?: {
-    enabled?: boolean;
-  }
+  config?: { enabled?: boolean }
 ) {
   return useQuery(
     CharactersQueryKeys.characterList(page),

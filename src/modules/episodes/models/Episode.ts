@@ -14,6 +14,7 @@ export class Episode {
   readonly episode: string;
   readonly characterIdList: number[];
   readonly created: string;
+  readonly seasonId: string;
 
   constructor(props: EpisodeProps) {
     this.id = props.id;
@@ -22,5 +23,6 @@ export class Episode {
     this.episode = props.episode;
     this.characterIdList = props.characterIdList;
     this.created = props.created;
+    this.seasonId = props.episode.slice(0, 3).toLocaleLowerCase().trim();
   }
 }

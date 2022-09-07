@@ -1,6 +1,7 @@
 import { z } from 'zod';
+
+import { InfoSchema } from 'src/modules/shared/endpointValidators/Info.schema';
 import { CharacterEndpointSchema } from './CharacterEndpoint';
-import { InfoSchema } from './Info.schema';
 
 export const CharacterGetEndpointSchema = z.object({
   info: InfoSchema,

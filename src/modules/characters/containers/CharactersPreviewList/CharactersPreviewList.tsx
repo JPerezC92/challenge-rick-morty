@@ -52,7 +52,7 @@ export const CharactersPreviewList: React.FC<CharactersPreviewListProps> = ({
 
   return (
     <ol
-      className={`grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 ${className}`}
+      className={`grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 ${className}`}
     >
       {characterPreviewList?.map((cp) => (
         <li key={cp.id}>

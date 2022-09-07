@@ -1,3 +1,5 @@
+import { Status } from 'src/modules/characters/models/Status';
+
 export class Location {
   readonly id: number | undefined;
   readonly name: string;
@@ -14,7 +16,7 @@ interface CharacterProps {
   image: string;
   gender: string;
   species: string;
-  status: string;
+  status: Status;
   type: string;
   originLocation: Location;
   actualLocation: Location;
@@ -27,7 +29,7 @@ export class Character {
   readonly image: string;
   readonly gender: string;
   readonly species: string;
-  readonly status: string;
+  readonly status: Status;
   readonly type: string;
   readonly originLocation: Location;
   readonly actualLocation: Location;
