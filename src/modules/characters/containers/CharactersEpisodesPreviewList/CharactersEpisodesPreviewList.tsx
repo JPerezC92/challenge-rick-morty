@@ -19,7 +19,7 @@ export const CharactersEpisodesPreviewList: React.FC<
   if (!data) return <>...Loading</>;
 
   return (
-    <ul className={`${className}`}>
+    <ol className={`${className}`}>
       {data.map((episode) => (
         <li key={episode.id}>
           <NextLink
@@ -50,6 +50,6 @@ export const CharactersEpisodesPreviewList: React.FC<
           </NextLink>
         </li>
       ))}
-    </ul>
+    </ol>
   );
 };

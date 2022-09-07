@@ -14,6 +14,10 @@ const CharacterDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const { data } = useCharacterQuery(Number(query.characterId as string));
 
+  const dasdasdas = `lg:grid-rows-[repeat(${Math.ceil(
+    data?.episodesIdList.length || 2 / 2
+  )},minmax(0,1fr))]`;
+
   if (!data) return <>...Loading</>;
 
   return (
@@ -107,7 +111,7 @@ const CharacterDetailsPage: NextPage = () => {
 
           <CharactersEpisodesPreviewList
             episodeIdList={data.episodesIdList}
-            className="grid grid-cols-1 gap-x-4 lg:grid-cols-2"
+            className="sm:columns-[20rem] lg:columns-[30rem]"
           />
         </section>
       </main>
