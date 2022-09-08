@@ -1,10 +1,10 @@
 import { Status } from 'src/modules/characters/models/Status';
 
 export class Location {
-  readonly id: number | undefined;
+  readonly id: number | null;
   readonly name: string;
 
-  constructor(props: { name: string; id: number | undefined }) {
+  constructor(props: { name: string; id: number | null }) {
     this.id = props.id;
     this.name = props.name;
   }

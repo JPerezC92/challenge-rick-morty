@@ -1,17 +1,11 @@
-import { CharacterEndpointToDomain } from 'src/modules/characters/adapters/CharacterEndpointToDomain';
-import { CharacterEndpointToPreview } from 'src/modules/characters/adapters/CharacterEndpointToPreview';
-import { CharacterEndpointSchema } from 'src/modules/characters/dto/CharacterEndpoint';
-import {
-  CharacterGetEndpoint,
-  CharacterGetEndpointSchema,
-} from 'src/modules/characters/dto/CharacterGetEndpoint';
-import { CharacterListGetEndpointSchema } from 'src/modules/characters/dto/CharacterListGetEndpoint';
-import { CharacterPreview } from 'src/modules/characters/dto/CharacterPreview';
+import { CharacterEndpointToModel } from 'src/modules/characters/adapters/CharacterEndpointToModel';
 import { Character } from 'src/modules/characters/models/Character';
 import { CharactersRepository } from 'src/modules/characters/service/CharactersRepository';
+import { CharacterEndpointSchema } from 'src/modules/characters/validators/CharacterEndpoint.schema';
+import { CharacterListEndpointSchema } from 'src/modules/characters/validators/CharacterListEndpoint.schema';
+import { CharacterPaginatedEndpointSchema } from 'src/modules/characters/validators/CharacterPaginatedEndpoint.schema';
 import { Repository } from 'src/modules/shared/service/Repository';
 import { EnvironmentVariable } from 'src/modules/shared/utils/envVariables';
-import { randomUniqueIntArray } from 'src/modules/shared/utils/randomUniqueIntArray';
 
 export const ApiCharactersRepository: Repository<CharactersRepository> = (
   signal
@@ -19,51 +13,49 @@ export const ApiCharactersRepository: Repository<CharactersRepository> = (
   const baseUrl = EnvironmentVariable.RICK_MORTY_BASE_URL + '/character';
 
   return {
-    getCount: async () => {
+    getCount: async (): Promise<number> => {
       const response = await fetch(baseUrl, { signal });
 
-      const result = (await response.json()) as CharacterGetEndpoint | void;
+      const result = await response.json();
 
-      const validatedResult = CharacterGetEndpointSchema.parse(result);
+      const validatedResult = CharacterPaginatedEndpointSchema.parse(result);
 
       return validatedResult.info.count;
     },
 
-    getMany: async ({ characterIdList }): Promise<Character[]> => {
+    findManyById: async ({ characterIdList }): Promise<Character[]> => {
       const response = await fetch(baseUrl + `/${characterIdList}`, { signal });
 
       const result = await response.json();
 
-      const validatedResult = CharacterListGetEndpointSchema.parse(result);
+      const validatedResult = CharacterListEndpointSchema.parse(result);
 
-      return validatedResult.map(CharacterEndpointToDomain);
+      return validatedResult.map(CharacterEndpointToModel);
     },
 
-    getCharacterList: async (
+    paginatedCharacterList: async (
       page
-    ): Promise<{ characterPreviewList: CharacterPreview[]; pages: number }> => {
+    ): Promise<{ characterList: Character[]; pages: number }> => {
       const response = await fetch(baseUrl + `?page=${page}`, { signal });
 
       const result = await response.json();
 
-      const validatedResult = CharacterGetEndpointSchema.parse(result);
+      const validatedResult = CharacterPaginatedEndpointSchema.parse(result);
 
       return {
-        characterPreviewList: validatedResult.results.map(
-          CharacterEndpointToPreview
-        ),
+        characterList: validatedResult.results.map(CharacterEndpointToModel),
         pages: validatedResult.info.pages,
       };
     },
 
     findById: async (id): Promise<Character> => {
-      const response = await fetch(baseUrl + `/${id}`);
+      const response = await fetch(baseUrl + `/${id}`, { signal });
 
       const result = await response.json();
 
       const validatedResult = CharacterEndpointSchema.parse(result);
 
-      return CharacterEndpointToDomain(validatedResult);
+      return CharacterEndpointToModel(validatedResult);
     },
   };
 };

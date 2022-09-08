@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import React from 'react';
-import { useEpisodesPreviewListQuery } from 'src/modules/episodes/hooks/useEpisodesPreviewListQuery';
+import { EpisodeView } from 'src/modules/episodes/dto/EpisodeView';
 import { SeasonsRoutes } from 'src/modules/seasons/models/routes';
 import { Link } from 'src/modules/shared/components/Link';
 import { Text } from 'src/modules/shared/components/Text';
@@ -8,19 +8,15 @@ import { Tooltip } from 'src/modules/shared/components/Tooltip';
 
 type CharactersEpisodesPreviewListProps = {
   className?: string;
-  episodeIdList: number[];
+  episodeViewList: EpisodeView[];
 };
 
 export const CharactersEpisodesPreviewList: React.FC<
   CharactersEpisodesPreviewListProps
-> = ({ className = '', episodeIdList }) => {
-  const { data } = useEpisodesPreviewListQuery(episodeIdList);
-
-  if (!data) return <>...Loading</>;
-
+> = ({ className = '', episodeViewList }) => {
   return (
     <ol className={`${className}`}>
-      {data.map((episode) => (
+      {episodeViewList.map((episode, i) => (
         <li key={episode.id}>
           <NextLink
             href={{
@@ -40,7 +36,7 @@ export const CharactersEpisodesPreviewList: React.FC<
                 }
               >
                 <Text as="span" className="">
-                  {episode.name} / {'  '}
+                  {++i}. {episode.name} / {'  '}
                   <small>
                     {episode.code} / <time className="">{episode.airDate}</time>
                   </small>

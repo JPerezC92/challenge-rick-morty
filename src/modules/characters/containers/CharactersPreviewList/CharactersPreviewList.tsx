@@ -21,7 +21,7 @@ export const CharactersPreviewList: React.FC<CharactersPreviewListProps> = ({
   const [isPaginationLoaded, setIsPaginationLoaded] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(0);
   const {
-    data: { characterPreviewList, pages },
+    data: { characterList: characterPreviewList, pages },
     isLoading,
   } = useCharacterPreviewQuery(currentPage, { enabled: !isPaginationLoaded });
 

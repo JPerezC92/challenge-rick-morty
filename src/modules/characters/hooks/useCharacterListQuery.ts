@@ -16,7 +16,7 @@ export function useCharacterListQuery({
     async ({ signal }) => {
       const charactersRepository = ApiCharactersRepository(signal);
 
-      const characterList = await charactersRepository.getMany({
+      const characterList = await charactersRepository.findManyById({
         characterIdList,
       });
 

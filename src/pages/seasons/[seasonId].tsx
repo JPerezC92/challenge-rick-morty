@@ -1,13 +1,13 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { HiChevronDown } from 'react-icons/hi';
-import { CharacterModelToPreview } from 'src/modules/characters/adapters/CharacterEndpointToPreview';
-import { CharacterPreview } from 'src/modules/characters/dto/CharacterPreview';
+import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterEndpointToView';
+import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
-import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToPreview';
+import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToView';
 import { EpisodeCharacterAvatarList } from 'src/modules/episodes/components/EpisodeCharacterAvatarList';
 import { EpisodeView } from 'src/modules/episodes/dto/EpisodeView';
-import { ApiEpisodesRepository } from 'src/modules/episodes/service/EpisodesRepository';
+import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesRepository';
 import { SeasonList } from 'src/modules/seasons/models/SeasonList';
 import { Accordion } from 'src/modules/shared/components/Accordion';
 import { AccordionItem } from 'src/modules/shared/components/AccordionItem';
@@ -15,6 +15,7 @@ import { Heading } from 'src/modules/shared/components/Heading';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
 import { Text } from 'src/modules/shared/components/Text';
+import { constants } from 'src/modules/shared/utils/constants';
 
 export const getStaticPaths: GetStaticPaths = async function () {
   return {
@@ -40,18 +41,18 @@ export const getStaticProps: GetStaticProps<
     response.map(async (episode) => ({
       ...EpisodeModelToView(episode),
       characterViewList: (
-        await charactersRepository.getMany({
+        await charactersRepository.findManyById({
           characterIdList: episode.characterIdList,
         })
-      ).map(CharacterModelToPreview),
+      ).map(CharacterModelToView),
     }))
   );
 
-  return { props: { episodeList } };
+  return { props: { episodeList }, revalidate: constants.dayInSeconds * 15 };
 };
 
 interface SeasonDetailsProps {
-  episodeList: (EpisodeView & { characterViewList: CharacterPreview[] })[];
+  episodeList: (EpisodeView & { characterViewList: CharacterView[] })[];
 }
 
 const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
@@ -72,17 +73,17 @@ const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
           className="divide-y divide-ct-secondary-400 overflow-hidden rounded-sm"
           defaultValue={episodeCode || episodeList?.[0].code}
         >
-          {episodeList?.map((v, i) => (
+          {episodeList?.map((episode, i) => (
             <AccordionItem
-              id={v.code}
+              id={episode.code}
               key={i}
-              value={v.code}
+              value={episode.code}
               className="grid w-full grid-cols-[1fr_auto] items-center bg-ct-neutral-dark-700 px-2 py-1   text-left text-base font-semibold text-ct-special-ligth-100 sm:px-4 sm:py-2 sm:text-lg"
               as="h2"
               trigger={
                 <>
                   <Text as="span">
-                    {v.code} - {v.name}
+                    {episode.code} - {episode.name}
                   </Text>
                   <Icon as={HiChevronDown} variant="sm" />
                 </>
@@ -99,7 +100,7 @@ const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
                   </legend>
 
                   <EpisodeCharacterAvatarList
-                    characterPreviewList={v.characterViewList}
+                    characterViewList={episode.characterViewList}
                   />
                 </fieldset>
               }

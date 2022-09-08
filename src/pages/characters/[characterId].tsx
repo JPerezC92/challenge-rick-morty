@@ -1,25 +1,62 @@
-import { NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { GiPortal } from 'react-icons/gi';
+import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterEndpointToView';
 import { CharactersEpisodesPreviewList } from 'src/modules/characters/containers/CharactersEpisodesPreviewList';
-import { useCharacterQuery } from 'src/modules/characters/hooks/useCharacterQuery';
+import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { Status } from 'src/modules/characters/models/Status';
+import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
+import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToView';
+import { EpisodeView } from 'src/modules/episodes/dto/EpisodeView';
+import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesRepository';
 import { Heading } from 'src/modules/shared/components/Heading';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
 import { Text } from 'src/modules/shared/components/Text';
+import { constants } from 'src/modules/shared/utils/constants';
 
-const CharacterDetailsPage: NextPage = () => {
-  const { query } = useRouter();
-  const { data } = useCharacterQuery(Number(query.characterId as string));
+export const getStaticPaths: GetStaticPaths = async () => {
+  const charactersRepository = ApiCharactersRepository();
+  const characterList = await charactersRepository.paginatedCharacterList(1);
 
-  const dasdasdas = `lg:grid-rows-[repeat(${Math.ceil(
-    data?.episodesIdList.length || 2 / 2
-  )},minmax(0,1fr))]`;
+  const paths = characterList.characterList.map((character) => ({
+    params: { characterId: character.id.toString() },
+  }));
 
-  if (!data) return <>...Loading</>;
+  return { paths, fallback: 'blocking' };
+};
 
+type GetStaticPropsParams = { characterId: string };
+
+export const getStaticProps: GetStaticProps<
+  CharacterDetailsPageProps,
+  GetStaticPropsParams
+> = async (context) => {
+  const charactersRepository = ApiCharactersRepository();
+  const episodesRepository = ApiEpisodesRepository();
+
+  const response = await charactersRepository.findById(
+    context.params?.characterId || ''
+  );
+
+  const characterView = CharacterModelToView(response);
+  const episodeViewList = (
+    await episodesRepository.getMany(characterView.episodesIdList)
+  ).map(EpisodeModelToView);
+
+  return {
+    props: { characterView: { ...characterView, episodeViewList } },
+    revalidate: constants.dayInSeconds * 15,
+  };
+};
+
+interface CharacterDetailsPageProps {
+  characterView: CharacterView & { episodeViewList: EpisodeView[] };
+}
+
+const CharacterDetailsPage: NextPage<CharacterDetailsPageProps> = ({
+  characterView,
+}) => {
   return (
     <MainLayout>
       <main className="grid max-w-full overflow-ellipsis p-4 md:mx-auto md:max-w-7xl">
@@ -27,24 +64,24 @@ const CharacterDetailsPage: NextPage = () => {
           <Heading
             l2
             className={`rounded-2xl border-y-2 bg-gradient-to-r from-ct-secondary-400 to-ct-primary-400 bg-clip-text py-4 text-center text-transparent  ${
-              data.status === Status.ALIVE
+              characterView.status === Status.ALIVE
                 ? 'border-ct-primary-300 from-ct-secondary-300 to-ct-primary-300'
-                : data.status === Status.DEAD
+                : characterView.status === Status.DEAD
                 ? 'border-ct-error-300 from-ct-error-300 to-ct-neutral-dark-300'
-                : data.status === Status.UNKNOWN
+                : characterView.status === Status.UNKNOWN
                 ? 'border-ct-neutral-dark-300 from-ct-neutral-dark-300 to-ct-neutral-ligth-300'
                 : ''
             }`}
           >
-            {data.name}
+            {characterView.name}
           </Heading>
         </header>
 
         <section className="mb-8 grid gap-8 md:mx-auto md:w-full md:grid-cols-[min(40%_,_22rem)_auto] md:gap-4 lg:grid-cols-[min(45%_,_25rem)_auto] lg:gap-8">
           <picture className="relative m-auto block w-1/2 overflow-hidden rounded-md border-2 border-ct-special-ligth-200/90 md:m-0 md:mb-auto md:w-full">
             <Image
-              src={data.image}
-              alt={data.name}
+              src={characterView.image}
+              alt={characterView.name}
               className="object-cover"
               height={300}
               width={300}
@@ -60,14 +97,17 @@ const CharacterDetailsPage: NextPage = () => {
 
             <ul className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0">
               {[
-                { label: 'gender', value: data.gender },
-                { label: 'species', value: data.species },
-                { label: 'status', value: data.status },
-                { label: 'type', value: data.type },
-                { label: 'Origin location', value: data.originLocation.name },
+                { label: 'gender', value: characterView.gender },
+                { label: 'species', value: characterView.species },
+                { label: 'status', value: characterView.status },
+                { label: 'type', value: characterView.type },
+                {
+                  label: 'Origin location',
+                  value: characterView.originLocation.name,
+                },
                 {
                   label: 'Last known location',
-                  value: data.actualLocation.name,
+                  value: characterView.actualLocation.name,
                 },
               ].map((v) => (
                 <li key={v.label} className="text-ct-special-ligth-100">
@@ -110,8 +150,12 @@ const CharacterDetailsPage: NextPage = () => {
           </Heading>
 
           <CharactersEpisodesPreviewList
-            episodeIdList={data.episodesIdList}
-            className="sm:columns-[20rem] lg:columns-[30rem]"
+            episodeViewList={characterView.episodeViewList}
+            className={`${
+              characterView.apparitionEpisodesCount > 20
+                ? 'grid grid-cols-1 sm:block sm:columns-xs lg:columns-md'
+                : 'grid grid-cols-1'
+            }`}
           />
         </section>
       </main>

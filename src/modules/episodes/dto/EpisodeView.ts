@@ -7,5 +7,5 @@ export interface EpisodeView {
   created: Episode['created'];
   characterIdList: Episode['characterIdList'];
   airDate: Episode['airDate'];
-  seasonId: Episode['airDate'];
+  seasonId: Episode['seasonId'];
 }

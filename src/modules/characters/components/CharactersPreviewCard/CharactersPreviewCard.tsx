@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { CharacterPreview } from 'src/modules/characters/dto/CharacterPreview';
+import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { CharactersRoutes } from 'src/modules/characters/models/routes';
 import { Status } from 'src/modules/characters/models/Status';
 import { Heading } from 'src/modules/shared/components/Heading';
@@ -10,7 +10,7 @@ import { Tooltip } from 'src/modules/shared/components/Tooltip';
 
 type CharactersPreviewCardProps = {
   className?: string;
-  characterPreview: CharacterPreview;
+  characterPreview: CharacterView;
 };
 
 export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
@@ -21,7 +21,7 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
     status,
     id,
     image: img,
-    apparitionEpisodes,
+    apparitionEpisodesCount: apparitionEpisodes,
     name,
     species,
   } = characterPreview;

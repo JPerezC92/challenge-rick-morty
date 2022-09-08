@@ -28,7 +28,7 @@ export function useCharacterListQuery({
         max: charactersCount,
       });
 
-      const characterList = await charactersRepository.getMany({
+      const characterList = await charactersRepository.findManyById({
         characterIdList,
       });
 

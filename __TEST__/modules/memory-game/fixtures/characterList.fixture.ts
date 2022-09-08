@@ -1,4 +1,4 @@
-import { CharacterEndpointToDomain } from 'src/modules/characters/adapters/CharacterEndpointToDomain';
+import { CharacterEndpointToModel } from 'src/modules/characters/adapters/CharacterEndpointToModel';
 import { Status } from 'src/modules/characters/models/Status';
 
 export const characterList = [
@@ -59,4 +59,4 @@ export const characterList = [
     url: 'https://rickandmortyapi.com/api/character/381',
     created: '2018-01-10T19:46:00.622Z',
   },
-].map((v) => CharacterEndpointToDomain(v));
+].map((v) => CharacterEndpointToModel(v));

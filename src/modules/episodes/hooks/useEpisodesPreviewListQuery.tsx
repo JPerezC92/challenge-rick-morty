@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToPreview';
+import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToView';
 import { EpisodesQueryKeys } from 'src/modules/episodes/models/EpisodesQueryKeys';
-import { ApiEpisodesRepository } from 'src/modules/episodes/service/EpisodesRepository';
+import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesRepository';
 
 export function useEpisodesPreviewListQuery(episodeIdList: number[]) {
   return useQuery(

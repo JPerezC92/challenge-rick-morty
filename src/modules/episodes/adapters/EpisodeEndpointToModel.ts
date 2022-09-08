@@ -1,9 +1,9 @@
 import { EpisodeEndpoint } from 'src/modules/episodes/dto/EpisodeEndpoint';
 import { Episode } from 'src/modules/episodes/models/Episode';
+import { isDefinedListItems } from 'src/modules/shared/utils/isDefinedListItems';
 import { parseIdFromUrl } from 'src/modules/shared/utils/parseIdFromUrl';
-import { isDefinedListItems } from '../../shared/utils/isDefinedListItems';
 
-export function EpisodeEndpointToDomain(
+export function EpisodeEndpointToModel(
   episodeEndpoint: EpisodeEndpoint
 ): Episode {
   return new Episode({
