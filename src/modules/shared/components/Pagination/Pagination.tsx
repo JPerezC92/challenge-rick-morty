@@ -4,42 +4,46 @@ import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { IconButton } from 'src/modules/shared/components/IconButton';
 import { Option } from 'src/modules/shared/components/Option';
 import { Select } from 'src/modules/shared/components/Select';
+import { Skeleton } from 'src/modules/shared/components/Skeleton';
 import { range } from 'src/modules/shared/utils/range';
 
 type PaginationProps = {
   className?: string;
-  pages?: number;
-  currentPage: number;
-  onNext: () => void;
-  onPrevious: () => void;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
+  pagesCount?: number;
+  currentPage?: number;
   onChangePage: (page: number | string) => void;
 };
 
 export const Pagination: React.FC<PaginationProps> = ({
   className = '',
-  pages,
+  pagesCount,
   currentPage,
-  onNext,
-  onPrevious,
-  hasNext,
-  hasPrevious,
   onChangePage,
 }) => {
+  if (!currentPage)
+    return (
+      <div
+        className={`flex w-max items-center rounded-md border border-ct-neutral-dark-400 p-2 ${className}`}
+      >
+        <Skeleton className="h-10 w-10 rounded-sm sm:h-[2.875rem] sm:w-[2.875rem]" />
+        <Skeleton className="h-10 w-[7.875rem] rounded-sm sm:h-[2.875rem] sm:w-[8.75rem]" />
+        <Skeleton className="h-10 w-10 rounded-sm sm:h-[2.875rem] sm:w-[2.875rem]" />
+      </div>
+    );
+
   return (
     <div
-      className={`w-max space-x-3 rounded-md border border-ct-neutral-dark-400 p-2 ${className}`}
+      className={`rounded-md border border-ct-neutral-dark-400 p-2 ${className}`}
     >
       <IconButton
         className=" bg-ct-neutral-medium-700 text-ct-neutral-ligth-300"
-        disabled={!hasPrevious}
-        onClick={onPrevious}
+        disabled={!(currentPage > 1)}
+        onClick={() => onChangePage(currentPage - 1)}
         icon={MdNavigateBefore}
       />
 
       <Select value={currentPage.toString()} onChange={onChangePage}>
-        {range(pages || currentPage).map((v) => (
+        {range(pagesCount || currentPage).map((v) => (
           <Option
             key={v}
             value={v + 1}
@@ -56,8 +60,8 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       <IconButton
         className="bg-ct-neutral-medium-700 text-ct-neutral-ligth-300"
-        disabled={!hasNext}
-        onClick={onNext}
+        disabled={!(!!pagesCount && currentPage < pagesCount)}
+        onClick={() => onChangePage(currentPage + 1)}
         icon={MdNavigateNext}
       />
     </div>

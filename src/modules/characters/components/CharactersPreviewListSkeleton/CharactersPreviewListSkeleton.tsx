@@ -13,9 +13,7 @@ export const CharactersPreviewListSkeleton: React.FC<
   const id = React.useId();
 
   return (
-    <div
-      className={`grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 ${className}`}
-    >
+    <div className={`${className}`}>
       {range(items).map((v) => (
         <CharactersPreviewCardSkeleton key={id + v} />
       ))}

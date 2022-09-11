@@ -10,13 +10,13 @@ export const CharactersPreviewCardSkeleton: React.FC<
 > = ({ className = '' }) => {
   return (
     <div
-      className={`$ grid grid-cols-[40%_60%] overflow-hidden rounded-l-full border border-ct-neutral-dark-300 bg-ct-neutral-dark-700/50 shadow shadow-ct-neutral-dark-400 ${className}`}
+      className={`grid grid-cols-[40%_60%] overflow-hidden rounded-l-full border border-ct-neutral-dark-300 bg-ct-neutral-dark-700/50 shadow shadow-ct-neutral-dark-400 sm:grid-cols-[35%_65%] md:grid-cols-[38%_62%] ${className}`}
     >
       <Skeleton />
 
-      <div className="p-4">
+      <div className="px-4 py-8 md:py-4">
         <div className="space-y-1">
-          <Skeleton className="h-6 rounded-sm sm:h-7" />
+          <Skeleton className="h-[1.6875rem] rounded-sm sm:h-7" />
 
           <Skeleton className="h-[1.125rem] rounded-sm sm:h-5" />
         </div>

@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { HiChevronDown } from 'react-icons/hi';
-import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterEndpointToView';
+import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
 import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
 import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpointToView';

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterEndpointToView';
+import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
 import { CharactersQueryKeys } from 'src/modules/characters/models/CharactersQueryKeys';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
 
@@ -15,13 +15,12 @@ export function useCharacterPreviewQuery(
 
       return {
         characterList: result.characterList.map(CharacterModelToView),
-        pages: result.pages,
+        pagesCount: result.pages,
       };
     },
     {
       ...config,
-      keepPreviousData: true,
-      initialData: { characterList: [], pages: 0 },
+      initialData: { characterList: [], pagesCount: 0 },
     }
   );
 }

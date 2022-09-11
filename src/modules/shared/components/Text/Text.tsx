@@ -1,5 +1,9 @@
 import React from 'react';
 
+enum ColorGradientVariant {
+  SPECIAL_1 = 'special1',
+}
+
 const enum TextVariant {
   ALL_CAPS = 'ALL_CAPS',
   LIGHT_WEIGTH = 'LIGHT_WEIGTH',
@@ -62,18 +66,21 @@ type TextProps<T extends string> = T extends HTMLTag
           l1?: false;
           l2?: false;
           variant?: undefined;
+          colorGradient?: `${ColorGradientVariant}`;
         })
       | (JSX.IntrinsicElements[T] & {
           as?: T;
           l1: true;
           l2?: undefined;
           variant?: `${TextVariant}`;
+          colorGradient?: `${ColorGradientVariant}`;
         })
       | (JSX.IntrinsicElements[T] & {
           as?: T;
           l1?: undefined;
           l2: true;
           variant?: `${TextVariant.ALL_CAPS}`;
+          colorGradient?: `${ColorGradientVariant}`;
         })
   : never;
 
@@ -81,7 +88,7 @@ export const Text = React.forwardRef(function Text<
   T extends HTMLTag,
   P extends TextProps<T>
 >(
-  { l1, l2, variant, as = 'span', className = '', ...props }: P,
+  { l1, l2, variant, colorGradient, as = 'span', className = '', ...props }: P,
   ref: P['ref']
 ) {
   const Tag = as as string;
@@ -102,6 +109,10 @@ export const Text = React.forwardRef(function Text<
           : variant === TextVariant.ALL_CAPS
           ? 'font-semibold uppercase tracking-[24%]'
           : 'tracking-[0%]'
+      } ${
+        colorGradient === ColorGradientVariant.SPECIAL_1
+          ? 'bg-gradient-to-l from-ct-primary-400 to-ct-secondary-400 bg-clip-text text-transparent'
+          : ''
       } ${className}`}
     />
   );

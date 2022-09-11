@@ -13,7 +13,7 @@ export const MemoryGameLayout: React.FC<MemoryGameLayoutProps> = ({
   return (
     <MemoryGameConfigurationProvider>
       <div
-        className={`h-full bg-[url('/memory-game-wallpaper.png')] bg-cover bg-no-repeat ${className}`}
+        className={`h-full bg-[url('/memory-game-wallpaper.webp')] bg-cover bg-no-repeat ${className}`}
       >
         {children}
       </div>

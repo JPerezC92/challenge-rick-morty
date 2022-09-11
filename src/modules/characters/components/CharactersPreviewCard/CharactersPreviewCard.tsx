@@ -17,14 +17,8 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
   className = '',
   characterPreview,
 }) => {
-  const {
-    status,
-    id,
-    image: img,
-    apparitionEpisodesCount: apparitionEpisodes,
-    name,
-    species,
-  } = characterPreview;
+  const { status, id, image, apparitionEpisodesCount, name, species } =
+    characterPreview;
 
   return (
     <article
@@ -42,7 +36,7 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
           className="object-cover"
           layout="fill"
           priority
-          src={img}
+          src={image}
         />
       </picture>
 
@@ -74,7 +68,7 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
             variant="ALL_CAPS"
             className="block text-ct-neutral-ligth-500"
           >
-            Episode(s) {apparitionEpisodes}
+            Episode(s) {apparitionEpisodesCount}
           </Text>
         </header>
 

@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
 import { GiPortal } from 'react-icons/gi';
-import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterEndpointToView';
+import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
 import { CharactersEpisodesPreviewList } from 'src/modules/characters/containers/CharactersEpisodesPreviewList';
 import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { Status } from 'src/modules/characters/models/Status';
