@@ -1,5 +1,6 @@
 import React from 'react';
-import { MemoryGameConfigurationProvider } from 'src/modules/memory-game/context/MemoryGameConfigurationContext';
+import { useConfigurationQuery } from 'src/modules/memory-game/hooks/useConfigurationQuery';
+import { ScrollArea } from 'src/modules/shared/components/ScrollArea';
 
 type MemoryGameLayoutProps = {
   className?: string;
@@ -10,13 +11,15 @@ export const MemoryGameLayout: React.FC<MemoryGameLayoutProps> = ({
   className = '',
   children,
 }) => {
+  useConfigurationQuery();
+
   return (
-    <MemoryGameConfigurationProvider>
-      <div
-        className={`h-full bg-[url('/memory-game-wallpaper.webp')] bg-cover bg-no-repeat ${className}`}
+    <>
+      <ScrollArea
+        className={`bg-[url('/memory-game-wallpaper.webp')] bg-cover bg-no-repeat ${className}`}
       >
         {children}
-      </div>
-    </MemoryGameConfigurationProvider>
+      </ScrollArea>
+    </>
   );
 };

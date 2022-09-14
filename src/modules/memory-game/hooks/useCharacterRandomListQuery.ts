@@ -4,7 +4,7 @@ import { MemoryGameQueryKeys } from 'src/modules/memory-game/models/MemoryGameQu
 import { randomUniqueIntArray } from 'src/modules/shared/utils/randomUniqueIntArray';
 
 export type UseCharacterListQueryResult = ReturnType<
-  typeof useCharacterListQuery
+  typeof useCharacterRandomListQuery
 >;
 
 interface CharacterListQueryProps {
@@ -12,7 +12,7 @@ interface CharacterListQueryProps {
   enabled?: boolean;
 }
 
-export function useCharacterListQuery({
+export function useCharacterRandomListQuery({
   size,
   enabled,
 }: CharacterListQueryProps) {

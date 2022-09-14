@@ -5,27 +5,28 @@ import { MemoryGameBoardSkeleton } from 'src/modules/memory-game/components/Memo
 import { MemoryGameLayout } from 'src/modules/memory-game/components/MemoryGameLayout';
 import { MemoryGameScoresAndActions } from 'src/modules/memory-game/components/MemoryGameScoresAndActions';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
-import { MemoryGameSelectedCards } from 'src/modules/memory-game/containers/MemoryGameSelectedCards';
-import { useMemoryGameConfigurationContext } from 'src/modules/memory-game/context/MemoryGameConfigurationContext';
+import { MemoryGameSelectedCards } from 'src/modules/memory-game/components/MemoryGameSelectedCards';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
-import { useCharacterListQuery } from 'src/modules/memory-game/hooks/useCharacterListQuery';
+import { useCharacterRandomListQuery } from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
+import { useConfigurationStore } from 'src/modules/memory-game/store/useConfigurationStore';
 import { NextPageWithLayout } from 'src/pages/_app';
 
 const NewGamePage: NextPageWithLayout = () => {
-  const { boardSize, isLoading: configurationIsLoading } =
-    useMemoryGameConfigurationContext();
+  const configurationIsLoaded = useConfigurationStore((s) => s.isLoaded);
+  const boardSize = useConfigurationStore((s) => s.boardSize);
+  const gameMode = useConfigurationStore((s) => s.gameMode);
 
   const {
     data: characterList = [],
     refetch: characterListRefetch,
     isRefetching,
     isLoading,
-  } = useCharacterListQuery({
+  } = useCharacterRandomListQuery({
     size: boardSize / 2,
-    enabled: !configurationIsLoading,
+    enabled: configurationIsLoaded,
   });
 
   React.useEffect(() => {
@@ -40,18 +41,18 @@ const NewGamePage: NextPageWithLayout = () => {
 
   return (
     <>
-      <main className="m-auto h-full max-w-7xl">
+      <main className="m-auto grid min-h-screen max-w-7xl">
         <MemoryGameBoardOverlay
           topBar={
             <MemoryGameSelectedCards
-              className="sticky top-0"
+              className="!sticky !top-0 z-10"
               selectCardEvent={MemoryGameSelectCardEvent}
               restartEvent={MemoryGameRestartEvent}
             />
           }
           board={
             !characterList.length || isLoading || isRefetching ? (
-              <MemoryGameBoardSkeleton />
+              <MemoryGameBoardSkeleton size={boardSize} />
             ) : (
               <MemoryGameBoard
                 className="py-4 px-2"

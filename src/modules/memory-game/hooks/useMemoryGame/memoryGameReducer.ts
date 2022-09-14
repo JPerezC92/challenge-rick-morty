@@ -15,6 +15,7 @@ interface GameState {
   movesCount: Moves;
   selectedCardList: PlayingCard[];
 }
+
 export const gameInitialState: GameState = {
   accuracy: Accuracy.init(),
   clearedCardList: [],

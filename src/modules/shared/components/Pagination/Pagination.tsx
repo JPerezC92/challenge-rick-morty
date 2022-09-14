@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+
 import { IconButton } from 'src/modules/shared/components/IconButton';
 import { Option } from 'src/modules/shared/components/Option';
 import { Select } from 'src/modules/shared/components/Select';
@@ -42,7 +42,11 @@ export const Pagination: React.FC<PaginationProps> = ({
         icon={MdNavigateBefore}
       />
 
-      <Select value={currentPage.toString()} onChange={onChangePage}>
+      <Select
+        value={currentPage.toString()}
+        onChange={onChangePage}
+        className="text-ct-primary-400"
+      >
         {range(pagesCount || currentPage).map((v) => (
           <Option
             key={v}

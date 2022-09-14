@@ -1,5 +1,3 @@
-import { BoardSize } from 'src/modules/memory-game/models/BoardSizes';
-
 export const MemoryGameQueryKeys = {
   all: ['MemoryGame'] as const,
   configuration: () => [...MemoryGameQueryKeys.all, 'Configuration'] as const,

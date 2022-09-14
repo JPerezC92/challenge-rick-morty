@@ -11,7 +11,3 @@ html {
   height: 100%;
   max-height: auto;
 }
-
-html {
-  scroll-behavior: smooth;
-}

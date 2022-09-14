@@ -37,8 +37,12 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
 
   const handlePlayingCardClic = (playingCard: PlayingCardModel) => {
     handleSelectCard(playingCard);
-    selectCardEvent.trigger(playingCard);
   };
+
+  React.useEffect(() => {
+    if (!selectedCardList?.length) return;
+    selectCardEvent.trigger(selectedCardList);
+  }, [selectCardEvent, selectedCardList]);
 
   React.useEffect(() => {
     if (MovementResult.isMovementResult(movementResult)) return;
@@ -68,7 +72,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
             className={`${
               !MovementResult.isMovementResult(movementResult) ||
               !selectedCardList.includes(playingCard)
-                ? ''
+                ? 'border-ct-neutral-dark-700 shadow-ct-neutral-dark-700'
                 : movementResult.value
                 ? 'border-ct-success-200 shadow-ct-success-400'
                 : 'border-ct-error-200 shadow-ct-error-400'

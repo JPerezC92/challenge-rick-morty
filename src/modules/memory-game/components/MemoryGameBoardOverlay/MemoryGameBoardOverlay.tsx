@@ -15,12 +15,12 @@ export const MemoryGameBoardOverlay: React.FC<MemoryGameBoardOverlayProps> = ({
   topBar,
 }) => {
   return (
-    <ScrollArea className={'h-full'}>
+    <>
       <div className={`grid h-full grid-rows-[auto_1fr_auto] ${className}`}>
         {topBar}
         {board}
         {bottomBar}
       </div>
-    </ScrollArea>
+    </>
   );
 };

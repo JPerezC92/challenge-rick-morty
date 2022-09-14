@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import { PlayingCard as PlayingCardModel } from 'src/modules/memory-game/models/PlayingCard';
+import { rgbDataURL } from 'src/modules/shared/utils/rgbDataURL';
 
 type MemoryGamePlayingCardProps = Omit<
   React.DetailedHTMLProps<
@@ -34,7 +35,7 @@ export const MemoryGamePlayingCard: React.FC<MemoryGamePlayingCardProps> = ({
       type="button"
       disabled={disabled}
       onClick={handleOnClick}
-      className={`relative h-48 w-full overflow-hidden rounded-lg border border-ct-neutral-dark-700 bg-gradient-to-tl from-ct-primary-400 via-ct-secondary-400/80 to-ct-primary-400 shadow-[0_0_5px_2px] shadow-ct-neutral-dark-700 outline-offset-2 outline-ct-neutral-ligth-400 drop-shadow-lg transition ease-in-out sm:h-52 md:h-64 xl:h-72 2xl:h-80 ${className}`}
+      className={`relative h-48 w-full overflow-hidden rounded-lg border shadow-[0_0_5px_2px]  outline-offset-2 outline-ct-neutral-ligth-400 drop-shadow-lg transition ease-in-out sm:h-52 md:h-72 ${className}`}
       {...props}
     >
       <Image
@@ -45,9 +46,10 @@ export const MemoryGamePlayingCard: React.FC<MemoryGamePlayingCardProps> = ({
         src="/card-backface.webp"
         alt="rick & morty card backface"
         objectFit="cover"
-        objectPosition="center"
         priority
         layout="fill"
+        placeholder="blur"
+        blurDataURL={rgbDataURL(22, 33, 86)}
       />
 
       <Image
@@ -60,6 +62,8 @@ export const MemoryGamePlayingCard: React.FC<MemoryGamePlayingCardProps> = ({
         objectFit="cover"
         priority
         layout="fill"
+        placeholder="blur"
+        blurDataURL={rgbDataURL(31, 215, 250)}
       />
     </button>
   );

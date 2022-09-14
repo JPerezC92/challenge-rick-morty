@@ -5,6 +5,7 @@ import { TbSelect } from 'react-icons/tb';
 import { Icon } from 'src/modules/shared/components/Icon';
 
 type SelectProps = {
+  className?: string;
   children?: React.ReactElement | React.ReactElement[];
   value: string;
   onChange: (value: string) => void;
@@ -14,6 +15,7 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   value,
   children,
+  className = '',
 }) => {
   const [toggle, setToggle] = React.useState(false);
 
@@ -24,15 +26,18 @@ export const Select: React.FC<SelectProps> = ({
       value={value}
       onValueChange={onChange}
     >
-      <SelectPrimitive.SelectTrigger className="inline-flex items-center justify-center rounded-lg border border-ct-secondary-100 px-2 align-middle">
+      <SelectPrimitive.SelectTrigger
+        className={`inline-flex items-center justify-center rounded-lg border border-ct-secondary-100 px-2 align-middle ${className}`}
+      >
         <SelectPrimitive.Value />
+
         <SelectPrimitive.Icon asChild>
-          <Icon className="ml-4 text-ct-primary-400" as={TbSelect} />
+          <Icon className="ml-4 " as={TbSelect} />
         </SelectPrimitive.Icon>
       </SelectPrimitive.SelectTrigger>
 
       <SelectPrimitive.Portal className="z-10">
-        <SelectPrimitive.Content className="max-h-56 w-full overflow-auto rounded-lg border border-ct-neutral-dark-400 bg-ct-neutral-dark-800">
+        <SelectPrimitive.Content className="w-full overflow-auto rounded-lg border border-ct-neutral-dark-400 bg-ct-neutral-dark-800">
           <ScrollAreaPrimitive.ScrollArea
             type="auto"
             className="grid h-full w-full"

@@ -20,7 +20,7 @@ export const Icon = React.forwardRef<HTMLButtonElement, IconProps>(
     return (
       <i className={`inline-block leading-[0] ${className}`} ref={ref}>
         <Icon
-          className={`inline-block  text-inherit   ${
+          className={`inline-block text-inherit ${
             variant === IconVariant.XS
               ? 'text-lg sm:text-xl'
               : variant === IconVariant.SMALL

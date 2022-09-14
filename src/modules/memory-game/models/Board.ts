@@ -34,7 +34,7 @@ export class Board {
   }
 
   public static maxNumberSelectedCards: number = 2;
-  public static sizes = [12, 18, 24] as const;
+  public static sizes = [12, 18, 24];
 
   public static validateSelection(
     selectedCardList: PlayingCard[]

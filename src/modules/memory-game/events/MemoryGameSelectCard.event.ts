@@ -6,7 +6,7 @@ import {
 
 const type = 'MemeryGame:SelectCard';
 export interface MemoryGameSelectCardEvent
-  extends CustomEventFactoryResult<PlayingCard> {}
+  extends CustomEventFactoryResult<PlayingCard[]> {}
 
 export const MemoryGameSelectCardEvent: MemoryGameSelectCardEvent =
-  CustomEventFactory<PlayingCard>(type);
+  CustomEventFactory<PlayingCard[]>(type);

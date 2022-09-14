@@ -1,34 +1,26 @@
-jest.mock('src/modules/memory-game/hooks/useCharacterListQuery', () => {
+jest.mock('src/modules/memory-game/hooks/useCharacterRandomListQuery', () => {
   const original = jest.requireActual(
-    'src/modules/memory-game/hooks/useCharacterListQuery'
+    'src/modules/memory-game/hooks/useCharacterRandomListQuery'
   );
   return {
     ...original,
     __esModule: true,
     useCharacterListQuery: jest
       .fn()
-      .mockImplementation(original.useCharacterListQuery),
+      .mockImplementation(original.useCharacterRandomListQuery),
   };
 });
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import * as useCharacterListQuery from 'src/modules/memory-game/hooks/useCharacterListQuery';
+import * as useCharacterListQuery from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
 import NewGamePage from 'src/pages/memory-game/new-game';
 import { characterList } from '__TEST__/modules/memory-game/fixtures/characterList.fixture';
 import { queryClientWrapper } from '__TEST__/modules/memory-game/fixtures/queryClientWrapper.fixture';
 
-window.ResizeObserver =
-  window.ResizeObserver ||
-  jest.fn().mockImplementation(() => ({
-    disconnect: jest.fn(),
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-  }));
-
 const characterListRefetch = jest.fn();
 
 jest
-  .spyOn(useCharacterListQuery, 'useCharacterListQuery')
+  .spyOn(useCharacterListQuery, 'useCharacterRandomListQuery')
   .mockReturnValueOnce({
     isLoading: true,
   } as unknown as useCharacterListQuery.UseCharacterListQueryResult)
@@ -40,7 +32,6 @@ jest
 describe('Test <NewGamePage />', () => {
   test('should contain a skeleton when is loading', () => {
     render(<NewGamePage />, { wrapper: queryClientWrapper() });
-
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
@@ -108,7 +99,7 @@ describe('Test <NewGamePage />', () => {
         expect(movesCount).toHaveTextContent(/1/i);
         expect(movesCount).toHaveTextContent(/moves/i);
       },
-      { timeout: 50 }
+      { timeout: 100 }
     );
   });
 
