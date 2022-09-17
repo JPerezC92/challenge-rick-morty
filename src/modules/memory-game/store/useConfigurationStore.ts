@@ -13,9 +13,9 @@ export const useConfigurationStore = create(
     boardSize: 12,
     isLoaded: false,
     gameMode: GameModes.NORMAL,
-    loadConfiguration: (boardSize: number) =>
-      set({ boardSize, isLoaded: true }),
-    changeBoardSize: (boardSize: number) => {
+    loadConfiguration: ({ boardSize, gameMode }) =>
+      set({ boardSize, gameMode, isLoaded: true }),
+    changeBoardSize: (boardSize) => {
       if (!Board.sizes.includes(boardSize)) return;
 
       LocalStorageService.setItem(

@@ -4,6 +4,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { TbDoorExit, TbPlayerPlay } from 'react-icons/tb';
 import { MemoryGameLayout } from 'src/modules/memory-game/components/MemoryGameLayout';
 import { Board } from 'src/modules/memory-game/models/Board';
+import { BoardSize } from 'src/modules/memory-game/models/BoardSize';
 import { GameModes } from 'src/modules/memory-game/models/GameModes';
 import { MemoryGameRoutes } from 'src/modules/memory-game/models/routes';
 import { useConfigurationStore } from 'src/modules/memory-game/store/useConfigurationStore';
@@ -91,30 +92,32 @@ const MemoryGamePage: NextPageWithLayout = () => {
               </legend>
 
               <ol className="mx-auto flex w-max gap-x-5">
-                {Board.sizes.map((size) => (
-                  <li key={size}>
-                    <label
-                      htmlFor={size.toString()}
-                      className={`space-x-2  ${
-                        boardSize === size
-                          ? 'text-ct-secondary-400'
-                          : 'text-ct-neutral-ligth-50'
-                      }`}
-                    >
-                      <input
-                        checked={boardSize === size}
-                        id={size.toString()}
-                        name="cards"
-                        onChange={() => changeBoardSize(size)}
-                        type="radio"
-                        value={size}
-                      />
-                      <Text as="span" l1>
-                        {size} cards
-                      </Text>
-                    </label>
-                  </li>
-                ))}
+                {Object.values(BoardSize).map(
+                  (size: BoardSize[keyof BoardSize]) => (
+                    <li key={size}>
+                      <label
+                        htmlFor={size.toString()}
+                        className={`space-x-2  ${
+                          boardSize === size
+                            ? 'text-ct-secondary-400'
+                            : 'text-ct-neutral-ligth-50'
+                        }`}
+                      >
+                        <input
+                          checked={boardSize === size}
+                          id={size.toString()}
+                          name="cards"
+                          onChange={() => changeBoardSize(size)}
+                          type="radio"
+                          value={size}
+                        />
+                        <Text as="span" l1>
+                          {size} cards
+                        </Text>
+                      </label>
+                    </li>
+                  )
+                )}
               </ol>
             </fieldset>
 

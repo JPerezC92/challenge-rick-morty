@@ -1,4 +1,3 @@
-import { CleanEvent } from 'src/modules/shared/events/CleanEvent';
 import {
   CustomEventFactory,
   CustomEventFactoryResult,

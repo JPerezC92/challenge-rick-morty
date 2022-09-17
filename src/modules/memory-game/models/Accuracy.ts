@@ -1,4 +1,4 @@
-import { Moves } from './Moves';
+import { Counter } from 'src/modules/memory-game/models/Counter';
 
 export class Accuracy {
   constructor(public readonly value: number) {}
@@ -7,8 +7,8 @@ export class Accuracy {
     return new Accuracy(0);
   }
 
-  calculate(props: {
-    movesCount: Moves;
+  public static calculate(props: {
+    movesCount: Counter;
     clearedCardQuantity: number;
   }): Accuracy {
     if (props.movesCount.value <= 0) return Accuracy.init();

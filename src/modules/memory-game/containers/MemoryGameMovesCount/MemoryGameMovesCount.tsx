@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MemoryGameScore } from 'src/modules/memory-game/components/MemoryGameScore';
-import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 
 type MemoryGameMovesCountProps = {
   className?: string;
-  moveFinishedEvent: MemoryGameMoveFinishedEvent;
+  moveIncreaseEvent: MemoryGameMoveIncreaseEvent;
 };
 
 export const MemoryGameMovesCount: React.FC<MemoryGameMovesCountProps> = ({
   className = '',
-  moveFinishedEvent,
+  moveIncreaseEvent,
 }) => {
-  const [movesCount, setMovesCount] = useState(0);
+  const [movesCount, setMovesCount] = React.useState(0);
 
-  useEffect(() => {
-    const cleanup = moveFinishedEvent.listener((e) =>
-      setMovesCount(e.movesCount)
-    );
+  React.useEffect(() => {
+    const cleanup = moveIncreaseEvent.listener((mc) => {
+      if (movesCount === mc) return;
+
+      setMovesCount(mc);
+    });
 
     return () => cleanup();
-  }, [moveFinishedEvent]);
-
+  }, [moveIncreaseEvent, movesCount]);
   return (
     <MemoryGameScore
       data-testid={'moves-count'}

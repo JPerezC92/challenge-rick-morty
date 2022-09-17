@@ -1,11 +1,18 @@
-import { act, render, screen } from '@testing-library/react';
+import {
+  act,
+  prettyDOM,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
-import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 
 describe('Test <MemoryGameMovesCount />', () => {
   test('initial content should be "0"', () => {
     render(
-      <MemoryGameMovesCount moveFinishedEvent={MemoryGameMoveFinishedEvent} />
+      <MemoryGameMovesCount moveIncreaseEvent={MemoryGameMoveIncreaseEvent} />
     );
 
     const movesCount = screen.getByText(/0/i);
@@ -13,16 +20,19 @@ describe('Test <MemoryGameMovesCount />', () => {
     expect(movesCount).toHaveTextContent('0');
   });
 
-  test('when the move finished should update the MovesCount', async () => {
+  test('when move finished event is triggered should update the MovesCount', async () => {
     render(
-      <MemoryGameMovesCount moveFinishedEvent={MemoryGameMoveFinishedEvent} />
+      <MemoryGameMovesCount moveIncreaseEvent={MemoryGameMoveIncreaseEvent} />
     );
 
-    act(() =>
-      MemoryGameMoveFinishedEvent.trigger({ accuracy: 0, movesCount: 2 })
-    );
+    const movesCount = screen.getByTestId('moves-count');
 
-    const movesCount = await screen.findByText(/2/i);
+    act(() => MemoryGameMoveIncreaseEvent.trigger(1));
+
+    waitFor(() => expect(screen.findByText(/1/i)).toHaveTextContent('1'));
+    expect(movesCount).toHaveTextContent('1');
+
+    act(() => MemoryGameMoveIncreaseEvent.trigger(2));
 
     expect(movesCount).toHaveTextContent('2');
   });

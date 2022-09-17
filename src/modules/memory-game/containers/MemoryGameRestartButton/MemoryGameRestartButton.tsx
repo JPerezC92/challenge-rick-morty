@@ -22,10 +22,7 @@ export const MemoryGameRestartButton: React.FC<
         </Button>
       }
       title="Are you sure you want to restart?"
-      onConfirm={(close) => {
-        close();
-        restartEvent.trigger();
-      }}
+      onConfirm={() => restartEvent.trigger()}
     />
   );
 };

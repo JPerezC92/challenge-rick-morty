@@ -4,7 +4,7 @@ import {
   CustomEventFactoryResult,
 } from 'src/modules/shared/events/CustomEventFactory';
 
-const type = 'MemeryGame:SelectCard';
+export const type = 'MemeryGame:SelectCard';
 export interface MemoryGameSelectCardEvent
   extends CustomEventFactoryResult<PlayingCard[]> {}
 

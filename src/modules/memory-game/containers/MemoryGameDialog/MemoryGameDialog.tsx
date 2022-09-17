@@ -5,32 +5,35 @@ import { Heading } from 'src/modules/shared/components/Heading';
 
 type MemoryGameDialogProps = {
   className?: string;
-  trigger: React.ReactElement;
+  trigger?: React.ReactElement;
   title?: string;
-  description?: React.ReactNode;
-  onConfirm?: (
-    close: () => void,
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => void;
+  content?: React.ReactNode;
+  onConfirm?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  open?: boolean;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
 };
 
 export const MemoryGameDialog: React.FC<MemoryGameDialogProps> = ({
   className = '',
   trigger,
   title,
-  description,
+  content: description,
   onConfirm,
   onCancel,
+  open,
+  cancelButtonText,
+  confirmButtonText,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  // const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  // const handleClose = () => {
+  //   setIsOpen(false);
+  // };
 
   return (
-    <DialogPrimitives.Root open={isOpen} onOpenChange={setIsOpen}>
+    <DialogPrimitives.Root open={open}>
       <DialogPrimitives.Trigger asChild>{trigger}</DialogPrimitives.Trigger>
       <DialogPrimitives.Portal>
         <DialogPrimitives.Overlay className="fixed inset-0 z-10 bg-ct-neutral-dark-600/90" />
@@ -43,19 +46,19 @@ export const MemoryGameDialog: React.FC<MemoryGameDialogProps> = ({
             </Heading>
           </DialogPrimitives.Title>
 
-          <DialogPrimitives.Description>
-            {description}
+          <DialogPrimitives.Description asChild>
+            <div>{description}</div>
           </DialogPrimitives.Description>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-2 gap-4">
             <DialogPrimitives.Close asChild>
               <Button l1 tertiary onClick={onCancel}>
-                Cancel
+                {cancelButtonText || 'Cancel'}
               </Button>
             </DialogPrimitives.Close>
 
-            <Button l1 primary onClick={(e) => onConfirm?.(handleClose, e)}>
-              Confirm
+            <Button l1 primary onClick={onConfirm}>
+              {confirmButtonText || 'Confirm'}
             </Button>
           </div>
         </DialogPrimitives.Content>

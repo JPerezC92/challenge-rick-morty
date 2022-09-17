@@ -5,14 +5,14 @@ jest.mock('src/modules/memory-game/hooks/useCharacterRandomListQuery', () => {
   return {
     ...original,
     __esModule: true,
-    useCharacterListQuery: jest
+    useCharacterRandomListQuery: jest
       .fn()
       .mockImplementation(original.useCharacterRandomListQuery),
   };
 });
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import * as useCharacterListQuery from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
+import * as useCharacterRandomListQuery from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
 import NewGamePage from 'src/pages/memory-game/new-game';
 import { characterList } from '__TEST__/modules/memory-game/fixtures/characterList.fixture';
 import { queryClientWrapper } from '__TEST__/modules/memory-game/fixtures/queryClientWrapper.fixture';
@@ -20,14 +20,15 @@ import { queryClientWrapper } from '__TEST__/modules/memory-game/fixtures/queryC
 const characterListRefetch = jest.fn();
 
 jest
-  .spyOn(useCharacterListQuery, 'useCharacterRandomListQuery')
+  .spyOn(useCharacterRandomListQuery, 'useCharacterRandomListQuery')
   .mockReturnValueOnce({
     isLoading: true,
-  } as unknown as useCharacterListQuery.UseCharacterListQueryResult)
+  } as unknown as useCharacterRandomListQuery.UseCharacterListQueryResult)
   .mockReturnValue({
+    isLoading: false,
     data: characterList,
     refetch: characterListRefetch,
-  } as unknown as useCharacterListQuery.UseCharacterListQueryResult);
+  } as unknown as useCharacterRandomListQuery.UseCharacterListQueryResult);
 
 describe('Test <NewGamePage />', () => {
   test('should contain a skeleton when is loading', () => {
@@ -94,13 +95,10 @@ describe('Test <NewGamePage />', () => {
     fireEvent.click(pairOneCardOne);
     fireEvent.click(pairTwoCardOne);
 
-    await waitFor(
-      () => {
-        expect(movesCount).toHaveTextContent(/1/i);
-        expect(movesCount).toHaveTextContent(/moves/i);
-      },
-      { timeout: 100 }
-    );
+    await waitFor(() => {
+      expect(movesCount).toHaveTextContent(/1/i);
+      expect(movesCount).toHaveTextContent(/moves/i);
+    });
   });
 
   test('when a move is finished and is a missmatch the accuracy should not be increased', async () => {
@@ -115,13 +113,11 @@ describe('Test <NewGamePage />', () => {
     fireEvent.click(pairOneCardOne);
     fireEvent.click(pairTwoCardOne);
 
-    await waitFor(
-      () => {
-        expect(accuracy).toHaveTextContent('0');
-        expect(accuracy).toHaveTextContent('accuracy');
-      },
-      { timeout: 50 }
-    );
+    await waitFor(() => {
+      expect(accuracy).toHaveTextContent('0');
+      expect(accuracy).toHaveTextContent('accuracy');
+      expect(accuracy).not.toHaveTextContent('100');
+    });
   });
 
   test('when a move is finished and is a missmatch the accuracy should be increased', async () => {
@@ -135,13 +131,8 @@ describe('Test <NewGamePage />', () => {
     fireEvent.click(pairOneCardOne);
     fireEvent.click(pairOneCardTwo);
 
-    await waitFor(
-      () => {
-        expect(accuracy).toHaveTextContent('100');
-        expect(accuracy).toHaveTextContent('accuracy');
-      },
-      { timeout: 50 }
-    );
+    expect(accuracy).toHaveTextContent('100');
+    expect(accuracy).toHaveTextContent('accuracy');
   });
 
   test('when the game is over should increase the rounds count', async () => {
@@ -151,36 +142,30 @@ describe('Test <NewGamePage />', () => {
     const [c1, c2, c3] = characterList;
 
     const [pairOneCardOne, pairOneCardTwo] = screen.getAllByTestId(c1.id);
+    const [pairTwoCardOne, pairTwoCardTwo] = screen.getAllByTestId(c2.id);
+    const [pairThreeCardOne, pairThreeCardTwo] = screen.getAllByTestId(c3.id);
 
     fireEvent.click(pairOneCardOne);
     fireEvent.click(pairOneCardTwo);
 
-    await waitFor(() => expect(movesCount).toHaveTextContent('1'), {
-      timeout: 50,
-    });
+    expect(movesCount).toHaveTextContent('1');
 
-    const [pairTwoCardOne, pairTwoCardTwo] = screen.getAllByTestId(c2.id);
+    await waitFor(() => expect(pairTwoCardOne).toBeEnabled());
 
     fireEvent.click(pairTwoCardOne);
     fireEvent.click(pairTwoCardTwo);
 
-    await waitFor(() => expect(movesCount).toHaveTextContent('2'), {
-      timeout: 50,
-    });
+    expect(movesCount).toHaveTextContent('2');
 
-    const [pairThreeCardOne, pairThreeCardTwo] = screen.getAllByTestId(c3.id);
+    await waitFor(() => expect(pairThreeCardOne).toBeEnabled());
 
     fireEvent.click(pairThreeCardOne);
     fireEvent.click(pairThreeCardTwo);
 
-    await waitFor(() => expect(movesCount).toHaveTextContent('3'), {
-      timeout: 50,
-    });
+    expect(movesCount).toHaveTextContent('3');
 
     const roundsCount = screen.getByTestId('rounds-count');
 
-    await waitFor(() => expect(roundsCount).toHaveTextContent('1'), {
-      timeout: 50,
-    });
+    await waitFor(() => expect(roundsCount).toHaveTextContent('1'));
   });
 });

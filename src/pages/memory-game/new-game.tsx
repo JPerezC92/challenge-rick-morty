@@ -4,10 +4,12 @@ import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/Memor
 import { MemoryGameBoardSkeleton } from 'src/modules/memory-game/components/MemoryGameBoardSkeleton';
 import { MemoryGameLayout } from 'src/modules/memory-game/components/MemoryGameLayout';
 import { MemoryGameScoresAndActions } from 'src/modules/memory-game/components/MemoryGameScoresAndActions';
+import { MemoryGameTopBar } from 'src/modules/memory-game/components/MemoryGameTopBar';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
-import { MemoryGameSelectedCards } from 'src/modules/memory-game/components/MemoryGameSelectedCards';
+import { MemoryGameErrorIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameErrorIncrease.event';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
-import { MemoryGameMoveFinishedEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { useCharacterRandomListQuery } from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
@@ -44,10 +46,10 @@ const NewGamePage: NextPageWithLayout = () => {
       <main className="m-auto grid min-h-screen max-w-7xl">
         <MemoryGameBoardOverlay
           topBar={
-            <MemoryGameSelectedCards
+            <MemoryGameTopBar
               className="!sticky !top-0 z-10"
-              selectCardEvent={MemoryGameSelectCardEvent}
-              restartEvent={MemoryGameRestartEvent}
+              boardSize={boardSize}
+              gameMode={gameMode}
             />
           }
           board={
@@ -56,9 +58,12 @@ const NewGamePage: NextPageWithLayout = () => {
             ) : (
               <MemoryGameBoard
                 className="py-4 px-2"
+                gameMode={gameMode}
                 characterList={characterList}
+                accuracyChangeEvent={MemoryGameAccuracyChangeEvent}
+                errorIncreaseEvent={MemoryGameErrorIncreaseEvent}
                 gameOverEvent={MemoryGameGameOverEvent}
-                moveFinishedEvent={MemoryGameMoveFinishedEvent}
+                moveIncreaseEvent={MemoryGameMoveIncreaseEvent}
                 selectCardEvent={MemoryGameSelectCardEvent}
               />
             )

@@ -1,4 +1,3 @@
-import { CleanEvent } from 'src/modules/shared/events/CleanEvent';
 import {
   CustomEventFactory,
   CustomEventFactoryResult,
@@ -7,5 +6,4 @@ import {
 const type = 'MemoryGame:RestartGame';
 
 export interface MemoryGameRestartEvent extends CustomEventFactoryResult {}
-
 export const MemoryGameRestartEvent = CustomEventFactory(type);

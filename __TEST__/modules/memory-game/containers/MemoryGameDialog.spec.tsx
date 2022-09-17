@@ -8,7 +8,7 @@ const component = () => (
   <MemoryGameDialog
     trigger={<button>trigger</button>}
     title="Test title"
-    description="Test description"
+    content="Test description"
     onCancel={onCancel}
     onConfirm={onConfirm}
   />
@@ -79,9 +79,6 @@ describe('Test <MemoryGameDialog />', () => {
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
 
     expect(onConfirm).toHaveBeenCalledTimes(1);
-    expect(onConfirm).toHaveBeenCalledWith(
-      expect.any(Function),
-      expect.any(Object)
-    );
+    expect(onConfirm).toHaveBeenCalledWith(expect.any(Object));
   });
 });
