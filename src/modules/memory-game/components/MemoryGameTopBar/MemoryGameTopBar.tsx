@@ -35,7 +35,7 @@ export const MemoryGameTopBar: React.FC<MemoryGameTopBarProps> = ({
         <hr className="mx-1 h-full border-l-2 border-ct-error-400" />
       ) : gameMode === GameModes.LIMITED_TRIES ? (
         <MemoryGameAttempts
-          className="mx-3 scale-[140%]"
+          className="mx-3 scale-[130%]"
           boardSize={boardSize}
           errorIncrease={MemoryGameErrorIncreaseEvent}
           imperativeGameOverEvent={MemoryGameImperativeGameOverEvent}
@@ -43,7 +43,7 @@ export const MemoryGameTopBar: React.FC<MemoryGameTopBarProps> = ({
       ) : (
         gameMode === GameModes.LIMITED_TIME && (
           <MemoryGameTimer
-            className="mx-3 scale-[140%]"
+            className="mx-3 scale-[130%]"
             boardSize={boardSize}
             restartEvent={MemoryGameRestartEvent}
             selectCardEvent={MemoryGameSelectCardEvent}

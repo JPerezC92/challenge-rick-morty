@@ -3,7 +3,7 @@ import { MemoryGameImperativeGameOverEvent } from 'src/modules/memory-game/event
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { BoardSize } from 'src/modules/memory-game/models/BoardSize';
-import { TimerGame } from 'src/modules/memory-game/models/TimerGame';
+import { Timer } from 'src/modules/memory-game/models/Timer';
 import { Text } from 'src/modules/shared/components/Text';
 
 type MemoryGameTimerProps = {
@@ -22,7 +22,7 @@ export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
   imperativeGameOverEvent,
 }) => {
   const [isReady, setIsReady] = React.useState(false);
-  const time = TimerGame[boardSize];
+  const time = Timer[boardSize];
   const [timeRemaining, setTimeRemaining] = React.useState(time);
 
   React.useEffect(() => {
@@ -70,7 +70,7 @@ export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
 
   return (
     <span
-      className={`h-full min-w-[3ch] rounded border border-ct-neutral-ligth-400 bg-ct-neutral-dark-400 px-2 text-center ${className}`}
+      className={`h-full rounded border border-ct-neutral-ligth-400 bg-ct-neutral-dark-400 px-2 text-center ${className}`}
     >
       <Text l1 className="font-semibold text-ct-secondary-400">
         {timeRemaining}

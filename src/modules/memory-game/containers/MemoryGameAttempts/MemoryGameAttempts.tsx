@@ -3,7 +3,7 @@ import React from 'react';
 import { MemoryGameErrorIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameErrorIncrease.event';
 import { MemoryGameImperativeGameOverEvent } from 'src/modules/memory-game/events/MemoryGameImperativeGameOver.event';
 import { BoardSize } from 'src/modules/memory-game/models/BoardSize';
-import { Tries } from 'src/modules/memory-game/models/Tries';
+import { Attempts } from 'src/modules/memory-game/models/Attempts';
 import { Text } from 'src/modules/shared/components/Text';
 
 type MemoryGameAttemptsProps = {
@@ -19,7 +19,7 @@ export const MemoryGameAttempts: React.FC<MemoryGameAttemptsProps> = ({
   boardSize,
 }) => {
   const [errorCount, setErrorCount] = React.useState(0);
-  const attempts = Tries[boardSize];
+  const attempts = Attempts[boardSize];
   const attemptsRemaining = attempts - errorCount;
 
   React.useEffect(() => {
@@ -35,7 +35,7 @@ export const MemoryGameAttempts: React.FC<MemoryGameAttemptsProps> = ({
 
   return (
     <span
-      className={`h-full min-w-[3ch] rounded border border-ct-neutral-ligth-400 bg-ct-neutral-dark-400 px-2 text-center ${className}`}
+      className={`h-full rounded border border-ct-neutral-ligth-400 bg-ct-neutral-dark-400 px-2 text-center ${className}`}
     >
       <Text className="text-xl font-semibold text-ct-secondary-400" l1>
         {attemptsRemaining}
