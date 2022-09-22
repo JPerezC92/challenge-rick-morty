@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
-import { CharacterView } from 'src/modules/characters/dto/CharacterView';
 import { CharactersQueryKeys } from 'src/modules/characters/models/CharactersQueryKeys';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
+import { CharactersListFilters } from 'src/modules/characters/models/CharactersListFilters';
 
-export function useCharacterPreviewQuery(
-  page?: number,
+export function useCharacterPreviewFilterQuery(
+  query: CharactersListFilters,
   config?: { enabled?: boolean }
 ) {
   return useQuery(
-    CharactersQueryKeys.characterListPaginated(page),
+    CharactersQueryKeys.characterListFilteredPaginated(query),
     async ({ signal }) => {
       const charactersRepository = ApiCharactersRepository(signal);
-      const result = await charactersRepository.paginatedCharacterList(page);
+
+      const result = await charactersRepository.paginatedFilteredCharacterList(
+        query
+      );
 
       return {
         characterList: result.characterList.map(CharacterModelToView),

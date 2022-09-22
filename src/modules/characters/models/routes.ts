@@ -5,5 +5,5 @@ const Characters = EnvironmentVariable.WEB_URL;
 export const CharactersRoutes = {
   rootPath: Characters,
   characterId: (id: string | number) =>
-    CharactersRoutes.rootPath + `/characters/${id}`,
+    CharactersRoutes.rootPath + `characters/${id}`,
 };

@@ -7,6 +7,7 @@ import { Status } from 'src/modules/characters/models/Status';
 import { Heading } from 'src/modules/shared/components/Heading';
 import { Text } from 'src/modules/shared/components/Text';
 import { Tooltip } from 'src/modules/shared/components/Tooltip';
+import { rgbDataURL } from 'src/modules/shared/utils/rgbDataURL';
 
 type CharactersPreviewCardProps = {
   className?: string;
@@ -19,6 +20,10 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
 }) => {
   const { status, id, image, apparitionEpisodesCount, name, species } =
     characterPreview;
+
+  const r = status === Status.ALIVE ? 126 : status === Status.DEAD ? 255 : 130;
+  const g = status === Status.ALIVE ? 205 : status === Status.DEAD ? 77 : 132;
+  const b = status === Status.ALIVE ? 135 : status === Status.DEAD ? 153 : 200;
 
   return (
     <article
@@ -37,6 +42,8 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
           layout="fill"
           priority
           src={image}
+          placeholder="blur"
+          blurDataURL={rgbDataURL(r, g, b)}
         />
       </picture>
 
@@ -51,14 +58,11 @@ export const CharactersPreviewCard: React.FC<CharactersPreviewCardProps> = ({
       >
         <header>
           <Tooltip content={name}>
-            <Heading
-              card
-              as="h3"
-              className="truncate overflow-ellipsis"
-              colorGradient="special1"
-            >
+            <Heading card as="h3" colorGradient="special1">
               <Link href={CharactersRoutes.characterId(id)}>
-                <a>{name}</a>
+                <a className="block truncate overflow-ellipsis outline-ct-neutral-ligth-400">
+                  {name}
+                </a>
               </Link>
             </Heading>
           </Tooltip>

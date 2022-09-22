@@ -57,5 +57,27 @@ export const ApiCharactersRepository: Repository<CharactersRepository> = (
 
       return CharacterEndpointToModel(validatedResult);
     },
+
+    paginatedFilteredCharacterList: async ({
+      name,
+      page,
+    }): Promise<{ characterList: Character[]; pages: number }> => {
+      const searchParams = new URLSearchParams();
+      if (name) searchParams.append('name', name);
+      if (page) searchParams.append('page', page.toString());
+
+      const response = await fetch(baseUrl + `/?${searchParams.toString()}`, {
+        signal,
+      });
+
+      const result = await response.json();
+
+      const validatedResult = CharacterPaginatedEndpointSchema.parse(result);
+
+      return {
+        characterList: validatedResult.results.map(CharacterEndpointToModel),
+        pages: validatedResult.info.pages,
+      };
+    },
   };
 };

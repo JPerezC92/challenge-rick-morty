@@ -13,7 +13,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <button
-      className={`rounded-md p-2 leading-[0] disabled:border-gray-400 disabled:opacity-60 ${className}`}
+      className={`rounded-md p-2 leading-[0] outline-ct-neutral-ligth-400 disabled:border-gray-400 disabled:opacity-60 ${className}`}
       {...props}
     >
       <Icon as={icon} />

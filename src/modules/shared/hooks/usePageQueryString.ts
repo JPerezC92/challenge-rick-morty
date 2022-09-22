@@ -2,14 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 
 export function usePageQueryString(
   queryKeys: readonly string[],
-  pageQueryString: string,
+  query: { pageQueryString?: string; nameQueryString?: string },
   config?: { enabled?: boolean }
 ) {
   return useQuery(
     queryKeys,
     () => {
-      return Number(pageQueryString) || 1;
+      const { pageQueryString, nameQueryString } = query;
+
+      return { page: Number(pageQueryString) || 1, name: nameQueryString };
     },
-    { ...config }
+    { ...config, keepPreviousData: true }
   );
 }
