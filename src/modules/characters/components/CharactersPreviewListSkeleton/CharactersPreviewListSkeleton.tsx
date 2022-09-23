@@ -13,7 +13,7 @@ export const CharactersPreviewListSkeleton: React.FC<
   const id = React.useId();
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className}`} role="progressbar">
       {range(items).map((v) => (
         <CharactersPreviewCardSkeleton key={id + v} />
       ))}

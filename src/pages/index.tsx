@@ -12,8 +12,7 @@ import { MainLayout } from 'src/modules/shared/components/MainLayout';
 import { Pagination } from 'src/modules/shared/components/Pagination';
 import { PaginationSkeleton } from 'src/modules/shared/components/PaginationSkeleton';
 import { Text } from 'src/modules/shared/components/Text';
-import { usePageQueryString } from 'src/modules/shared/hooks/usePageQueryString';
-import { isDefined } from 'src/modules/shared/utils/isDefined';
+import { useCharacterFiltersQueryString } from 'src/modules/shared/hooks/useCharacterFiltersQueryString';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -21,21 +20,25 @@ const Home: NextPage = () => {
   const nameQueryString = router.query.name as string;
   const pagesCountQueryString = router.query['pages-count'] as string;
 
-  const { data: filters, isLoading: filtersIsLoading } = usePageQueryString(
-    CharactersQueryKeys.charactersPreviewListFilters({
-      page: pageQueryString,
-      name: nameQueryString,
-    }),
-    { pageQueryString, nameQueryString },
-    { enabled: router.isReady }
-  );
+  const { data: filters, isLoading: filtersIsLoading } =
+    useCharacterFiltersQueryString(
+      CharactersQueryKeys.charactersPreviewListFilters({
+        page: pageQueryString,
+        name: nameQueryString,
+      }),
+      { pageQueryString, nameQueryString },
+      { enabled: router.isReady }
+    );
+
+  const isFilterQuery = !!filters?.name && !!filters?.page;
+  const isSimpleQuery = !!filters?.page && !filters?.name;
 
   const {
     data: previewQuery,
     isLoading: previewQueryIsLoading,
     isError: previewQueryIsError,
   } = useCharacterPreviewQuery(filters?.page, {
-    enabled: !!filters?.page && !filters?.name,
+    enabled: isSimpleQuery,
   });
 
   const {
@@ -43,17 +46,17 @@ const Home: NextPage = () => {
     isLoading: previewFilteredQueryIsLoading,
     isError: previewFilteredQueryIsError,
   } = useCharacterPreviewFilterQuery(filters as CharactersListFilters, {
-    enabled: !!filters?.name && !!filters?.page,
+    enabled: isFilterQuery,
   });
 
-  const isFilter = !!filters?.name && !!filters?.page;
   const isError = previewQueryIsError || previewFilteredQueryIsError;
 
   const pagesCount =
-    (isFilter ? previewFilteredQuery?.pagesCount : previewQuery?.pagesCount) ||
-    Number(pagesCountQueryString);
+    (isFilterQuery
+      ? previewFilteredQuery?.pagesCount
+      : previewQuery?.pagesCount) || Number(pagesCountQueryString);
 
-  const characterPreviewList = isFilter
+  const characterPreviewList = isFilterQuery
     ? previewFilteredQuery?.characterList
     : previewQuery?.characterList;
 
@@ -104,7 +107,7 @@ const Home: NextPage = () => {
               variant="ALL_CAPS"
               className="mx-auto text-center text-ct-special-ligth-400"
             >
-              {isFilter ? (
+              {isFilterQuery ? (
                 <>
                   There was 0 results for this search:{' '}
                   <Text className="text-ct-secondary-400">{filters?.name}</Text>
@@ -119,7 +122,10 @@ const Home: NextPage = () => {
               items={20}
             />
           ) : (
-            <ol className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <ol
+              data-testid="character-preview-list"
+              className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
+            >
               {characterPreviewList?.map((characterPreview) => (
                 <li key={characterPreview.id}>
                   <CharactersPreviewCard characterPreview={characterPreview} />
@@ -143,6 +149,7 @@ const Home: NextPage = () => {
             )}
 
             <Text
+              data-testid="pagination-counter"
               className={`mx-auto w-max font-semibold text-ct-neutral-medium-200 md:col-start-1 md:row-start-1 lg:col-start-2 lg:row-start-1 ${
                 isError ? 'invisible' : ''
               }`}

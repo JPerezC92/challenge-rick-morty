@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
+import { CharactersListFilters } from 'src/modules/characters/models/CharactersListFilters';
 import { CharactersQueryKeys } from 'src/modules/characters/models/CharactersQueryKeys';
 import { ApiCharactersRepository } from 'src/modules/characters/service/ApiCharactersRepository';
-import { CharactersListFilters } from 'src/modules/characters/models/CharactersListFilters';
+
+export type UseCharacterPreviewFilterQueryResult = ReturnType<
+  typeof useCharacterPreviewFilterQuery
+>;
 
 export function useCharacterPreviewFilterQuery(
   query: CharactersListFilters,
@@ -25,7 +29,6 @@ export function useCharacterPreviewFilterQuery(
     {
       ...config,
       retry: false,
-      // keepPreviousData: true,
       refetchOnWindowFocus: false,
     }
   );

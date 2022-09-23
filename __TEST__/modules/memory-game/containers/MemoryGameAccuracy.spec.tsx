@@ -3,7 +3,7 @@ import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGam
 import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 
 describe('test <MemoryGameAccuracy />', () => {
-  test('initial contetnt should be "0"', () => {
+  test('initial content should be "0"', () => {
     render(
       <MemoryGameAccuracy accuracyChangeEvent={MemoryGameAccuracyChangeEvent} />
     );

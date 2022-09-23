@@ -25,7 +25,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   const [searchToggle, setSearchToggle] = React.useState(false);
 
   return (
-    <ScrollArea className={`bg-ct-neutral-dark-800 ${className}`}>
+    <ScrollArea
+      data-testid="main-layout"
+      className={`bg-ct-neutral-dark-800 ${className}`}
+    >
       <header className="sticky top-0 z-10 grid grid-cols-[1fr_auto_auto] items-center bg-ct-neutral-ligth-400/50 py-2 px-4 shadow-md shadow-ct-neutral-ligth-400 backdrop-blur-md">
         <picture className="relative w-48 md:w-64">
           <Image

@@ -4,14 +4,17 @@ import React from 'react';
 type ScrollAreaProps = {
   className?: string;
   children?: React.ReactNode;
-};
+} & ScrollAreaPrimitives.ScrollAreaProps &
+  React.RefAttributes<HTMLDivElement>;
 
 export const ScrollArea: React.FC<ScrollAreaProps> = ({
   className,
   children,
+  ...props
 }) => {
   return (
     <ScrollAreaPrimitives.Root
+      {...props}
       className={`h-full max-h-[inherit] min-h-[inherit] overflow-hidden rounded-[inherit] ${className}`}
       type="auto"
     >

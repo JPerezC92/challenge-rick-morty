@@ -21,6 +21,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   return (
     <div
+      data-testid="pagination"
       className={`rounded-md border border-ct-neutral-dark-400 p-2 ${className}`}
     >
       <IconButton

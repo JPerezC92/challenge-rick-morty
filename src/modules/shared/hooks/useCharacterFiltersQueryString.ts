@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-export function usePageQueryString(
+export function useCharacterFiltersQueryString(
   queryKeys: readonly string[],
   query: { pageQueryString?: string; nameQueryString?: string },
   config?: { enabled?: boolean }

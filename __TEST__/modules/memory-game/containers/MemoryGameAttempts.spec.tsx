@@ -18,7 +18,7 @@ const boardSize = BoardSize[12];
 const attempts = Attempts[boardSize];
 
 describe('Test on <MemoryGameAttempts />', () => {
-  test('should ', () => {
+  test('the initial render should contain the attempts value', () => {
     render(
       <MemoryGameAttempts
         errorIncrease={MemoryGameErrorIncreaseEvent}

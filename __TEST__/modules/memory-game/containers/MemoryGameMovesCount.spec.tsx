@@ -1,12 +1,5 @@
-import {
-  act,
-  prettyDOM,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { MemoryGameMovesCount } from 'src/modules/memory-game/containers/MemoryGameMovesCount';
-import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 
 describe('Test <MemoryGameMovesCount />', () => {
