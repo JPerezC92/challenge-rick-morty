@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { SeasonsRoutes } from 'src/modules/seasons/models/routes';
 import { SeasonList } from 'src/modules/seasons/models/SeasonList';
 import { Heading } from 'src/modules/shared/components/Heading';
@@ -17,7 +18,10 @@ const SeasonsPage: NextPage = () => {
 
         <hr className="mt-2 mb-8 border-ct-neutral-ligth-400" />
 
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14rem),1fr))_] gap-4">
+        <ul
+          data-testid="seasons-list"
+          className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14rem),1fr))_] gap-4"
+        >
           {SeasonList.map((v) => (
             <li key={v.id}>
               <article className="rounded-md border border-ct-neutral-medium-300 bg-ct-neutral-dark-600 shadow-[0_0_7px_2px] shadow-ct-neutral-medium-400">
