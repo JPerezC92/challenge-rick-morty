@@ -30,7 +30,24 @@ describe('Test on <MemoryGameAttempts />', () => {
     expect(screen.getByText(attempts)).toHaveTextContent(attempts.toString());
   });
 
-  test('should ', () => {
+  test('when a error is triggered the attempts value should be decreased', () => {
+    render(
+      <MemoryGameAttempts
+        errorIncrease={MemoryGameErrorIncreaseEvent}
+        imperativeGameOverEvent={MemoryGameImperativeGameOverEvent}
+        boardSize={boardSize}
+      />
+    );
+    const attemptsComponent = screen.getByText(attempts);
+
+    expect(attemptsComponent).toHaveTextContent(attempts.toString());
+
+    act(() => MemoryGameErrorIncreaseEvent.trigger(1));
+
+    expect(attemptsComponent).toHaveTextContent((attempts - 1).toString());
+  });
+
+  test('when the attempts value is equal to 0 should trigger a MemoryGameImperativeGameOverEvent', () => {
     render(
       <MemoryGameAttempts
         errorIncrease={MemoryGameErrorIncreaseEvent}
