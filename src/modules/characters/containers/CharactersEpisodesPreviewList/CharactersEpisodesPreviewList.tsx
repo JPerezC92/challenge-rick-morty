@@ -21,7 +21,8 @@ export const CharactersEpisodesPreviewList: React.FC<
           <NextLink
             href={{
               pathname: SeasonsRoutes.seasonsId(episode.seasonId),
-              query: { episodeCode: episode.code },
+              query: { ['episode-code']: episode.code },
+              hash: episode.code,
             }}
             passHref
           >

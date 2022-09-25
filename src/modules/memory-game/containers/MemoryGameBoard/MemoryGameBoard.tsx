@@ -45,6 +45,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
     clearedCardList,
     handleSelectCard,
     isGameOver,
+    isWinner,
     isReadyToValidateSelection,
     movementResult,
     movesCount,
@@ -87,35 +88,38 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
 
   return (
     <>
-      <MemoryGameDialog
-        cancelButtonText="Exit"
-        confirmButtonText="Restart"
-        onCancel={() => router.push(MemoryGameRoutes.rootPath)}
-        onConfirm={() => MemoryGameRestartEvent.trigger()}
-        open={isGameOver}
-        title="Game Over"
-        content={
-          <div>
-            <ul>
-              {[
-                { label: 'Moves', value: movesCount },
-                { label: 'Error', value: errorCount },
-                { label: 'Accuracy', value: accuracy },
-              ].map((v) => (
-                <li key={v.label}>
-                  <Text
-                    l1
-                    className="grid grid-cols-[30%_1fr] text-ct-special-ligth-100"
-                    as="p"
-                  >
-                    <span>{v.label}:</span> <span>{v.value}</span>
-                  </Text>
-                </li>
-              ))}
-            </ul>
-          </div>
-        }
-      />
+      {(isGameOver || isWinner) && (
+        <MemoryGameDialog
+          cancelButtonText="Exit"
+          confirmButtonText="Restart"
+          onCancel={() => router.push(MemoryGameRoutes.rootPath)}
+          onConfirm={() => MemoryGameRestartEvent.trigger()}
+          open={isGameOver}
+          title={isWinner ? 'You won' : 'Game Over'}
+          content={
+            <div>
+              <ul>
+                {[
+                  { label: 'Moves', value: movesCount },
+                  { label: 'Error', value: errorCount },
+                  { label: 'Accuracy', value: accuracy },
+                ].map((v) => (
+                  <li key={v.label}>
+                    <Text
+                      l1
+                      className="grid grid-cols-[30%_1fr] text-ct-special-ligth-100"
+                      as="p"
+                    >
+                      <span>{v.label}:</span> <span>{v.value}</span>
+                    </Text>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          }
+        />
+      )}
+
       <ul
         className={`grid w-full grid-cols-3 place-content-center gap-4 sm:grid-cols-4 lg:grid-cols-6 ${className}`}
       >
@@ -127,6 +131,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
               onClick={handlePlayingCardClic}
               disabled={
                 isGameOver ||
+                isWinner ||
                 isReadyToValidateSelection ||
                 selectedCardList.includes(playingCard) ||
                 clearedCardList.includes(playingCard)
@@ -140,6 +145,7 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
                   : 'border-ct-error-200 shadow-ct-error-400'
               }`}
               isFlip={
+                isGameOver ||
                 clearedCardList.includes(playingCard) ||
                 selectedCardList.includes(playingCard)
               }

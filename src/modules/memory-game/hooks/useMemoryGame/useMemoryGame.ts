@@ -53,6 +53,7 @@ export const useMemoryGame = (
     accuracy: gameState.accuracy.value,
     clearedCardList: gameState.clearedCardList,
     isGameOver: gameState.isGameOver,
+    isWinner: gameState.isWinner,
     isReadyToValidateSelection: gameState.isReadyToValidateSelection,
     movementResult: gameState.areSelectedCardsEqual,
     movesCount: gameState.movesCount.value,

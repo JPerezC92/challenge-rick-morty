@@ -1,4 +1,5 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { motion } from 'framer-motion';
 import React from 'react';
 import { Heading } from 'src/modules/shared/components/Heading';
 
@@ -32,7 +33,15 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         </Heading>
       </AccordionPrimitive.Header>
 
-      <AccordionPrimitive.Content>{content}</AccordionPrimitive.Content>
+      <AccordionPrimitive.Content>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {content}
+        </motion.div>
+      </AccordionPrimitive.Content>
     </AccordionPrimitive.Item>
   );
 };

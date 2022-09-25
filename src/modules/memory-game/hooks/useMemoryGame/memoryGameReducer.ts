@@ -11,6 +11,7 @@ interface GameState {
   clearedCardList: PlayingCard[];
   gameBoard: Board;
   isGameOver: boolean;
+  isWinner: boolean;
   isReadyToValidateSelection: boolean;
   areSelectedCardsEqual?: MovementResult;
   movesCount: Counter;
@@ -24,6 +25,7 @@ export const gameInitialState: GameState = {
   clearedCardList: [],
   gameBoard: Board.init([]),
   isGameOver: false,
+  isWinner: false,
   isReadyToValidateSelection: false,
   movesCount: Counter.init(),
   errorCount: Counter.init(),
@@ -87,17 +89,17 @@ export const memoryGameReducer = (
         clearedCardQuantity: clearedCardList.length,
       });
 
-      const isGameOver = state.gameBoard.isGameOver(clearedCardList);
+      const isWinner = state.gameBoard.isGameOver(clearedCardList);
 
       return {
         ...state,
         accuracy,
         clearedCardList,
         errorCount,
-        isGameOver,
+        isWinner,
+        isGameOver: isWinner,
         areSelectedCardsEqual,
         movesCount,
-        // isReadyToValidateSelection: false,
       };
 
     case GameActionType.CLEAR_SELECTED_CARD:

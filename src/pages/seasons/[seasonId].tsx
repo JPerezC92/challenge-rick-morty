@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { HiChevronDown } from 'react-icons/hi';
 import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
@@ -8,6 +9,7 @@ import { EpisodeModelToView } from 'src/modules/episodes/adapters/EpisodeEndpoin
 import { EpisodeCharacterAvatarList } from 'src/modules/episodes/components/EpisodeCharacterAvatarList';
 import { EpisodeView } from 'src/modules/episodes/dto/EpisodeView';
 import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesRepository';
+import { SeasonsRoutes } from 'src/modules/seasons/models/routes';
 import { SeasonList } from 'src/modules/seasons/models/SeasonList';
 import { Accordion } from 'src/modules/shared/components/Accordion';
 import { AccordionItem } from 'src/modules/shared/components/AccordionItem';
@@ -57,7 +59,7 @@ interface SeasonDetailsProps {
 
 const SeasonDetailsPage: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
   const { query } = useRouter();
-  const episodeCode = query.episodeCode as string;
+  const episodeCode = query['episode-code'] as string;
   const seasonId = query.seasonId as string;
 
   return (
@@ -71,21 +73,32 @@ const SeasonDetailsPage: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
 
         <Accordion
           className="divide-y divide-ct-secondary-400 overflow-hidden rounded-sm"
-          defaultValue={episodeCode || episodeList?.[0].code}
+          value={episodeCode || episodeList?.[0].code}
         >
           {episodeList?.map((episode, i) => (
             <AccordionItem
               id={episode.code}
               key={i}
               value={episode.code}
-              className="grid w-full grid-cols-[1fr_auto] items-center bg-ct-neutral-dark-700 px-2 py-1 text-left text-base font-semibold text-ct-special-ligth-100 sm:px-4 sm:py-2 sm:text-lg"
+              className="w-full bg-ct-neutral-dark-700 px-2 py-1 text-left text-base font-semibold text-ct-special-ligth-100 sm:px-4 sm:py-2 sm:text-lg"
               as="h2"
               trigger={
                 <>
-                  <Text as="span">
-                    {episode.code} - {episode.name}
-                  </Text>
-                  <Icon as={HiChevronDown} variant="sm" />
+                  <Link
+                    href={{
+                      pathname: SeasonsRoutes.seasonsId(episode.seasonId),
+                      query: { ['episode-code']: episode.code },
+                    }}
+                    scroll={false}
+                    shallow
+                  >
+                    <a className="grid grid-cols-[1fr_auto] items-center">
+                      <Text as="span">
+                        {episode.code} - {episode.name}
+                      </Text>
+                      <Icon as={HiChevronDown} variant="sm" />
+                    </a>
+                  </Link>
                 </>
               }
               content={
