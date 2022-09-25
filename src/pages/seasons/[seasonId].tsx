@@ -55,7 +55,7 @@ interface SeasonDetailsProps {
   episodeList: (EpisodeView & { characterViewList: CharacterView[] })[];
 }
 
-const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
+const SeasonDetailsPage: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
   const { query } = useRouter();
   const episodeCode = query.episodeCode as string;
   const seasonId = query.seasonId as string;
@@ -78,7 +78,7 @@ const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
               id={episode.code}
               key={i}
               value={episode.code}
-              className="grid w-full grid-cols-[1fr_auto] items-center bg-ct-neutral-dark-700 px-2 py-1   text-left text-base font-semibold text-ct-special-ligth-100 sm:px-4 sm:py-2 sm:text-lg"
+              className="grid w-full grid-cols-[1fr_auto] items-center bg-ct-neutral-dark-700 px-2 py-1 text-left text-base font-semibold text-ct-special-ligth-100 sm:px-4 sm:py-2 sm:text-lg"
               as="h2"
               trigger={
                 <>
@@ -112,4 +112,4 @@ const SeasonDetails: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
   );
 };
 
-export default SeasonDetails;
+export default SeasonDetailsPage;

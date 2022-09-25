@@ -19,7 +19,11 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   ...props
 }) => {
   return (
-    <AccordionPrimitive.Item {...props} value={value}>
+    <AccordionPrimitive.Item
+      {...props}
+      data-testid="accordion-item"
+      value={value}
+    >
       <AccordionPrimitive.Header asChild>
         <Heading as={as}>
           <AccordionPrimitive.Trigger className={className}>

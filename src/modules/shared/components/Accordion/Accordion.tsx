@@ -17,6 +17,7 @@ export const Accordion: React.FC<AccordionProps> = ({
       type="single"
       className={`${className}`}
       defaultValue={defaultValue}
+      data-testid="accordion"
     >
       {children}
     </AccordionPrimitive.Root>
