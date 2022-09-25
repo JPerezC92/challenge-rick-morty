@@ -95,7 +95,10 @@ const CharacterDetailsPage: NextPage<CharacterDetailsPageProps> = ({
               About
             </Heading>
 
-            <ul className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0">
+            <ul
+              data-testid="about-data-list"
+              className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0"
+            >
               {[
                 { label: 'gender', value: characterView.gender },
                 { label: 'species', value: characterView.species },

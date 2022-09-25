@@ -15,7 +15,7 @@ export const CharactersEpisodesPreviewList: React.FC<
   CharactersEpisodesPreviewListProps
 > = ({ className = '', episodeViewList }) => {
   return (
-    <ol className={`${className}`}>
+    <ol data-testid="episodes-list" className={`${className}`}>
       {episodeViewList.map((episode, i) => (
         <li key={episode.id}>
           <NextLink
