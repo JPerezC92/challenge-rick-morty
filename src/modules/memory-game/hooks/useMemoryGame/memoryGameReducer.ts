@@ -89,7 +89,7 @@ export const memoryGameReducer = (
         clearedCardQuantity: clearedCardList.length,
       });
 
-      const isWinner = state.gameBoard.isGameOver(clearedCardList);
+      const isWinner = state.gameBoard.isWinner(clearedCardList);
 
       return {
         ...state,

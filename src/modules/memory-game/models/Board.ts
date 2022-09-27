@@ -44,7 +44,7 @@ export class Board {
     );
   }
 
-  public isGameOver(clearedCardList: PlayingCard[]): boolean {
+  public isWinner(clearedCardList: PlayingCard[]): boolean {
     return this.playingCardList.length === clearedCardList.length;
   }
 }

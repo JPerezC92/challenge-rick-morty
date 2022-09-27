@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -106,7 +107,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         </div>
       </header>
 
-      {children}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {children}
+      </motion.div>
     </ScrollArea>
   );
 };

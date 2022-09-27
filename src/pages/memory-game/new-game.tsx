@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import React from 'react';
 
 import { MemoryGameBoardOverlay } from 'src/modules/memory-game/components/MemoryGameBoardOverlay';
@@ -14,9 +15,8 @@ import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGam
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { useCharacterRandomListQuery } from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
 import { useConfigurationStore } from 'src/modules/memory-game/store/useConfigurationStore';
-import { NextPageWithLayout } from 'src/pages/_app';
 
-const NewGamePage: NextPageWithLayout = () => {
+const NewGamePage: NextPage = () => {
   const configurationIsLoaded = useConfigurationStore((s) => s.isLoaded);
   const boardSize = useConfigurationStore((s) => s.boardSize);
   const gameMode = useConfigurationStore((s) => s.gameMode);
@@ -42,39 +42,35 @@ const NewGamePage: NextPageWithLayout = () => {
   }, [characterListRefetch]);
 
   return (
-    <>
-      <main className="m-auto grid min-h-screen max-w-7xl">
-        <MemoryGameBoardOverlay
-          topBar={
-            <MemoryGameTopBar
-              className="!sticky !top-0 z-10"
-              boardSize={boardSize}
+    <MemoryGameLayout>
+      <MemoryGameBoardOverlay
+        topBar={
+          <MemoryGameTopBar
+            className="!sticky !top-0 z-10"
+            boardSize={boardSize}
+            gameMode={gameMode}
+          />
+        }
+        board={
+          !characterList.length || isLoading || isRefetching ? (
+            <MemoryGameBoardSkeleton size={boardSize} />
+          ) : (
+            <MemoryGameBoard
+              className="py-4 px-2"
               gameMode={gameMode}
+              characterList={characterList}
+              accuracyChangeEvent={MemoryGameAccuracyChangeEvent}
+              errorIncreaseEvent={MemoryGameErrorIncreaseEvent}
+              gameOverEvent={MemoryGameGameOverEvent}
+              moveIncreaseEvent={MemoryGameMoveIncreaseEvent}
+              selectCardEvent={MemoryGameSelectCardEvent}
             />
-          }
-          board={
-            !characterList.length || isLoading || isRefetching ? (
-              <MemoryGameBoardSkeleton size={boardSize} />
-            ) : (
-              <MemoryGameBoard
-                className="py-4 px-2"
-                gameMode={gameMode}
-                characterList={characterList}
-                accuracyChangeEvent={MemoryGameAccuracyChangeEvent}
-                errorIncreaseEvent={MemoryGameErrorIncreaseEvent}
-                gameOverEvent={MemoryGameGameOverEvent}
-                moveIncreaseEvent={MemoryGameMoveIncreaseEvent}
-                selectCardEvent={MemoryGameSelectCardEvent}
-              />
-            )
-          }
-          bottomBar={<MemoryGameScoresAndActions className="sticky bottom-0" />}
-        />
-      </main>
-    </>
+          )
+        }
+        bottomBar={<MemoryGameScoresAndActions className="sticky bottom-0" />}
+      />
+    </MemoryGameLayout>
   );
 };
 
 export default NewGamePage;
-
-NewGamePage.getLayout = (page) => <MemoryGameLayout>{page}</MemoryGameLayout>;

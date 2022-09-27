@@ -37,9 +37,9 @@ export const CharactersEpisodesPreviewList: React.FC<
                 }
               >
                 <Text as="span" className="">
-                  {++i}. {episode.name} / {'  '}
+                  {episode.code} - {episode.name} / {'  '}
                   <small>
-                    {episode.code} / <time className="">{episode.airDate}</time>
+                    <time className="">{episode.airDate}</time>
                   </small>
                 </Text>
               </Tooltip>
