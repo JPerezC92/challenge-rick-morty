@@ -27,7 +27,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     >
       <AccordionPrimitive.Header asChild>
         <Heading as={as}>
-          <AccordionPrimitive.Trigger className={className}>
+          <AccordionPrimitive.Trigger
+            className={`outline-ct-neutral-ligth-400 ${className}`}
+          >
             {trigger}
           </AccordionPrimitive.Trigger>
         </Heading>

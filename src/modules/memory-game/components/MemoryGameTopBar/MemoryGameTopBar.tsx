@@ -4,6 +4,7 @@ import { MemoryGameAttempts } from 'src/modules/memory-game/containers/MemoryGam
 import { MemoryGameCardSelected } from 'src/modules/memory-game/containers/MemoryGameCardSelected';
 import { MemoryGameTimer } from 'src/modules/memory-game/containers/MemoryGameTimer';
 import { MemoryGameErrorIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameErrorIncrease.event';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameImperativeGameOverEvent } from 'src/modules/memory-game/events/MemoryGameImperativeGameOver.event';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
@@ -45,9 +46,10 @@ export const MemoryGameTopBar: React.FC<MemoryGameTopBarProps> = ({
           <MemoryGameTimer
             className="mx-3 scale-[130%]"
             boardSize={boardSize}
+            gameOverEvent={MemoryGameGameOverEvent}
+            imperativeGameOverEvent={MemoryGameImperativeGameOverEvent}
             restartEvent={MemoryGameRestartEvent}
             selectCardEvent={MemoryGameSelectCardEvent}
-            imperativeGameOverEvent={MemoryGameImperativeGameOverEvent}
           />
         )
       )}

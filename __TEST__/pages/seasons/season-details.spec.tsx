@@ -17,9 +17,35 @@ const episodeCode = episodelist[0].code;
 const seasonId = SeasonList[0].id;
 
 describe('Test on <SeasonDetailsPage />', () => {
+  test('should contain a skeleton if isFallback is true', () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { episodeCode, seasonId },
+      isFallback: true,
+      isReady: true,
+    } as unknown as Router.NextRouter);
+
+    render(<SeasonDetailsPage episodeList={episodelist} />);
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  test('should contain a skeleton if isReady is false', () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: false,
+    } as unknown as Router.NextRouter);
+
+    render(<SeasonDetailsPage episodeList={episodelist} />);
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
   test('should contain a h1 with the proper text', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: true,
     } as unknown as Router.NextRouter);
 
     render(<SeasonDetailsPage episodeList={episodelist} />);
@@ -32,6 +58,8 @@ describe('Test on <SeasonDetailsPage />', () => {
   test('should contain an accordion', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: true,
     } as unknown as Router.NextRouter);
 
     render(<SeasonDetailsPage episodeList={episodelist} />);
@@ -42,6 +70,8 @@ describe('Test on <SeasonDetailsPage />', () => {
   test('accordion should contain 3 items', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: true,
     } as unknown as Router.NextRouter);
 
     render(<SeasonDetailsPage episodeList={episodelist} />);
@@ -57,6 +87,8 @@ describe('Test on <SeasonDetailsPage />', () => {
   test('accordion item should contain a heading', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: true,
     } as unknown as Router.NextRouter);
 
     render(<SeasonDetailsPage episodeList={episodelist} />);
@@ -73,6 +105,8 @@ describe('Test on <SeasonDetailsPage />', () => {
   test('accordion item should contain a list with the characters images', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { episodeCode, seasonId },
+      isFallback: false,
+      isReady: true,
     } as unknown as Router.NextRouter);
 
     render(<SeasonDetailsPage episodeList={episodelist} />);

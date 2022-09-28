@@ -3,17 +3,16 @@ import { CharactersPreviewCardSkeleton } from 'src/modules/characters/components
 import { range } from 'src/modules/shared/utils/range';
 
 type CharactersPreviewListSkeletonProps = {
-  className?: string;
   items: number;
-};
+} & React.ComponentProps<'div'>;
 
 export const CharactersPreviewListSkeleton: React.FC<
   CharactersPreviewListSkeletonProps
-> = ({ className = '', items }) => {
+> = ({ items, ...props }) => {
   const id = React.useId();
 
   return (
-    <div className={`${className}`} role="progressbar">
+    <div {...props}>
       {range(items).map((v) => (
         <CharactersPreviewCardSkeleton key={id + v} />
       ))}

@@ -17,7 +17,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryGameBoard } from 'src/modules/memory-game/containers/MemoryGameBoard';
 import { MemoryGameErrorIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameErrorIncrease.event';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
-import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameAccuracyChange.event';
 import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { GameModes } from 'src/modules/memory-game/models/GameModes';

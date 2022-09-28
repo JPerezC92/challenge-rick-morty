@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { MemoryGameAccuracy } from 'src/modules/memory-game/containers/MemoryGameAccuracy';
-import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameAccuracyChange.event';
 
 describe('test <MemoryGameAccuracy />', () => {
   test('initial content should be "0"', () => {

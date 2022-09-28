@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { GiPortal } from 'react-icons/gi';
 import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
 import { CharactersEpisodesPreviewList } from 'src/modules/characters/containers/CharactersEpisodesPreviewList';
@@ -12,8 +13,51 @@ import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesR
 import { Heading } from 'src/modules/shared/components/Heading';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
+import { Skeleton } from 'src/modules/shared/components/Skeleton';
 import { Text } from 'src/modules/shared/components/Text';
 import { constants } from 'src/modules/shared/utils/constants';
+import { range } from 'src/modules/shared/utils/range';
+
+const CharacterDetailsPageSkeleton = () => {
+  return (
+    <>
+      <div
+        role="progressbar"
+        className="grid max-w-full overflow-ellipsis p-4 md:mx-auto md:max-w-7xl"
+      >
+        <Skeleton className="mt-2 mb-16 h-[64.8px] rounded md:h-[84px]" />
+
+        <div className="mb-8 grid gap-8 md:mx-auto md:w-full md:grid-cols-[min(40%_,_22rem)_auto] md:gap-4 lg:grid-cols-[min(45%_,_25rem)_auto] lg:gap-8">
+          <Skeleton className="m-auto h-[171.5px] w-[171.5px] rounded-md sm:h-[304px] sm:w-[304px] md:m-0 md:mb-auto md:h-[294.39px] md:w-[294.39px] lg:h-[400px] lg:w-[400px]" />
+
+          <div className="self-end">
+            <Skeleton className="mb-4 h-[19.19px] rounded md:mb-8 md:h-[40px]" />
+
+            <ul className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0">
+              {range(6).map((v) => (
+                <li key={v} className="py-1">
+                  <Skeleton className="h-8 rounded" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <Skeleton className="mb-4 h-[19.19px] rounded md:mb-8 md:h-[40px]" />
+
+          <ul>
+            {range(6).map((v) => (
+              <li key={v}>
+                <Skeleton className="h-[35px] sm:h-[39px]" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const charactersRepository = ApiCharactersRepository();
@@ -23,7 +67,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { characterId: character.id.toString() },
   }));
 
-  return { paths, fallback: 'blocking' };
+  return { paths, fallback: true };
 };
 
 type GetStaticPropsParams = { characterId: string };
@@ -57,111 +101,123 @@ interface CharacterDetailsPageProps {
 const CharacterDetailsPage: NextPage<CharacterDetailsPageProps> = ({
   characterView,
 }) => {
+  const { isFallback } = useRouter();
+
+  const isLoading = isFallback;
+
   return (
     <MainLayout>
-      <main className="grid max-w-full overflow-ellipsis p-4 md:mx-auto md:max-w-7xl">
-        <header className={`mx-auto mt-2 mb-16 w-full`}>
-          <Heading
-            l2
-            className={`rounded-2xl border-y-2 bg-gradient-to-r from-ct-secondary-400 to-ct-primary-400 bg-clip-text py-4 text-center text-transparent  ${
-              characterView.status === Status.ALIVE
-                ? 'border-ct-primary-300 from-ct-secondary-300 to-ct-primary-300'
-                : characterView.status === Status.DEAD
-                ? 'border-ct-error-300 from-ct-error-300 to-ct-neutral-dark-300'
-                : characterView.status === Status.UNKNOWN
-                ? 'border-ct-neutral-dark-300 from-ct-neutral-dark-300 to-ct-neutral-ligth-300'
-                : ''
-            }`}
-          >
-            {characterView.name}
-          </Heading>
-        </header>
+      {isLoading ? (
+        <CharacterDetailsPageSkeleton />
+      ) : (
+        <main className="grid max-w-full overflow-ellipsis p-4 md:mx-auto md:max-w-7xl">
+          <header className={`mx-auto mt-2 mb-16 w-full`}>
+            <Heading
+              l2
+              className={`rounded-2xl border-y-2 bg-gradient-to-r from-ct-secondary-400 to-ct-primary-400 bg-clip-text py-4 text-center text-transparent  ${
+                characterView.status === Status.ALIVE
+                  ? 'border-ct-primary-300 from-ct-secondary-300 to-ct-primary-300'
+                  : characterView.status === Status.DEAD
+                  ? 'border-ct-error-300 from-ct-error-300 to-ct-neutral-dark-300'
+                  : characterView.status === Status.UNKNOWN
+                  ? 'border-ct-neutral-dark-300 from-ct-neutral-dark-300 to-ct-neutral-ligth-300'
+                  : ''
+              }`}
+            >
+              {characterView.name}
+            </Heading>
+          </header>
 
-        <section className="mb-8 grid gap-8 md:mx-auto md:w-full md:grid-cols-[min(40%_,_22rem)_auto] md:gap-4 lg:grid-cols-[min(45%_,_25rem)_auto] lg:gap-8">
-          <picture className="relative m-auto block w-1/2 overflow-hidden rounded-md border-2 border-ct-special-ligth-200/90 md:m-0 md:mb-auto md:w-full">
-            <Image
-              src={characterView.image}
-              alt={characterView.name}
-              className="object-cover"
-              height={300}
-              width={300}
-              layout="responsive"
-              priority
-            />
-          </picture>
+          <section className="mb-8 grid gap-8 md:mx-auto md:w-full md:grid-cols-[min(40%_,_22rem)_auto] md:gap-4 lg:grid-cols-[min(45%_,_25rem)_auto] lg:gap-8">
+            <picture className="relative m-auto block w-1/2 overflow-hidden rounded-md border-2 border-ct-special-ligth-200/90 md:m-0 md:mb-auto md:w-full">
+              <Image
+                src={characterView.image}
+                alt={characterView.name}
+                className="object-cover"
+                height={300}
+                width={300}
+                layout="responsive"
+                priority
+              />
+            </picture>
 
-          <div className="self-end">
-            <Heading l3 as="h2" className="mb-4 text-ct-secondary-400 md:mb-8">
-              About
+            <div className="self-end">
+              <Heading
+                l3
+                as="h2"
+                className="mb-4 text-ct-secondary-400 md:mb-8"
+              >
+                About
+              </Heading>
+
+              <ul
+                data-testid="about-data-list"
+                className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0"
+              >
+                {[
+                  { label: 'gender', value: characterView.gender },
+                  { label: 'species', value: characterView.species },
+                  { label: 'status', value: characterView.status },
+                  { label: 'type', value: characterView.type },
+                  {
+                    label: 'Origin location',
+                    value: characterView.originLocation.name,
+                  },
+                  {
+                    label: 'Last known location',
+                    value: characterView.actualLocation.name,
+                  },
+                ].map((v) => (
+                  <li key={v.label} className="text-ct-special-ligth-100">
+                    <p className="grid grid-cols-[auto_auto_1fr] items-center py-1">
+                      <Icon
+                        as={GiPortal}
+                        variant="xs"
+                        className="ml-2 -mr-1 -scale-75 mix-blend-luminosity"
+                      />
+
+                      <Text
+                        as="span"
+                        className="inline-flex items-center rounded py-1 px-2 font-extrabold capitalize tracking-widest"
+                        l1
+                      >
+                        {v.label}:
+                      </Text>
+
+                      <Text
+                        as="span"
+                        className="w-full text-right font-medium md:tracking-wider"
+                        l1
+                      >
+                        {v.value || '?'}
+                      </Text>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <Heading
+              l3
+              as="h2"
+              className="mb-4 tracking-wider text-ct-secondary-400"
+            >
+              Episodes
             </Heading>
 
-            <ul
-              data-testid="about-data-list"
-              className="divide-y divide-dotted divide-ct-neutral-ligth-400/50 border-y border-ct-neutral-ligth-400 md:mb-0"
-            >
-              {[
-                { label: 'gender', value: characterView.gender },
-                { label: 'species', value: characterView.species },
-                { label: 'status', value: characterView.status },
-                { label: 'type', value: characterView.type },
-                {
-                  label: 'Origin location',
-                  value: characterView.originLocation.name,
-                },
-                {
-                  label: 'Last known location',
-                  value: characterView.actualLocation.name,
-                },
-              ].map((v) => (
-                <li key={v.label} className="text-ct-special-ligth-100">
-                  <p className="grid grid-cols-[auto_auto_1fr] items-center py-1">
-                    <Icon
-                      as={GiPortal}
-                      variant="xs"
-                      className="ml-2 -mr-1 -scale-75 mix-blend-luminosity"
-                    />
-
-                    <Text
-                      as="span"
-                      className="inline-flex items-center rounded py-1 px-2 font-extrabold capitalize tracking-widest"
-                      l1
-                    >
-                      {v.label}:
-                    </Text>
-
-                    <Text
-                      as="span"
-                      className="w-full text-right font-medium md:tracking-wider"
-                      l1
-                    >
-                      {v.value || '?'}
-                    </Text>
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section>
-          <Heading
-            l3
-            as="h2"
-            className="mb-4 tracking-wider text-ct-secondary-400"
-          >
-            Episodes
-          </Heading>
-
-          <CharactersEpisodesPreviewList
-            episodeViewList={characterView.episodeViewList}
-            className={`${
-              characterView.apparitionEpisodesCount > 20
-                ? 'grid grid-cols-1 sm:block sm:columns-xs lg:columns-md'
-                : 'grid grid-cols-1'
-            }`}
-          />
-        </section>
-      </main>
+            <CharactersEpisodesPreviewList
+              episodeViewList={characterView.episodeViewList}
+              className={`${
+                characterView.apparitionEpisodesCount > 20
+                  ? 'grid grid-cols-1 sm:block sm:columns-xs lg:columns-md'
+                  : 'grid grid-cols-1'
+              }`}
+            />
+          </section>
+        </main>
+      )}
     </MainLayout>
   );
 };

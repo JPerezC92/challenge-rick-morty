@@ -16,6 +16,7 @@ export const Accordion: React.FC<AccordionProps> = ({
 }) => {
   return (
     <AccordionPrimitive.Root
+      collapsible
       type="single"
       className={`${className}`}
       defaultValue={defaultValue}

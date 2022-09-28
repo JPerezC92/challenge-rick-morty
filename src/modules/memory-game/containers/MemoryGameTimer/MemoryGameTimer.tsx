@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameImperativeGameOverEvent } from 'src/modules/memory-game/events/MemoryGameImperativeGameOver.event';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
@@ -9,9 +10,10 @@ import { Text } from 'src/modules/shared/components/Text';
 type MemoryGameTimerProps = {
   className?: string;
   boardSize: BoardSize[keyof BoardSize];
+  gameOverEvent: MemoryGameGameOverEvent;
+  imperativeGameOverEvent: MemoryGameImperativeGameOverEvent;
   restartEvent: MemoryGameRestartEvent;
   selectCardEvent: MemoryGameSelectCardEvent;
-  imperativeGameOverEvent: MemoryGameImperativeGameOverEvent;
 };
 
 export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
@@ -19,6 +21,7 @@ export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
   boardSize,
   restartEvent,
   selectCardEvent,
+  gameOverEvent,
   imperativeGameOverEvent,
 }) => {
   const [isReady, setIsReady] = React.useState(false);
@@ -52,6 +55,10 @@ export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
   React.useEffect(() => {
     let timeInterval: NodeJS.Timer;
 
+    const cleanGameOverEvent = gameOverEvent.listener(() => {
+      window.clearTimeout(timeInterval);
+    });
+
     if (!isReady) return;
 
     timeInterval = setInterval(() => {
@@ -65,8 +72,9 @@ export const MemoryGameTimer: React.FC<MemoryGameTimerProps> = ({
 
     return () => {
       window.clearTimeout(timeInterval);
+      cleanGameOverEvent();
     };
-  }, [isReady, timeRemaining]);
+  }, [gameOverEvent, isReady, timeRemaining]);
 
   return (
     <span

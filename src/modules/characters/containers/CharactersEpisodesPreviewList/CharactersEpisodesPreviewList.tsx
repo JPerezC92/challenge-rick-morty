@@ -36,7 +36,7 @@ export const CharactersEpisodesPreviewList: React.FC<
                   episode.name + ' / ' + episode.code + ' / ' + episode.airDate
                 }
               >
-                <Text as="span" className="">
+                <Text as="span" l1>
                   {episode.code} - {episode.name} / {'  '}
                   <small>
                     <time className="">{episode.airDate}</time>

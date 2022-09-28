@@ -46,7 +46,13 @@ jest.mock('src/modules/characters/hooks/useCharacterPreviewFilterQuery', () => {
   };
 });
 
-import { render, screen, waitFor, within } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
 import * as Router from 'next/router';
 import { CharacterModelToView } from 'src/modules/characters/adapters/CharacterModelToView';
 import * as useCharacterPreviewFilterQuery from 'src/modules/characters/hooks/useCharacterPreviewFilterQuery';
@@ -62,7 +68,18 @@ describe('Test on <Home />', () => {
     jest.restoreAllMocks();
   });
 
-  test('the initial render should contain the proper elements', () => {
+  test('the initial render should contain a skeleton', () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { page: '1' },
+      isReady: false,
+    } as unknown as Router.NextRouter);
+
+    render(<Home />, { wrapper: queryClientWrapper() });
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  test('should contain the main layout', () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { page: '1' },
       isReady: true,
@@ -70,13 +87,33 @@ describe('Test on <Home />', () => {
 
     render(<Home />, { wrapper: queryClientWrapper() });
 
-    const charactersHeading = screen.getByRole('heading');
-
     expect(screen.getByTestId('main-layout')).toBeInTheDocument();
-    expect(charactersHeading).toBeInTheDocument();
+  });
+
+  test('should contain a heading', async () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { page: '1' },
+      isReady: true,
+    } as unknown as Router.NextRouter);
+
+    jest
+      .spyOn(useCharacterPreviewQuery, 'useCharacterPreviewQuery')
+      .mockReturnValue({
+        data: {
+          characterList: characterList.map(CharacterModelToView),
+          pagesCount: 42,
+        },
+        isLoading: false,
+        isError: false,
+      } as unknown as useCharacterPreviewQuery.UseCharacterPreviewQueryResult);
+
+    render(<Home />, { wrapper: queryClientWrapper() });
+
+    await waitForElementToBeRemoved(() => screen.getByRole('progressbar'));
+
+    const charactersHeading = screen.getByRole('heading', { level: 1 });
+
     expect(charactersHeading).toHaveTextContent(/characters/i);
-    expect(screen.getAllByRole('progressbar')).toHaveLength(3);
-    expect(screen.getByText(/of/i)).toBeInTheDocument();
   });
 
   test('should render the pagination components', async () => {
@@ -195,6 +232,52 @@ describe('Test on <Home />', () => {
     );
   });
 
+  test('should render the character preview card skeleton', async () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { page: '1' },
+      isReady: true,
+    } as unknown as Router.NextRouter);
+
+    jest
+      .spyOn(useCharacterPreviewQuery, 'useCharacterPreviewQuery')
+      .mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        isError: false,
+      } as unknown as useCharacterPreviewQuery.UseCharacterPreviewQueryResult);
+
+    render(<Home />, { wrapper: queryClientWrapper() });
+
+    await waitFor(() =>
+      expect(
+        screen.getByTestId('character-preview-skeleton')
+      ).toBeInTheDocument()
+    );
+  });
+
+  test('FilterQuery:should render the character preview card skeleton', async () => {
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      query: { page: '1' },
+      isReady: true,
+    } as unknown as Router.NextRouter);
+
+    jest
+      .spyOn(useCharacterPreviewFilterQuery, 'useCharacterPreviewFilterQuery')
+      .mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        isError: false,
+      } as unknown as useCharacterPreviewFilterQuery.UseCharacterPreviewFilterQueryResult);
+
+    render(<Home />, { wrapper: queryClientWrapper() });
+
+    await waitFor(() =>
+      expect(
+        screen.getByTestId('character-preview-skeleton')
+      ).toBeInTheDocument()
+    );
+  });
+
   test('should render the character preview card components', async () => {
     jest.spyOn(Router, 'useRouter').mockReturnValue({
       query: { page: '1' },
@@ -203,7 +286,7 @@ describe('Test on <Home />', () => {
 
     jest
       .spyOn(useCharacterPreviewQuery, 'useCharacterPreviewQuery')
-      .mockReturnValueOnce({
+      .mockReturnValue({
         data: {
           characterList: characterList.map(CharacterModelToView),
           pagesCount: 42,

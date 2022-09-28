@@ -4,7 +4,7 @@ import {
   CustomEventFactoryResult,
 } from 'src/modules/shared/events/CustomEventFactory';
 
-const type = 'MemeryGame:MoveFinished';
+const type = 'MemeryGame:AccuracyChange';
 
 export interface MemoryGameAccuracyChangeEvent
   extends CustomEventFactoryResult<Accuracy['value']> {}

@@ -3,10 +3,10 @@ import React from 'react';
 import { Character } from 'src/modules/characters/models/Character';
 import { MemoryGameDialog } from 'src/modules/memory-game/containers/MemoryGameDialog';
 import { MemoryGamePlayingCard } from 'src/modules/memory-game/containers/MemoryGamePlayingCard';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameAccuracyChange.event';
 import { MemoryGameErrorIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameErrorIncrease.event';
 import { MemoryGameGameOverEvent } from 'src/modules/memory-game/events/MemoryGameGameOver.event';
 import { MemoryGameImperativeGameOverEvent } from 'src/modules/memory-game/events/MemoryGameImperativeGameOver.event';
-import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
 import { MemoryGameMoveIncreaseEvent } from 'src/modules/memory-game/events/MemoryGameMoveIncreaseEvent';
 import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGameRestart.event';
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
@@ -21,21 +21,24 @@ import { Text } from 'src/modules/shared/components/Text';
 type MemoryGameBoardProps = {
   className?: string;
   characterList: Character[];
-  gameOverEvent?: MemoryGameGameOverEvent;
   accuracyChangeEvent?: MemoryGameAccuracyChangeEvent;
-  selectCardEvent?: MemoryGameSelectCardEvent;
   errorIncreaseEvent?: MemoryGameErrorIncreaseEvent;
+  gameOverEvent?: MemoryGameGameOverEvent;
+  imperativeGameOverEvent?: MemoryGameImperativeGameOverEvent;
   moveIncreaseEvent?: MemoryGameMoveIncreaseEvent;
+  selectCardEvent?: MemoryGameSelectCardEvent;
   gameMode: `${GameModes}`;
 };
 
 export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   className = '',
   characterList,
-  errorIncreaseEvent,
   gameMode,
-  gameOverEvent,
   accuracyChangeEvent,
+  errorIncreaseEvent,
+  gameOverEvent,
+  imperativeGameOverEvent,
+  moveIncreaseEvent,
   selectCardEvent,
 }) => {
   const router = useRouter();
@@ -59,10 +62,12 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   };
 
   React.useEffect(() => {
-    MemoryGameImperativeGameOverEvent.listener(() => {
+    const cleanup = imperativeGameOverEvent?.listener(() => {
       gameDispatch(gameActions.gameOverImperative());
     });
-  }, [gameDispatch]);
+
+    return () => cleanup?.();
+  }, [gameDispatch, imperativeGameOverEvent]);
 
   React.useEffect(() => {
     if (!selectedCardList?.length) return;
@@ -74,8 +79,8 @@ export const MemoryGameBoard: React.FC<MemoryGameBoardProps> = ({
   }, [accuracy, accuracyChangeEvent]);
 
   React.useEffect(() => {
-    MemoryGameMoveIncreaseEvent.trigger(movesCount);
-  }, [movesCount]);
+    moveIncreaseEvent?.trigger(movesCount);
+  }, [moveIncreaseEvent, movesCount]);
 
   React.useEffect(() => {
     errorIncreaseEvent?.trigger(errorCount);

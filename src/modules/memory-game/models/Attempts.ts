@@ -4,6 +4,6 @@ export interface Attempts extends Record<keyof BoardSize, number> {}
 
 export const Attempts: Attempts = {
   12: 6,
-  18: 8,
-  24: 10,
+  18: 9,
+  24: 12,
 };

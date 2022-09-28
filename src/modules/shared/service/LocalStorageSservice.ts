@@ -1,7 +1,6 @@
-import { CharactersLSKeys } from 'src/modules/characters/service/CharactersLSKeys';
 import { MemoryGameLSKeys } from 'src/modules/memory-game/service/MemoryGameLSKeys';
 
-type LocalStorageKeys = `${MemoryGameLSKeys}` | `${CharactersLSKeys}`;
+type LocalStorageKeys = `${MemoryGameLSKeys}`;
 
 interface LocalStorageService {
   getItem: (key: LocalStorageKeys) => string | undefined;

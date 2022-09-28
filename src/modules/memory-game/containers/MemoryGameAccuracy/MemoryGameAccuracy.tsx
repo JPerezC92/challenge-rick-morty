@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryGameScore } from 'src/modules/memory-game/components/MemoryGameScore';
-import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameMoveFinished.event';
+import { MemoryGameAccuracyChangeEvent } from 'src/modules/memory-game/events/MemoryGameAccuracyChange.event';
 
 type MemoryGameAccuracyProps = {
   className?: string;
