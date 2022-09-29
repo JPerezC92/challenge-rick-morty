@@ -39,6 +39,7 @@ export const CharacterSearcher: React.FC<CharacterSearcherProps> = ({
         id="name"
         placeholder="E.g: Rick"
         value={name}
+        autoComplete="off"
         onChange={(e) => setName(e.target.value)}
       />
 

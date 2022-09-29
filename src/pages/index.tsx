@@ -11,6 +11,7 @@ import { Heading } from 'src/modules/shared/components/Heading';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
 import { Pagination } from 'src/modules/shared/components/Pagination';
 import { PaginationSkeleton } from 'src/modules/shared/components/PaginationSkeleton';
+import { SEO } from 'src/modules/shared/components/SEO';
 import { Skeleton } from 'src/modules/shared/components/Skeleton';
 import { Text } from 'src/modules/shared/components/Text';
 import { useCharacterFiltersQueryString } from 'src/modules/shared/hooks/useCharacterFiltersQueryString';
@@ -105,6 +106,12 @@ const Home: NextPage = () => {
 
   return (
     <MainLayout>
+      <SEO
+        title="Rick&Morty"
+        siteTitle="Characters"
+        description="List of characters from the TV Show"
+      />
+
       {isLoading ? (
         <HomePageSkeleton />
       ) : (

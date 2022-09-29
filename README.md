@@ -1,4 +1,4 @@
-# Challenge de la comunidad Gentleman Programming - **[Go to the App](https://example.vercel.app/)**
+# Challenge de la comunidad Gentleman Programming - **[Go to the App](https://rick-morty-app-jet.vercel.app/)**
 
 <img src="./public/preview-1.webp" alt="preview-1" width="800"/>
 <img src="./public/preview-2.webp" alt="preview-2" width="800"/>

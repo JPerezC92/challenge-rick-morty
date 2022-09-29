@@ -17,7 +17,7 @@ export const MemoryGameLayout: React.FC<MemoryGameLayoutProps> = ({
   return (
     <>
       <ScrollArea
-        className={`bg-[url('/memory-game-wallpaper.webp')] bg-cover bg-no-repeat ${className}`}
+        className={`bg-[url('/memory-game/game-background.webp')] bg-cover bg-no-repeat ${className}`}
       >
         <motion.div
           initial={{ opacity: 0 }}

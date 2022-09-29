@@ -10,6 +10,7 @@ import { MemoryGameRoutes } from 'src/modules/memory-game/models/routes';
 import { useConfigurationStore } from 'src/modules/memory-game/store/useConfigurationStore';
 import { Button } from 'src/modules/shared/components/Button';
 import { Icon } from 'src/modules/shared/components/Icon';
+import { SEO } from 'src/modules/shared/components/SEO';
 import { Text } from 'src/modules/shared/components/Text';
 import { EnvironmentVariable } from 'src/modules/shared/utils/envVariables';
 import { rgbDataURL } from 'src/modules/shared/utils/rgbDataURL';
@@ -24,6 +25,8 @@ const MemoryGamePage: NextPage = () => {
 
   return (
     <MemoryGameLayout>
+      <SEO title="Rick&Morty" siteTitle="Game menu" description="Game menu" />
+
       <main className="mx-auto grid min-h-screen max-w-7xl">
         <div className="flex h-full flex-col items-center justify-center space-y-4 bg-ct-neutral-dark-700/90 xl:m-4 xl:my-auto xl:h-auto xl:min-h-[85%] xl:rounded-xl xl:py-8">
           <picture className="relative w-full max-w-xs overflow-hidden rounded-lg bg-ct-secondary-400 md:max-w-md">

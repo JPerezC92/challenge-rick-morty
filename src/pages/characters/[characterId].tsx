@@ -13,6 +13,7 @@ import { ApiEpisodesRepository } from 'src/modules/episodes/service/ApiEpisodesR
 import { Heading } from 'src/modules/shared/components/Heading';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
+import { SEO } from 'src/modules/shared/components/SEO';
 import { Skeleton } from 'src/modules/shared/components/Skeleton';
 import { Text } from 'src/modules/shared/components/Text';
 import { constants } from 'src/modules/shared/utils/constants';
@@ -107,6 +108,12 @@ const CharacterDetailsPage: NextPage<CharacterDetailsPageProps> = ({
 
   return (
     <MainLayout>
+      <SEO
+        title="Rick&Morty"
+        siteTitle={characterView?.name}
+        description={`Details of the character ${characterView?.name}`}
+      />
+
       {isLoading ? (
         <CharacterDetailsPageSkeleton />
       ) : (

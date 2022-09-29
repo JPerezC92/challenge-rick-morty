@@ -14,7 +14,7 @@ export const SEO: React.FC<SEOProps> = ({ description, title, siteTitle }) => {
   return (
     <Head>
       <title>{`${title} | ${siteTitle}`}</title>
-      <link rel="icon" href="/icons/favicon.ico" />
+      <link rel="icon" href="/favicon.ico" />
       <meta property="og:locale" content="us_US" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />

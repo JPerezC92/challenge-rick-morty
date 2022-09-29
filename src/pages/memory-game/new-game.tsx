@@ -16,6 +16,7 @@ import { MemoryGameRestartEvent } from 'src/modules/memory-game/events/MemoryGam
 import { MemoryGameSelectCardEvent } from 'src/modules/memory-game/events/MemoryGameSelectCard.event';
 import { useCharacterRandomListQuery } from 'src/modules/memory-game/hooks/useCharacterRandomListQuery';
 import { useConfigurationStore } from 'src/modules/memory-game/store/useConfigurationStore';
+import { SEO } from 'src/modules/shared/components/SEO';
 
 const NewGamePage: NextPage = () => {
   const configurationIsLoaded = useConfigurationStore((s) => s.isLoaded);
@@ -44,6 +45,12 @@ const NewGamePage: NextPage = () => {
 
   return (
     <MemoryGameLayout>
+      <SEO
+        title="Rick&Morty"
+        siteTitle="Game in progress"
+        description="Game in progress"
+      />
+
       <main className="m-auto grid min-h-screen max-w-7xl">
         <MemoryGameBoardOverlay
           topBar={

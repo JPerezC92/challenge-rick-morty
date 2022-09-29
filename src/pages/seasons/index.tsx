@@ -6,11 +6,18 @@ import { SeasonsRoutes } from 'src/modules/seasons/models/routes';
 import { SeasonList } from 'src/modules/seasons/models/SeasonList';
 import { Heading } from 'src/modules/shared/components/Heading';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
+import { SEO } from 'src/modules/shared/components/SEO';
 import { rgbDataURL } from 'src/modules/shared/utils/rgbDataURL';
 
 const SeasonsPage: NextPage = () => {
   return (
     <MainLayout>
+      <SEO
+        title="Rick&Morty"
+        siteTitle="Seasons"
+        description="List of seasons of the TV Show"
+      />
+
       <main className="mx-auto my-8 max-w-7xl px-4">
         <Heading l2 as="h1" colorGradient="special1">
           Seasons

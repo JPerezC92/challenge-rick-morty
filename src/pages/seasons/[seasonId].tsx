@@ -14,6 +14,7 @@ import { AccordionItem } from 'src/modules/shared/components/AccordionItem';
 import { Heading } from 'src/modules/shared/components/Heading';
 import { Icon } from 'src/modules/shared/components/Icon';
 import { MainLayout } from 'src/modules/shared/components/MainLayout';
+import { SEO } from 'src/modules/shared/components/SEO';
 import { Skeleton } from 'src/modules/shared/components/Skeleton';
 import { Text } from 'src/modules/shared/components/Text';
 import { constants } from 'src/modules/shared/utils/constants';
@@ -81,17 +82,24 @@ const SeasonDetailsPage: NextPage<SeasonDetailsProps> = ({ episodeList }) => {
   const { query, isFallback, isReady } = useRouter();
   const episodeCode = query['episode-code'] as string;
   const seasonId = query.seasonId as string;
+  const title = SeasonList.find((v) => v.id === seasonId)?.value;
 
   const isLoading = isFallback || !isReady;
 
   return (
     <MainLayout>
+      <SEO
+        title="Rick&Morty"
+        siteTitle={title || 'Season'}
+        description={`List of episodes of the season ${seasonId?.slice(1)}`}
+      />
+
       {isLoading ? (
         <SeasonDetailsPageSkeleton />
       ) : (
         <main className="mx-auto my-8 max-w-7xl px-4">
           <Heading as="h1" l2 colorGradient="special1">
-            {SeasonList.find((v) => v.id === seasonId)?.value}
+            {title}
           </Heading>
 
           <hr className="mb-8 mt-2 border-ct-neutral-ligth-400" />
